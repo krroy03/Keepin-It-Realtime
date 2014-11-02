@@ -31,7 +31,8 @@ module.exports = {
         // If error redirect back to sign-up page
         return res.redirect('/');
       }
-
+      console.log("User created");
+      req.session.user = user.id;
 
       // Let other subscribed sockets know that the user was created.
       User.publishCreate(user);

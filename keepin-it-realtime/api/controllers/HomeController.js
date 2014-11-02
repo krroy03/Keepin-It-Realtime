@@ -9,9 +9,9 @@ module.exports = {
 	
 
   index: function (req, res) {
-    console.log("hello");
+    console.log(req.session.user);
 
-    res.view('homepage');
+    res.view('index');
   }
 
 
