@@ -13,36 +13,44 @@ module.exports = {
    * `UserController.create()`
    */
   create: function (req, res) {
+    var session_user = req.session.user;
 
-    var userObj = {
-      username: "Random"
+    if (session_user) {
+      console.log("User already created", session_user);
+      res.redirect('/user/show/' + session_user);
+    }
+    else {
+      var userObj = {
+        username: "Random"
+      }
+
+      User.create(userObj, function userCreated(err, user) {
+        // // If there's an error
+        // if (err) return next(err);
+
+        if (err) {
+          console.log(err);
+          req.session.flash = {
+            err: err
+          }
+
+          // If error redirect back to sign-up page
+          return res.redirect('/');
+        }
+        console.log("User created");
+        req.session.user = user.id;
+
+        // Let other subscribed sockets know that the user was created.
+        User.publishCreate(user);
+
+        // After successfully creating the user
+        // redirect to the show action
+        // From ep1-6: //res.json(user); 
+
+        res.redirect('/user/show/' + user.id);
+      });
     }
 
-    User.create(userObj, function userCreated(err, user) {
-      // // If there's an error
-      // if (err) return next(err);
-
-      if (err) {
-        console.log(err);
-        req.session.flash = {
-          err: err
-        }
-
-        // If error redirect back to sign-up page
-        return res.redirect('/');
-      }
-      console.log("User created");
-      req.session.user = user.id;
-
-      // Let other subscribed sockets know that the user was created.
-      User.publishCreate(user);
-
-      // After successfully creating the user
-      // redirect to the show action
-      // From ep1-6: //res.json(user); 
-
-      res.redirect('/user/show/' + user.id);
-    });
   },
 
 
