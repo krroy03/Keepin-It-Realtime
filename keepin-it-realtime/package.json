@@ -30,8 +30,8 @@
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/ahmedshalaby/keepin-it-realtime.git"
+    "url": "git://github.com/alanchang/keepin-it-realtime.git"
   },
-  "author": "ahmedshalaby",
+  "author": "alanchang",
   "license": ""
 }
