@@ -34,7 +34,14 @@ module.exports.sockets = {
   *                                                                          *
   ***************************************************************************/
   onDisconnect: function(session, socket) {
-
+    console.log("disconnected");
+    if (session.user) {
+      // User.destroy({id: session.user}).exec(function deleteCB(err){
+      //   console.log('The record has been deleted');
+      //   console.log(err);
+      // });
+      // session.user = null;
+    }
     // By default: do nothing.
   },
 

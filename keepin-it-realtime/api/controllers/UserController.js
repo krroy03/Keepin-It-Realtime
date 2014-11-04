@@ -15,10 +15,13 @@ module.exports = {
   create: function (req, res) {
     var session_user = req.session.user;
 
+    // If session has a user, dont create another
     if (session_user) {
       console.log("User already created", session_user);
       res.redirect('/user/show/' + session_user);
     }
+
+    // Only create user if there is no session user
     else {
       var userObj = {
         username: "Random"
@@ -64,6 +67,36 @@ module.exports = {
       res.view({
         user: user
       });
+    });
+  },
+
+
+  /**
+   * `UserController.destroy()`
+   */
+  destroy: function(req, res, next) {
+
+    User.findOne(req.param('id'), function foundUser(err, user) {
+      if (err) return next(err);
+
+      if (!user) return next('User doesn\'t exist.');
+
+      User.destroy(req.param('id'), function userDestroyed(err) {
+        if (err) return next(err);
+
+        // Inform other sockets (e.g. connected sockets that are subscribed) that this user is now logged in
+        User.publishUpdate(user.id, {
+          name: user.name,
+          action: ' has been destroyed.'
+        });
+
+        // Let other sockets know that the user instance was destroyed.
+        User.publishDestroy(user.id);
+
+      });        
+
+      res.redirect('/user');
+
     });
   },
 
