@@ -17,11 +17,13 @@ namespace Endless2DTerrain
         }
 
         //User will adjust these settings
-        public Vector3 Offset;
         public GameObject PrefabToClone;
         public float MinRepeatDistance;
         public float MaxRepeatDistance;   
      
+		public Vector3 MinOffset;
+		public Vector3 MaxOffset;
+
         public int MinGroupSize;
         public int MaxGroupSize;
 
@@ -43,19 +45,20 @@ namespace Endless2DTerrain
         public bool UseMaxDistance;
         public float MaxDistance;
 
+		
 
+		public void InstantiatePrefab(Vector3 position, GameObject prefabManager, PrefabPool pool, float angle)
+		{
+			var prefab = pool.Add(PrefabToClone, position, angle, PrefabToClone.name, MatchGroundAngle);            
+			prefab.transform.parent = prefabManager.transform;
 
-        public void InstantiatePrefab(Vector3 position, GameObject prefabManager, PrefabPool pool, float angle)
-        {
-            var prefab = pool.Add(PrefabToClone, position, angle, PrefabToClone.name, MatchGroundAngle);            
-            prefab.transform.parent = prefabManager.transform;
-
-            //If we have an offset (and we are placing prefabs at an angle), get the direction of that offset.
-            //In otherwords, if our offset says to move one up in the y direction, getting the transform direction means the 
-            //prefab will move one up relative to the rotation it currently has
-            Vector3 transformDirection = prefab.transform.TransformDirection(Offset);
-            prefab.transform.position = transformDirection + prefab.transform.position;
-        }
+			Vector3 Offset = new Vector3(UnityEngine.Random.Range (MinOffset.x,MaxOffset.x),UnityEngine.Random.Range (MinOffset.y,MaxOffset.y),UnityEngine.Random.Range (MinOffset.z,MaxOffset.z));
+			//If we have an offset (and we are placing prefabs at an angle), get the direction of that offset.
+			//In otherwords, if our offset says to move one up in the y direction, getting the transform direction means the
+			//prefab will move one up relative to the rotation it currently has
+			Vector3 transformDirection = prefab.transform.TransformDirection(Offset);
+			prefab.transform.position = transformDirection + prefab.transform.position;
+		}
 
 
 

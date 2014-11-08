@@ -30,10 +30,10 @@ public class Enemy : MonoBehaviour
 	void FixedUpdate ()
 	{
 		// Create an array of all the colliders in front of the enemy.
-		Collider2D[] frontHits = Physics2D.OverlapPointAll(frontCheck.position, 1);
+		Collider[] frontHits = Physics.OverlapSphere(frontCheck.position, 1);
 
 		// Check each of the colliders.
-		foreach(Collider2D c in frontHits)
+		foreach(Collider c in frontHits)
 		{
 			// If any of the colliders is an Obstacle...
 			if(c.tag == "Obstacle")
@@ -45,7 +45,7 @@ public class Enemy : MonoBehaviour
 		}
 
 		// Set the enemy's velocity to moveSpeed in the x direction.
-		rigidbody2D.velocity = new Vector2(transform.localScale.x * moveSpeed, rigidbody2D.velocity.y);	
+		rigidbody.velocity = new Vector2(transform.localScale.x * moveSpeed, rigidbody.velocity.y);	
 
 		// If the enemy has one hit point left and has a damagedEnemy sprite...
 		if(HP == 1 && damagedEnemy != null)
@@ -86,12 +86,12 @@ public class Enemy : MonoBehaviour
 		dead = true;
 
 		// Allow the enemy to rotate and spin it by adding a torque.
-		rigidbody2D.fixedAngle = false;
-		rigidbody2D.AddTorque(Random.Range(deathSpinMin,deathSpinMax));
+		rigidbody.freezeRotation = false;
+		rigidbody.AddTorque(Vector3.up * Random.Range(deathSpinMin,deathSpinMax));
 
 		// Find all of the colliders on the gameobject and set them all to be triggers.
-		Collider2D[] cols = GetComponents<Collider2D>();
-		foreach(Collider2D c in cols)
+		Collider[] cols = GetComponents<Collider>();
+		foreach(Collider c in cols)
 		{
 			c.isTrigger = true;
 		}

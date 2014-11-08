@@ -447,7 +447,6 @@ public class TerrainEditor : Editor {
 
                 //Get the properites of each terrain rule
                 SerializedProperty prefabToClone = prefabRule.FindPropertyRelative("PrefabToClone");
-                SerializedProperty offset = prefabRule.FindPropertyRelative("Offset");
                 SerializedProperty minRepeatDistance = prefabRule.FindPropertyRelative("MinRepeatDistance");
                 SerializedProperty maxRepeatDistance = prefabRule.FindPropertyRelative("MaxRepeatDistance");
                 SerializedProperty minGroupSize = prefabRule.FindPropertyRelative("MinGroupSize");
@@ -457,7 +456,8 @@ public class TerrainEditor : Editor {
                 SerializedProperty minSlope = prefabRule.FindPropertyRelative("MinSlope");
                 SerializedProperty maxSlope = prefabRule.FindPropertyRelative("MaxSlope");
                 SerializedProperty matchGroundAngle = prefabRule.FindPropertyRelative("MatchGroundAngle");
-
+				SerializedProperty minOffset = prefabRule.FindPropertyRelative("MinOffset");
+				SerializedProperty maxOffset = prefabRule.FindPropertyRelative("MaxOffset");
                 SerializedProperty useMinDistance = prefabRule.FindPropertyRelative("UseMinDistance");
                 SerializedProperty minDistance = prefabRule.FindPropertyRelative("MinDistance");
                 SerializedProperty useMaxDistance = prefabRule.FindPropertyRelative("UseMaxDistance");
@@ -502,7 +502,6 @@ public class TerrainEditor : Editor {
                     {
                         //Now allow the users to edit the rule
                         EditorGUILayout.PropertyField(prefabToClone, new GUIContent("Prefab To Clone", "The prefab you want to clone."));
-                        EditorGUILayout.PropertyField(offset, new GUIContent("Offset", "The amount the prefab will be offset fron the default placement."), true);
                         EditorGUILayout.PropertyField(minRepeatDistance, new GUIContent("Min Repeat Distance", "Minimum distance between prefab placement."));                        
                         EditorGUILayout.PropertyField(maxRepeatDistance, new GUIContent("Max Repeat Distance", "Maximum distance between prefab placement."));
                         EditorGUILayout.PropertyField(minGroupSize, new GUIContent("Min Group Size", "Minimum group size for prefabs - used if you want more than one prefab generated at a time."));
@@ -512,6 +511,8 @@ public class TerrainEditor : Editor {
                         EditorGUILayout.PropertyField(minSlope, new GUIContent("Min Slope Placement", "Prefabs will only be generated on slopes if the slopoe is greater than this angle."));
                         EditorGUILayout.PropertyField(maxSlope, new GUIContent("Max Slope Placement", "Prefabs will only be generated on slopes if the slope is less than this angle."));
                         EditorGUILayout.PropertyField(matchGroundAngle, new GUIContent("Match Ground Angle", "Rotate the prefabs to match the current slope of the ground."));
+						EditorGUILayout.PropertyField(minOffset, new GUIContent("Min Offset", "The minimum amount the prefab will be offset fron the default placement (random between)."), true);
+						EditorGUILayout.PropertyField(maxOffset, new GUIContent("Max Offset", "The maximum amount the prefab will be offset fron the default placement (random between)."), true);
 
                         //Set min and max distances
                         useMinDistance.boolValue = EditorGUILayout.Toggle("Use Min Distance", useMinDistance.boolValue);
