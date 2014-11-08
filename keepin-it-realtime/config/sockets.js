@@ -35,14 +35,25 @@ module.exports.sockets = {
   ***************************************************************************/
   onDisconnect: function(session, socket) {
     console.log("disconnected");
-    if (session.user) {
-      // User.destroy({id: session.user}).exec(function deleteCB(err){
-      //   console.log('The record has been deleted');
-      //   console.log(err);
-      // });
-      // session.user = null;
+    var today = new Date();
+    var expires = new Date(session.expires);
+    console.log(session);
+    console.log(today, expires);    
+    if (today > expires) {
+      console.log("expired");
+      if (session.user) {
+        console.log("DESTROYING USER");
+        User.destroy({id: session.user}).exec(function deleteCB(err){
+          console.log('The record has been deleted');
+          console.log(err);
+          session = null; 
+        });
+      }
     }
-    // By default: do nothing.
+    else {
+      console.log("not expired");
+    }
+
   },
 
 
