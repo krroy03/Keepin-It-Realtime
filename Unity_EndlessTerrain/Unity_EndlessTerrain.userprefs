@@ -1,10 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\MasterNetworking.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Endless2DTerrain/Core/Scripts/PrefabManager.cs">
     <Files>
-      <File FileName="Assets\Jet\JetControl.cs" Line="39" Column="42" />
-      <File FileName="Assets\MasterNetworking.cs" Line="126" Column="3" />
-      <File FileName="Assets\Jet\FollowCam.cs" Line="23" Column="20" />
+      <File FileName="Assets/Scripts/Rocket.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Missile.cs" Line="57" Column="6" />
+      <File FileName="Assets/Endless2DTerrain/Core/Scripts/PrefabManager.cs" Line="272" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
