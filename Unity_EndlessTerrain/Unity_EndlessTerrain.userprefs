@@ -1,9 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Jet\JetControl.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\MasterNetworking.cs">
     <Files>
-      <File FileName="Assets\HeroControl.cs" Line="106" Column="5" />
-      <File FileName="Assets\Jet\JetControl.cs" Line="11" Column="38" />
+      <File FileName="Assets\Jet\JetControl.cs" Line="39" Column="42" />
+      <File FileName="Assets\MasterNetworking.cs" Line="126" Column="3" />
+      <File FileName="Assets\Jet\FollowCam.cs" Line="23" Column="20" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
