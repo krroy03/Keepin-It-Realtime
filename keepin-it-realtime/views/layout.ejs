@@ -28,6 +28,7 @@
     -->
 
     <!--STYLES-->
+    <link rel="stylesheet" href="/styles/css/home.css">
     <link rel="stylesheet" href="/styles/importer.css">
     <!--STYLES END-->
 
@@ -37,6 +38,9 @@
     <nav>
       <ul class="container">
         <li><a href="/">Home</a></li>
+        <% if (req.session.user) { %>
+          <li><a href="/user/show/<%- req.session.user %>">Account</a></li>
+        <% } %>
       </ul>
     </nav>
     <%- body %>
