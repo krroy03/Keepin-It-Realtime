@@ -42,6 +42,10 @@ module.exports = {
         }
         console.log("User created");
         req.session.user = user.id;
+        var t = new Date();
+        t.setDate(t.getDate() + 1 );
+        // t.setSeconds(t.getSeconds() + 10);
+        req.session.expires = t;
 
         // Let other subscribed sockets know that the user was created.
         User.publishCreate(user);
@@ -75,14 +79,17 @@ module.exports = {
    * `UserController.destroy()`
    */
   destroy: function(req, res, next) {
-
+    console.log("find user with id: "+req.param('id')+"...");
     User.findOne(req.param('id'), function foundUser(err, user) {
+      console.log(" GOT ERROR "+ err);
       if (err) return next(err);
-
+      console.log(" GOT USER "+ user);
       if (!user) return next('User doesn\'t exist.');
 
       User.destroy(req.param('id'), function userDestroyed(err) {
         if (err) return next(err);
+
+
 
         // Inform other sockets (e.g. connected sockets that are subscribed) that this user is now logged in
         User.publishUpdate(user.id, {
@@ -93,7 +100,7 @@ module.exports = {
         // Let other sockets know that the user instance was destroyed.
         User.publishDestroy(user.id);
 
-      });        
+      });   
 
       res.redirect('/user');
 
