@@ -133,7 +133,8 @@ public class MasterNetworking : MonoBehaviour
 		}
 	
 		private void SpawnPlayer ()
-		{
+		{		
+
 				var newPlayer = Network.Instantiate (playerPrefab, leaderPos, playerPrefab.transform.rotation, 0);
 
 		}

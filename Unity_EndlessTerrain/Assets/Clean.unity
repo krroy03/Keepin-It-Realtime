@@ -2077,6 +2077,7 @@ MonoBehaviour:
   hundredPointsUI: {fileID: 100006, guid: 31974361bc9e44fb18c77b64a4cb3bbd, type: 2}
   deathSpinMin: -100
   deathSpinMax: 100
+  networkScript: {fileID: 1541642064}
 --- !u!148 &256947591
 NetworkView:
   m_ObjectHideFlags: 0
@@ -4445,6 +4446,7 @@ MonoBehaviour:
   hundredPointsUI: {fileID: 100006, guid: 31974361bc9e44fb18c77b64a4cb3bbd, type: 2}
   deathSpinMin: -100
   deathSpinMax: 100
+  networkScript: {fileID: 1541642064}
 --- !u!148 &316255522
 NetworkView:
   m_ObjectHideFlags: 0
@@ -5806,6 +5808,7 @@ MonoBehaviour:
   hundredPointsUI: {fileID: 100006, guid: 31974361bc9e44fb18c77b64a4cb3bbd, type: 2}
   deathSpinMin: -100
   deathSpinMax: 100
+  networkScript: {fileID: 1541642064}
 --- !u!148 &542449798
 NetworkView:
   m_ObjectHideFlags: 0
@@ -7096,6 +7099,7 @@ MonoBehaviour:
   hundredPointsUI: {fileID: 100006, guid: 31974361bc9e44fb18c77b64a4cb3bbd, type: 2}
   deathSpinMin: -100
   deathSpinMax: 100
+  networkScript: {fileID: 0}
 --- !u!148 &570132568
 NetworkView:
   m_ObjectHideFlags: 0
@@ -9623,6 +9627,7 @@ MonoBehaviour:
   hundredPointsUI: {fileID: 100006, guid: 31974361bc9e44fb18c77b64a4cb3bbd, type: 2}
   deathSpinMin: -100
   deathSpinMax: 100
+  networkScript: {fileID: 1541642064}
 --- !u!148 &924206060
 NetworkView:
   m_ObjectHideFlags: 0
@@ -9970,6 +9975,7 @@ MonoBehaviour:
   hundredPointsUI: {fileID: 100006, guid: 31974361bc9e44fb18c77b64a4cb3bbd, type: 2}
   deathSpinMin: -100
   deathSpinMax: 100
+  networkScript: {fileID: 1541642064}
 --- !u!148 &959218758
 NetworkView:
   m_ObjectHideFlags: 0
@@ -10080,6 +10086,7 @@ MonoBehaviour:
   hundredPointsUI: {fileID: 100006, guid: 31974361bc9e44fb18c77b64a4cb3bbd, type: 2}
   deathSpinMin: -100
   deathSpinMax: 100
+  networkScript: {fileID: 1541642064}
 --- !u!148 &989725724
 NetworkView:
   m_ObjectHideFlags: 0
@@ -23859,6 +23866,7 @@ MonoBehaviour:
   hundredPointsUI: {fileID: 100006, guid: 31974361bc9e44fb18c77b64a4cb3bbd, type: 2}
   deathSpinMin: -100
   deathSpinMax: 100
+  networkScript: {fileID: 1541642064}
 --- !u!148 &1850426162
 NetworkView:
   m_ObjectHideFlags: 0
@@ -24246,6 +24254,7 @@ MonoBehaviour:
   hundredPointsUI: {fileID: 100006, guid: 31974361bc9e44fb18c77b64a4cb3bbd, type: 2}
   deathSpinMin: -100
   deathSpinMax: 100
+  networkScript: {fileID: 0}
 --- !u!1 &1954994180
 GameObject:
   m_ObjectHideFlags: 0
@@ -24344,6 +24353,7 @@ MonoBehaviour:
   hundredPointsUI: {fileID: 100006, guid: 31974361bc9e44fb18c77b64a4cb3bbd, type: 2}
   deathSpinMin: -100
   deathSpinMax: 100
+  networkScript: {fileID: 1541642064}
 --- !u!148 &1954994186
 NetworkView:
   m_ObjectHideFlags: 0
@@ -25814,6 +25824,7 @@ MonoBehaviour:
   hundredPointsUI: {fileID: 100006, guid: 31974361bc9e44fb18c77b64a4cb3bbd, type: 2}
   deathSpinMin: -100
   deathSpinMax: 100
+  networkScript: {fileID: 1541642064}
 --- !u!148 &2047928928
 NetworkView:
   m_ObjectHideFlags: 0
@@ -26095,6 +26106,7 @@ MonoBehaviour:
   hundredPointsUI: {fileID: 100006, guid: 31974361bc9e44fb18c77b64a4cb3bbd, type: 2}
   deathSpinMin: -100
   deathSpinMax: 100
+  networkScript: {fileID: 1541642064}
 --- !u!148 &2120254491
 NetworkView:
   m_ObjectHideFlags: 0

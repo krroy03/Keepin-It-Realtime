@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour
 	private bool dead = false;			// Whether or not the enemy is dead.
 	private Score score;				// Reference to the Score script.
 
+	//public MasterNetworking networkScript; 
 	
 	void Awake()
 	{
@@ -44,8 +45,9 @@ public class Enemy : MonoBehaviour
 			}
 		}
 
-		// Set the enemy's velocity to moveSpeed in the x direction.
-		rigidbody.velocity = new Vector2(transform.localScale.x * moveSpeed, rigidbody.velocity.y);	
+		// Set the enemy's velocity to moveSpeed in the x direction if game has started
+
+			rigidbody.velocity = new Vector2(transform.localScale.x * moveSpeed, rigidbody.velocity.y);	
 
 		// If the enemy has one hit point left and has a damagedEnemy sprite...
 		if(HP == 1 && damagedEnemy != null)

@@ -83,22 +83,30 @@ public class JetControl : MonoBehaviour
 		void OnCollisionEnter (Collision col)
 		{
 				if (networkView.isMine) {
-						collided = true;
-						jetBody.isKinematic = true;
-						oldSpeed = jetSpeed;
-						jetSpeed = 0.001f;
+						if (col.collider.CompareTag ("Player")) {
+								jet.collider.isTrigger = true;
+						} else {
+								collided = true;
+								jetBody.isKinematic = true;
+								oldSpeed = jetSpeed;
+								jetSpeed = 0.001f;
+						}
 				}
 		}
 
 		void OnCollisionExit (Collision col)
 		{
 				if (networkView.isMine) {
-						collided = false;
-						jet.position = new Vector3 (jet.position.x, jet.position.y, jetDepth);
-						jet.eulerAngles = new Vector3 (0.0f, 180.0f, 0.0f);
-						jetBody.isKinematic = false;
-						jetSpeed = oldSpeed;
-						print ("exit collision");
+						if (col.collider.CompareTag ("Player")) {
+								jet.collider.isTrigger = false;
+						} else {
+								collided = false;
+								jet.position = new Vector3 (jet.position.x, jet.position.y, jetDepth);
+								jet.eulerAngles = new Vector3 (0.0f, 180.0f, 0.0f);
+								jetBody.isKinematic = false;
+								jetSpeed = oldSpeed;
+								print ("exit collision");
+						}
 				}
 		}
 }
