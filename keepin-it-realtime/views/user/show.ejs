@@ -1,4 +1,70 @@
-<div class='container'>
-    <h1><%= user.username %> </h1>
-    <h2><%= user.id %> </h2>
-</div>
+<header>
+    <div class="wrapper">
+      <a href="#"><img src="" title="keepin' it realtime" /></a>
+
+      <span id="usernav"><a href="#">Logout</a> - <a href="#">Settings</a> - <a href="#">My Profile<span><img src=""/></span></a></span>
+    </div>
+  </header>
+
+  <nav>
+    <ul id="n" class="clearfix">
+      <li><a href="#">Home</a></li>
+      <li class="sel"><a href="#">Account</a></li>
+    </ul>
+  </nav>
+
+  <div id="content" class="clearfix">
+    <section id="left">
+      <div id="userStats" class="clearfix">
+        <div class="pic">
+          <a href="#"><img src="/img/user_avatar.jpg" width="150" height="150" /></a>
+        </div>
+
+        <div class="data">
+          <h1>Username</h1>
+          <div class="sep"></div>
+          <h2>Stats</h2>
+          <ul class="numbers clearfix">
+            <li>Points<strong>123,456</strong></li>
+            <li class="nobrdr">Date<strong>10/1</strong></li>
+          </ul>
+
+          <div class="sep"></div>
+          <ul class="numbers clearfix">
+            <li>Points<strong>123,456</strong></li>
+            <li class="nobrdr">Date<strong>10/1</strong></li>
+          </ul>
+
+          <div class="sep"></div>
+          <ul class="numbers clearfix">
+            <li>Points<strong>123,456</strong></li>
+            <li class="nobrdr">Date<strong>10/1</strong></li>
+          </ul>
+
+        </div>
+      </div>
+
+      <h1>About Me:</h1>
+      <p>This is a profile page</p>
+    </section>
+
+    <section id="right">
+      <div class="gcontent">
+        <div class="head"><h1>Friends</h1></div>
+        <div class="boxy">
+          <div class="friendslist clearfix">
+            <div class="friend">
+              <a href="#"><img src="/img/friend_avatar_default.jpg" width="60" height="60" alt="User 1" /></a><span class="friendly"><a href="#">User 1</a></span>
+            </div>
+
+            <div class="friend">
+              <a href="#"><img src="../img/friend_avatar_default.jpg" width="60" height="60" alt="User 2" /></a><span class="friendly"><a href="#">User 2</a></span>
+            </div>
+
+          </div>
+
+          <span><a href="#">See all...</a></span>
+        </div>
+      </div>
+    </section>
+  </div>
