@@ -10,10 +10,8 @@ public class MasterNetworking : MonoBehaviour
 		public bool networked = false;
 		public bool visitor = false;
 		private bool showHosts = false;
-
-	
-	public GameObject playerPrefab;
-	private Vector3 leaderPos;
+		public GameObject playerPrefab;
+		private Vector3 leaderPos;
 		public FollowCam camScript;
 		// Use this for initialization
 		void Start ()
@@ -31,7 +29,7 @@ public class MasterNetworking : MonoBehaviour
 				if (visitor && !spawned && leaderPos.x > 0) {
 						SpawnPlayer ();
 						spawned = true;
-			Debug.Log ("spawned client at leader pos");
+						Debug.Log ("spawned client at leader pos");
 				}
 
 		}
@@ -120,7 +118,7 @@ public class MasterNetworking : MonoBehaviour
 				Debug.Log ("Could not connect to server: " + error);
 		}
 	
-		void onPlayerConnected ()
+		void OnPlayerConnected ()
 		{
 		
 				Debug.Log ("player Connected, should have spawned player");
@@ -144,6 +142,6 @@ public class MasterNetworking : MonoBehaviour
 		void sendLeaderPos (Vector3 pos)
 		{
 				leaderPos = pos;
-		print(pos);
+				print (pos);
 		}
 }

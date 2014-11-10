@@ -1363,7 +1363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a659fa5c0458ce4b9d23885a82c8b11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jetSpeed: .25
+  jetSpeed: .100000001
   rotationSpeed: 20
   networked: 0
   jetDepth: -15
