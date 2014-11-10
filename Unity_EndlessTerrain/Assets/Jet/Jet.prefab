@@ -331,7 +331,7 @@ GameObject:
   - 54: {fileID: 5400000}
   - 81: {fileID: 8100000}
   - 148: {fileID: 14800000}
-  - 135: {fileID: 13500000}
+  - 65: {fileID: 6500000}
   m_Layer: 9
   m_Name: Jet
   m_TagString: Player
@@ -809,7 +809,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100040}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: -1.62920685e-07}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 3.13916473e-07}
   m_LocalPosition: {x: 0, y: 0, z: -15}
   m_LocalScale: {x: .100000001, y: .200000003, z: .200000003}
   m_Children:
@@ -1319,6 +1319,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &6500000
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100040}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 22, y: 6, z: 0}
+  m_Center: {x: -4, y: 3, z: 0}
 --- !u!81 &8100000
 AudioListener:
   m_ObjectHideFlags: 1
@@ -1351,20 +1363,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a659fa5c0458ce4b9d23885a82c8b11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: .5
+  jetSpeed: .25
+  rotationSpeed: 20
   networked: 0
---- !u!135 &13500000
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100040}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 7
-  m_Center: {x: 0, y: 4, z: 0}
+  jetDepth: -15
+  jetBody: {fileID: 0}
 --- !u!148 &14800000
 NetworkView:
   m_ObjectHideFlags: 1

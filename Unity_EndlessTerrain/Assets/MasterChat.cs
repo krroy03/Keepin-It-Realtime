@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MasterChat : MonoBehaviour {
+public class MasterChat : MonoBehaviour
+{
 	class ChatEntry
 	{
 		public string name = "";
@@ -37,7 +38,7 @@ public class MasterChat : MonoBehaviour {
 	void ChatWindow ()
 	{
 		GUILayout.BeginVertical ();
-		currentScrollPos = GUILayout.BeginScrollView (currentScrollPos, GUILayout.MaxWidth (Screen.width/4), GUILayout.MinWidth (Screen.width/8)); //limits the chat window size to max 1000x1000, remove the restraints if you want
+		currentScrollPos = GUILayout.BeginScrollView (currentScrollPos, GUILayout.MaxWidth (Screen.width / 4), GUILayout.MinWidth (Screen.width / 8)); //limits the chat window size to max 1000x1000, remove the restraints if you want
 		
 		foreach (ChatEntry ent in entries) {
 			if (ent != null) {

@@ -13,6 +13,7 @@ GameObject:
   - 136: {fileID: 13600000}
   - 50: {fileID: 5000000}
   - 61: {fileID: 6100000}
+  - 148: {fileID: 14800000}
   m_Layer: 0
   m_Name: missile
   m_TagString: Bullet
@@ -215,6 +216,18 @@ CapsuleCollider:
   m_Height: .349999994
   m_Direction: 0
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!148 &14800000
+NetworkView:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_StateSynchronization: 1
+  m_Observed: {fileID: 400000}
+  m_ViewID:
+    m_ID: 0
+    m_Type: 0
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1

@@ -8,10 +8,12 @@ public class MasterNetworking : MonoBehaviour
 		private const string typeName = "KeepingItRealTime";
 		private const string gameName = "Roy";
 		public bool networked = false;
-		public GameObject playerPrefab;
 		public bool visitor = false;
 		private bool showHosts = false;
-		private Vector3 leaderPos;
+
+	
+	public GameObject playerPrefab;
+	private Vector3 leaderPos;
 		public FollowCam camScript;
 		// Use this for initialization
 		void Start ()
@@ -19,7 +21,7 @@ public class MasterNetworking : MonoBehaviour
 				networked = false;
 				visitor = false;
 				showHosts = false;
-				leaderPos = camScript.target.transform.position;
+				leaderPos = Vector3.zero;
 		}
 
 		private bool spawned = false;
@@ -29,6 +31,7 @@ public class MasterNetworking : MonoBehaviour
 				if (visitor && !spawned && leaderPos.x > 0) {
 						SpawnPlayer ();
 						spawned = true;
+			Debug.Log ("spawned client at leader pos");
 				}
 
 		}
@@ -37,7 +40,7 @@ public class MasterNetworking : MonoBehaviour
 		{
 				this.GetComponent<MasterChat> ().Draw ();
 
-				GUI.Label (new Rect (Screen.width * 3 / 4, 0, Screen.width / 4, Screen.height / 8), "Press enter to chat with opponent or to yourself");
+				GUI.Label (new Rect (Screen.width * 3 / 4, 0, Screen.width / 4, Screen.height / 8), "Press enter to chat");
 
 				if (!Network.isClient && !Network.isServer) {
 						if (GUI.Button (new Rect (0, Screen.height / 5, Screen.width / 4, Screen.height / 8), "Host your own game!"))
@@ -141,5 +144,6 @@ public class MasterNetworking : MonoBehaviour
 		void sendLeaderPos (Vector3 pos)
 		{
 				leaderPos = pos;
+		print(pos);
 		}
 }
