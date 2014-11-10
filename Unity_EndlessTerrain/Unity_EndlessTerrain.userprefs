@@ -1,9 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Jet\JetControl.cs">
     <Files>
-      <File FileName="Assets\Jet\JetControl.cs" Line="92" Column="21" />
-      <File FileName="Assets\MasterNetworking.cs" Line="150" Column="1" />
+      <File FileName="Assets\MasterNetworking.cs" Line="22" Column="24" />
+      <File FileName="Assets\Jet\JetControl.cs" Line="73" Column="5" />
       <File FileName="Assets\MasterChat.cs" Line="1" Column="1" />
       <File FileName="Assets\Jet\FollowCam.cs" Line="39" Column="1" />
     </Files>
