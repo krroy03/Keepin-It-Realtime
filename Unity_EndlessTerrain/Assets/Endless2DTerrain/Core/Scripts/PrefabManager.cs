@@ -226,7 +226,7 @@ namespace Endless2DTerrain
             for (int i = 0; i < Pool.Prefabs.Count(); i++)
             {
                 GameObject prefab = Pool.Prefabs[i].Prefab;           
-                if (prefab.transform.position.x < beginX)
+                if (prefab && prefab.transform.position.x < beginX)
                 {
                     prefabsToRemove.Add(prefab);
                 }
