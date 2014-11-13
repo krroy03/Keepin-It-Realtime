@@ -13,6 +13,7 @@ public class MasterNetworking : MonoBehaviour
 		public GameObject playerPrefab;
 		private Vector3 leaderPos;
 		public FollowCam camScript;
+	public GameObject jet;
 		// Use this for initialization
 		void Start ()
 		{
@@ -111,6 +112,7 @@ public class MasterNetworking : MonoBehaviour
 				Debug.Log ("Disconnected from server");
 				visitor = false;
 				networked = false;
+				Network.Destroy (jet);
 		}
 
 		void OnFailedToConnect (NetworkConnectionError error)
@@ -133,8 +135,10 @@ public class MasterNetworking : MonoBehaviour
 		}
 	
 		private void SpawnPlayer ()
-		{
-				var newPlayer = Network.Instantiate (playerPrefab, leaderPos, playerPrefab.transform.rotation, 0);
+		{		
+
+				jet = (GameObject) Network.Instantiate (playerPrefab, leaderPos, playerPrefab.transform.rotation, 0);
+				
 
 		}
 
