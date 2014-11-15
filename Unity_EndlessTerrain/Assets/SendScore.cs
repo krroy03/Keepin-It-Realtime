@@ -56,7 +56,7 @@ public class SendScore : MonoBehaviour {
 			//when the button is clicked
 			
 			//setup url to the web page that is called
-			string customUrl = url + "user/get_score/";
+			string customUrl = url + "user/get_scores/";
 			
 			//setup a form
 			WWWForm form = new WWWForm();
