@@ -38,6 +38,7 @@
     <nav>
       <ul class="container">
         <li><a href="/">Home</a></li>
+        <li><a href="/game">Game</a></li>
         <% if (req.session.user) { %>
           <li><a href="/user/show/<%- req.session.user %>">Account</a></li>
         <% } %>

@@ -708,3 +708,6 @@ html[xmlns] .clearfix {
 .nobrdr {
   border: 0px !important;
 }
+li {
+  height: 25px;
+}

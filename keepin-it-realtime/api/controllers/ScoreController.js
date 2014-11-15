@@ -74,6 +74,18 @@ module.exports = {
       });
     }
 
+  },
+
+  showAll: function(req, res) {
+    Score.find(function foundScores(err, scores) {
+      if (err) {
+        console.log(err);
+        res.redirect('/');
+      }
+      else {
+        res.view({scores: scores});
+      }
+    });
   }
 
 	// update: function(req, res) {

@@ -112,9 +112,6 @@ module.exports = {
   // Get current user session
   current_user: function(req, res) {
     var session_user = req.session.passport.user;
-    if (!session_user) {
-      session_user = 1000;
-    }
     return res.json({
       user: session_user
     });
