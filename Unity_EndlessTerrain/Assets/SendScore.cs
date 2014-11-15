@@ -28,7 +28,7 @@ public class SendScore : MonoBehaviour {
 		GUI.Box(new Rect(10,10,100,90), "Loader Menu");
 		
 		// Make the first button.
-		if(GUI.Button(new Rect(20,40,80,20), "SendScore") && userID >= 0) {
+		/*if(GUI.Button(new Rect(20,40,80,20), "SendScore") && userID >= 0) {
 			
 			//when the button is clicked
 			
@@ -45,7 +45,7 @@ public class SendScore : MonoBehaviour {
 			//Call the server
 			WWW www = new WWW(customUrl, form);
 			StartCoroutine(WaitForRequest(www));
-		}
+		}*/
 
 		// make the second button 
 		if(GUI.Button(new Rect(20,40,80,20), "GetUserID")) {
