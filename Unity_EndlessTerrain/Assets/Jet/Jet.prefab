@@ -332,6 +332,7 @@ GameObject:
   - 81: {fileID: 8100000}
   - 148: {fileID: 14800000}
   - 65: {fileID: 6500000}
+  - 114: {fileID: 11400002}
   m_Layer: 9
   m_Name: Jet
   m_TagString: Player
@@ -1363,11 +1364,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a659fa5c0458ce4b9d23885a82c8b11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jetSpeed: .100000001
-  rotationSpeed: 20
+  jetSpeed: .25
+  rotationSpeed: 40
   networked: 0
   jetDepth: -15
   jetBody: {fileID: 0}
+  barDisplay: 0
+  pos: {x: 20, y: 40}
+  size: {x: 60, y: 20}
+  emptyTex: {fileID: 0}
+  fullTex: {fileID: 0}
+  score: 0
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f24fb8756d61ae64c8cc985008d65d8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!148 &14800000
 NetworkView:
   m_ObjectHideFlags: 1

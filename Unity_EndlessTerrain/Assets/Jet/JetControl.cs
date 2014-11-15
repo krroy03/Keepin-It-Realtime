@@ -15,6 +15,20 @@ public class JetControl : MonoBehaviour
 		public bool networked = false;
 		public float jetDepth = -15.0f;
 		public Rigidbody jetBody;
+		private MasterNetworking network;
+		
+		// health and score variables
+		private float health = 100.0f;
+		public float barDisplay; //current progress
+		public Vector2 pos = new Vector2 (20, 40);
+		public Vector2 size = new Vector2 (60, 20);
+		public Texture2D emptyTex;
+		public Texture2D fullTex;
+
+		// jet has a score 
+		// score increases the further jet gets without being destroyed. 
+
+		public int score = 0;
 		// Use this for initialization
 		void Start ()
 		{
@@ -25,18 +39,56 @@ public class JetControl : MonoBehaviour
 				collided = false;
 				networked = false;
 				jetBody = this.GetComponent<Rigidbody> ();
+				network = GameObject.FindGameObjectWithTag ("Network").GetComponent<MasterNetworking> ();
+				
+				fullTex = new Texture2D (60, 20);
+				// Fill the texture with Sierpinski's fractal pattern!
+				for (int y = 0; y < fullTex.height; ++y) {
+						for (int x = 0; x < fullTex.width; ++x) {
+								fullTex.SetPixel (x, y, Color.green);
+						}
+				}
+				// Apply all SetPixel calls
+				fullTex.Apply ();
+
 		}
 	
 		// Update is called once per frame
 		void Update ()
-		{
+		{		
+				networked = network.networked;
 				if (networked && networkView.isMine) {
 						inputMovement ();
-				} else if (!networked) {
-						inputMovement ();
-				}
+						// update score 
+						if (!collided)
+								score += 5;
+					
+						barDisplay = health / 100.0f;
+				} 
+				
 		}
 		
+		void OnGUI ()
+		{
+				// show score for your own character
+				
+				if (networked && networkView.isMine) {
+						GUI.Button (new Rect (0, Screen.height * 4 / 5, Screen.width / 4, Screen.height / 8), "Score: " + score.ToString ());
+					
+						//	draw health
+						//draw the background:
+						GUI.BeginGroup (new Rect (pos.x, pos.y, size.x, size.y));
+						GUI.Box (new Rect (0, 0, size.x, size.y), emptyTex);
+			
+						//draw the filled-in part:
+						GUI.BeginGroup (new Rect (0, 0, size.x * barDisplay, size.y));
+			GUI.Box (new Rect (0, 0, size.x * barDisplay, size.y), fullTex);
+						GUI.EndGroup ();
+						GUI.EndGroup ();
+				}
+		
+		}
+	
 		void inputMovement ()
 		{
 				// first, make sure that the jet does not go above or below ground and ceiling
@@ -85,12 +137,15 @@ public class JetControl : MonoBehaviour
 				if (networkView.isMine) {
 						if (col.collider.CompareTag ("Player")) {
 								jet.collider.isTrigger = true;
+								// pass through other players
 						} else {
 								collided = true;
 								jetBody.isKinematic = true;
 								oldSpeed = jetSpeed;
 								jetSpeed = 0.001f;
 						}
+			print (col.collider.tag);
+						
 				}
 		}
 
@@ -106,6 +161,13 @@ public class JetControl : MonoBehaviour
 								jetBody.isKinematic = false;
 								jetSpeed = oldSpeed;
 								print ("exit collision");
+								
+								if (col.collider.CompareTag ("Bullet") && health > 0) {
+										// if hits missle, lose hp
+										health -= 10.0f;
+					print (health);
+										
+								}
 						}
 				}
 		}

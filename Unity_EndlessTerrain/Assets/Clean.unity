@@ -2077,7 +2077,6 @@ MonoBehaviour:
   hundredPointsUI: {fileID: 100006, guid: 31974361bc9e44fb18c77b64a4cb3bbd, type: 2}
   deathSpinMin: -100
   deathSpinMax: 100
-  networkScript: {fileID: 1541642064}
 --- !u!148 &256947591
 NetworkView:
   m_ObjectHideFlags: 0
@@ -4446,7 +4445,6 @@ MonoBehaviour:
   hundredPointsUI: {fileID: 100006, guid: 31974361bc9e44fb18c77b64a4cb3bbd, type: 2}
   deathSpinMin: -100
   deathSpinMax: 100
-  networkScript: {fileID: 1541642064}
 --- !u!148 &316255522
 NetworkView:
   m_ObjectHideFlags: 0
@@ -5808,7 +5806,6 @@ MonoBehaviour:
   hundredPointsUI: {fileID: 100006, guid: 31974361bc9e44fb18c77b64a4cb3bbd, type: 2}
   deathSpinMin: -100
   deathSpinMax: 100
-  networkScript: {fileID: 1541642064}
 --- !u!148 &542449798
 NetworkView:
   m_ObjectHideFlags: 0
@@ -7088,7 +7085,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef474d77e998d4890bff85103fb4c947, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 1
   HP: 2
   deadEnemy: {fileID: 21300000, guid: 73fa5f80d4ddd4196b767cc01c1b5c68, type: 3}
   damagedEnemy: {fileID: 21300000, guid: bc16422a503ec43cab4ad9ddab02ff7a, type: 3}
@@ -7099,7 +7096,6 @@ MonoBehaviour:
   hundredPointsUI: {fileID: 100006, guid: 31974361bc9e44fb18c77b64a4cb3bbd, type: 2}
   deathSpinMin: -100
   deathSpinMax: 100
-  networkScript: {fileID: 0}
 --- !u!148 &570132568
 NetworkView:
   m_ObjectHideFlags: 0
@@ -9627,7 +9623,6 @@ MonoBehaviour:
   hundredPointsUI: {fileID: 100006, guid: 31974361bc9e44fb18c77b64a4cb3bbd, type: 2}
   deathSpinMin: -100
   deathSpinMax: 100
-  networkScript: {fileID: 1541642064}
 --- !u!148 &924206060
 NetworkView:
   m_ObjectHideFlags: 0
@@ -9975,7 +9970,6 @@ MonoBehaviour:
   hundredPointsUI: {fileID: 100006, guid: 31974361bc9e44fb18c77b64a4cb3bbd, type: 2}
   deathSpinMin: -100
   deathSpinMax: 100
-  networkScript: {fileID: 1541642064}
 --- !u!148 &959218758
 NetworkView:
   m_ObjectHideFlags: 0
@@ -10086,7 +10080,6 @@ MonoBehaviour:
   hundredPointsUI: {fileID: 100006, guid: 31974361bc9e44fb18c77b64a4cb3bbd, type: 2}
   deathSpinMin: -100
   deathSpinMax: 100
-  networkScript: {fileID: 1541642064}
 --- !u!148 &989725724
 NetworkView:
   m_ObjectHideFlags: 0
@@ -21017,7 +21010,7 @@ GameObject:
   - 148: {fileID: 1541642066}
   m_Layer: 0
   m_Name: Networking
-  m_TagString: Untagged
+  m_TagString: Network
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21049,6 +21042,7 @@ MonoBehaviour:
   visitor: 0
   playerPrefab: {fileID: 100040, guid: dde6e7923de866f40820ef8c19ad16c9, type: 2}
   camScript: {fileID: 253752437}
+  jet: {fileID: 0}
 --- !u!4 &1541642065
 Transform:
   m_ObjectHideFlags: 0
@@ -23866,7 +23860,6 @@ MonoBehaviour:
   hundredPointsUI: {fileID: 100006, guid: 31974361bc9e44fb18c77b64a4cb3bbd, type: 2}
   deathSpinMin: -100
   deathSpinMax: 100
-  networkScript: {fileID: 1541642064}
 --- !u!148 &1850426162
 NetworkView:
   m_ObjectHideFlags: 0
@@ -24254,7 +24247,6 @@ MonoBehaviour:
   hundredPointsUI: {fileID: 100006, guid: 31974361bc9e44fb18c77b64a4cb3bbd, type: 2}
   deathSpinMin: -100
   deathSpinMax: 100
-  networkScript: {fileID: 0}
 --- !u!1 &1954994180
 GameObject:
   m_ObjectHideFlags: 0
@@ -24353,7 +24345,6 @@ MonoBehaviour:
   hundredPointsUI: {fileID: 100006, guid: 31974361bc9e44fb18c77b64a4cb3bbd, type: 2}
   deathSpinMin: -100
   deathSpinMax: 100
-  networkScript: {fileID: 1541642064}
 --- !u!148 &1954994186
 NetworkView:
   m_ObjectHideFlags: 0
@@ -25824,7 +25815,6 @@ MonoBehaviour:
   hundredPointsUI: {fileID: 100006, guid: 31974361bc9e44fb18c77b64a4cb3bbd, type: 2}
   deathSpinMin: -100
   deathSpinMax: 100
-  networkScript: {fileID: 1541642064}
 --- !u!148 &2047928928
 NetworkView:
   m_ObjectHideFlags: 0
@@ -26106,7 +26096,6 @@ MonoBehaviour:
   hundredPointsUI: {fileID: 100006, guid: 31974361bc9e44fb18c77b64a4cb3bbd, type: 2}
   deathSpinMin: -100
   deathSpinMax: 100
-  networkScript: {fileID: 1541642064}
 --- !u!148 &2120254491
 NetworkView:
   m_ObjectHideFlags: 0

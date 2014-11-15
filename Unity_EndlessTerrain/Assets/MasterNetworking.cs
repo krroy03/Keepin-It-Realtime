@@ -13,7 +13,7 @@ public class MasterNetworking : MonoBehaviour
 		public GameObject playerPrefab;
 		private Vector3 leaderPos;
 		public FollowCam camScript;
-	public GameObject jet;
+		public GameObject jet;
 		// Use this for initialization
 		void Start ()
 		{
@@ -72,6 +72,7 @@ public class MasterNetworking : MonoBehaviour
 				int port = Random.Range (20000, 22000);
 				Network.InitializeServer (4, port, false);
 				MasterServer.RegisterHost (typeName, gameName);
+		networked = true;
 	
 		}
 
@@ -137,7 +138,7 @@ public class MasterNetworking : MonoBehaviour
 		private void SpawnPlayer ()
 		{		
 
-				jet = (GameObject) Network.Instantiate (playerPrefab, leaderPos, playerPrefab.transform.rotation, 0);
+				jet = (GameObject)Network.Instantiate (playerPrefab, leaderPos, playerPrefab.transform.rotation, 0);
 				
 
 		}
