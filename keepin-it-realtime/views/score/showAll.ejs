@@ -90,13 +90,13 @@ document.write('<script type="text\/javascript" src="' + unityObjectUrl + '"><\/
   <p class="footer">&laquo; created with <a href="http://unity3d.com/unity/" title="Go to unity3d.com">Unity</a> &raquo;</p>
 </div>
 
-<div id="chatbox" class="container row">
+<div id="chat" class="container row half">
   <h2>Chat here, <%= username %>!</h2>
-  <div id="chatForm">
+  <div id="chatForm" style="float:left;">
     <textarea id="text" rows="4" cols="100" style="width:300px; height:20px; padding:1em"></textarea>
     <button id="chatBtn">Chat</button>
   </div>
-  <div id="chatContainer">
+  <div id="chatContainer" style="float:right;">
   </div>
 </div>
 
@@ -120,6 +120,12 @@ $("#chatBtn").click(function(){
     $("#text").val("");
 });
 
+$("#chatForm").keyup(function(event){
+    if(event.keyCode == 13){
+        $("#chatBtn").click();
+    }
+});
+
 _.templateSettings = {
 interpolate : /\{\{(.+?)\}\}/g
 };
@@ -129,7 +135,7 @@ initialize: function () {
     this.collection.on('add', this.render, this);
     this.render();
 },
-template: _.template("<p><b><%= username %>:</b> {{ text }}</p>"),
+template: _.template("<div><p><b><%= username %>:</b> {{ text }}</p></div>"),
     render: function () {
         this.$el.html("");
         this.collection.each(function(msg){
@@ -139,4 +145,39 @@ template: _.template("<p><b><%= username %>:</b> {{ text }}</p>"),
 });
 
 var cView = new ChatboxView({collection: chats});
+
+var SailsCollection = Backbone.Collection.extend({
+  sailsCollection: "",
+  socket: null,
+  sync: function(method, model, options){
+    var where = {};
+    if (options.where) {
+      where = {
+        where: options.where
+      }
+    }
+    if(typeof this.sailsCollection === "string" && this.sailsCollection !== "") {
+      this.socket = io.connect();
+      this.socket.on("connect", _.bind(function(){
+        this.socket.request("/" + this.sailsCollection, where, _.bind(function(users){
+          this.set(users);
+        }, this));
+
+        this.socket.on("text", _.bind(function(msg){
+          var m = msg.uri.split("/").pop();
+          if (m === "create") {
+            this.add(msg.data);
+          } else if (m === "update") {
+            this.get(msg.data.id).set(msg.data);
+          } else if (m === "destroy") {
+            this.remove(this.get(msg.data.id));
+          }
+        }, this));
+      }, this));
+    } else {
+      console.log("Error: Cannot retrieve models because property 'sailsCollection' not set on the collection");
+    }
+  }
+});
 </script>
+

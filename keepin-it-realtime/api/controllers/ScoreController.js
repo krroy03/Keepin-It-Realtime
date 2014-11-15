@@ -85,14 +85,14 @@ module.exports = {
       else {
         var username = "rando";
         if (req.session.user) {
-        User.findOne(req.session.user, function foundUser(err, user) {
-          if (err) {
-            console.log("no user found");
-          }
-          res.view({username: user.username});
-        });
-      }
-        res.view({scores: scores});
+          User.findOne(req.session.user, function foundUser(err, user) {
+            if (err) {
+              console.log("no user found");
+            }
+            res.view({username: user.username});
+          });
+        }
+        res.view({scores: scores, username: username});
       }
     });
   }
