@@ -1,10 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\SendScore.cs">
     <Files>
-      <File FileName="Assets\SendScore.cs" Line="56" Column="48" />
-      <File FileName="Assets\Jet\JetControl.cs" Line="167" Column="4" />
-      <File FileName="Assets\MasterNetworking.cs" Line="1" Column="1" />
+      <File FileName="Assets\SendScore.cs" Line="80" Column="4" />
+      <File FileName="Assets\Jet\JetControl.cs" Line="172" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

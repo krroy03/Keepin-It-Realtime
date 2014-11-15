@@ -160,13 +160,10 @@ public class JetControl : MonoBehaviour
 								jet.eulerAngles = new Vector3 (0.0f, 180.0f, 0.0f);
 								jetBody.isKinematic = false;
 								jetSpeed = oldSpeed;
-								print ("exit collision");
 								
 								if (col.collider.CompareTag ("Bullet") && health > 0) {
 										// if hits missle, lose hp
 										health -= 10.0f;
-					print (health);
-										
 								}
 						}
 				}

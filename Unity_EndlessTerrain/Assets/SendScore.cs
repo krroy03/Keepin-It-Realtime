@@ -4,7 +4,7 @@ using System.Collections;
 public class SendScore : MonoBehaviour {
 
 	//The URL to the server - In our case localhost with port number 2475
-	private string url = "http://localhost:1337/";
+	private string url = "http://128.237.165.137:1337/";
 
 	private int score = 0;
 	private JetControl control;
@@ -28,7 +28,7 @@ public class SendScore : MonoBehaviour {
 		GUI.Box(new Rect(10,10,100,90), "Loader Menu");
 		
 		// Make the first button.
-		/*if(GUI.Button(new Rect(20,40,80,20), "SendScore") && userID >= 0) {
+		if(GUI.Button(new Rect(20,40,80,20), "SendScore") && userID >= 0) {
 			
 			//when the button is clicked
 			
@@ -45,10 +45,10 @@ public class SendScore : MonoBehaviour {
 			//Call the server
 			WWW www = new WWW(customUrl, form);
 			StartCoroutine(WaitForRequest(www));
-		}*/
+		}
 
 		// make the second button 
-		if(GUI.Button(new Rect(20,40,80,20), "GetUserID")) {
+		if(GUI.Button(new Rect(20,180,80,20), "GetUserID")) {
 			
 			//when the button is clicked
 			
@@ -77,6 +77,7 @@ public class SendScore : MonoBehaviour {
 		{
 			//write data returned
 			Debug.Log(www.text);
+
 			
 		} else {
 			Debug.Log("WWW Error: "+ www.error);
