@@ -1,4 +1,6 @@
 <script type='text/javascript' src='/jquery.min.js'></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
 <script type="text/javascript">
 <!--
 var unityObjectUrl = "/UnityObject2.js";
@@ -10,10 +12,10 @@ document.write('<script type="text\/javascript" src="' + unityObjectUrl + '"><\/
 <script type="text/javascript">
 <!--
   var config = {
-    width: 960, 
+    width: 960,
     height: 600,
     params: { enableDebugging:"0" }
-    
+
   };
   var u = new UnityObject2(config);
 
@@ -23,7 +25,7 @@ document.write('<script type="text\/javascript" src="' + unityObjectUrl + '"><\/
     var $brokenScreen = jQuery("#unityPlayer").find(".broken");
     $missingScreen.hide();
     $brokenScreen.hide();
-    
+
     u.observeProgress(function (progress) {
       switch(progress.pluginStatus) {
         case "broken":
@@ -55,14 +57,14 @@ document.write('<script type="text\/javascript" src="' + unityObjectUrl + '"><\/
   });
 -->
 </script>
-<script> 
+<script>
   $(function(){
     var game = $("<iframe src='/templates/Unity_Deployment1.html'>");
 
     $("#unityGame").append(game);
-    //load("/templates/Unity_Deployment1.html"); 
+    //load("/templates/Unity_Deployment1.html");
   });
-</script> 
+</script>
 <div class="container">
 <% scores.forEach(function(score)  { %>
     <p><%= score.score %> <%= score.user_id %></p>
@@ -87,3 +89,54 @@ document.write('<script type="text\/javascript" src="' + unityObjectUrl + '"><\/
   </div>
   <p class="footer">&laquo; created with <a href="http://unity3d.com/unity/" title="Go to unity3d.com">Unity</a> &raquo;</p>
 </div>
+
+<div id="chatbox" class="container row">
+  <h2>Chat here, <%= username %>!</h2>
+  <div id="chatForm">
+    <textarea id="text" rows="4" cols="100" style="width:300px; height:20px; padding:1em"></textarea>
+    <button id="chatBtn">Chat</button>
+  </div>
+  <div id="chatContainer">
+  </div>
+</div>
+
+<script>
+  var ChatModel = Backbone.Model.extend({
+    urlRoot: '/chatbox',
+  });
+
+var ChatCollection = Backbone.Collection.extend({
+    url: '/chatbox',
+    model: ChatModel,
+});
+
+var chats = new ChatCollection();
+chats.fetch();
+
+$("#chatBtn").click(function(){
+    var text = $("#text").val();
+    console.log(text);
+    chats.create({text: text}, {wait: true});
+    $("#text").val("");
+});
+
+_.templateSettings = {
+interpolate : /\{\{(.+?)\}\}/g
+};
+var ChatboxView = Backbone.View.extend({
+el: '#chatContainer',
+initialize: function () {
+    this.collection.on('add', this.render, this);
+    this.render();
+},
+template: _.template("<p><b><%= username %>:</b> {{ text }}</p>"),
+    render: function () {
+        this.$el.html("");
+        this.collection.each(function(msg){
+            this.$el.append(this.template(msg.toJSON()));
+        }, this)
+}
+});
+
+var cView = new ChatboxView({collection: chats});
+</script>

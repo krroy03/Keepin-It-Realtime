@@ -11,11 +11,16 @@ module.exports = {
   index: function (req, res) {
     console.log(req.session.user);
     if (req.session.user) {
-        res.view({username: req.session.user.username});
+      User.findOne(req.session.user, function foundUser(err, user) {
+      if (err) {
+        console.log("no user found");
+      }
+      res.view('index', {username: user.username});
+    });
     } else {
-      res.view({username: 'rando'});
+      res.view('index', {username: 'rando'});
     }
-    res.view('index');
+    //res.view('index');
   }
 
 

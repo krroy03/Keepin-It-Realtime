@@ -35,7 +35,7 @@ module.exports = {
       var scoreObj = {
         user_id: user_id,
         score: score
-      }   
+      }
       Score.findOne().where({user_id: user_id}).exec(function (err, curr_score) {
         if (curr_score) {
           curr_score.score = score;
@@ -83,6 +83,15 @@ module.exports = {
         res.redirect('/');
       }
       else {
+        var username = "rando";
+        if (req.session.user) {
+        User.findOne(req.session.user, function foundUser(err, user) {
+          if (err) {
+            console.log("no user found");
+          }
+          res.view({username: user.username});
+        });
+      }
         res.view({scores: scores});
       }
     });
@@ -114,7 +123,7 @@ module.exports = {
  //              req.send(user);
  //          }
  //        });
- //      });      
+ //      });
  //    }
  //    else {
  //      res.redirect('/');
