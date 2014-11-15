@@ -26,7 +26,7 @@ public class SendScore : MonoBehaviour {
 			if (count % 600 == 0) {
 				// so every 10 seconds, update score in database 
 			}
-			if (userID > 0) {
+			if (userID < 0) {
 				// get userID if we don't have it yet
 				//setup url to the webpage that is called
 				string customUrl = url + "user/current_user/";
