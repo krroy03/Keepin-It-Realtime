@@ -1,6 +1,8 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2008
 
+Project("{201E74C5-5519-243D-879A-F229D3CA4DB9}") = "Unity_EndlessTerrain", "Assembly-CSharp-firstpass-vs.csproj", "{49A887A6-D5B5-A3BD-6351-498B9E839AF2}"
+EndProject
 Project("{201E74C5-5519-243D-879A-F229D3CA4DB9}") = "Unity_EndlessTerrain", "Assembly-CSharp-vs.csproj", "{4A0559C6-684D-40FE-9B71-D272F96FC618}"
 EndProject
 Project("{201E74C5-5519-243D-879A-F229D3CA4DB9}") = "Unity_EndlessTerrain", "Assembly-CSharp-Editor-vs.csproj", "{6CDBF37D-C0AC-A6D8-56D7-313BCFFF9D36}"
@@ -11,6 +13,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{49A887A6-D5B5-A3BD-6351-498B9E839AF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49A887A6-D5B5-A3BD-6351-498B9E839AF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49A887A6-D5B5-A3BD-6351-498B9E839AF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49A887A6-D5B5-A3BD-6351-498B9E839AF2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4A0559C6-684D-40FE-9B71-D272F96FC618}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4A0559C6-684D-40FE-9B71-D272F96FC618}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A0559C6-684D-40FE-9B71-D272F96FC618}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -23,7 +29,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																																																				GlobalSection(MonoDevelopProperties) = preSolution
+																																																														GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1

@@ -108,11 +108,36 @@ module.exports = {
 
   },
 
+
+  // Get current user session
   current_user: function(req, res) {
-    console.log(req.session.passport.user);
+    var session_user = req.session.passport.user;
     return res.json({
-      user: req.session.passport.user
+      user: session_user
     });
+  }, 
+
+  // Get scores
+  get_scores: function(req, res) {
+    var session_user = req.session.passport.user;
+    if (session_user) {
+      Score.find().where({user_id: session_user}).exec(function (err, scores) {
+        console.log(scores);
+        if (err || !scores) {
+          console.log(err);
+          res.redirect('/');
+        }
+        else {
+          return res.json({
+            scores: scores
+          });
+        }
+      });
+    }
+    else {
+      res.redirect('/');
+    }
+
   }, 
 
 

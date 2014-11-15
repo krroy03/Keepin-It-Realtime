@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using SimpleJSON;
+
 
 public class SendScore : MonoBehaviour {
 
@@ -23,14 +25,28 @@ public class SendScore : MonoBehaviour {
 		if (networkView.isMine) {
 						count++;
 						score = control.score;
-			if (count % 600 == 0) {
+			if (count % 600 == 0 && userID >= 0) {
 				// so every 10 seconds, update score in database 
+				//setup url to the web page that is called
+				string customUrl = url + "score/create_or_update";
+				
+				//setup a form
+				WWWForm form = new WWWForm();
+				
+				//Setup the paramaters
+				form.AddField("UserID", userID.ToString());
+				form.AddField("Score", score.ToString());
+				
+				//Call the server
+				WWW www = new WWW(customUrl, form);
+				StartCoroutine(WaitForEmptyRequest(www));
 			}
+
 			if (userID < 0) {
 				// get userID if we don't have it yet
 				//setup url to the webpage that is called
 				string customUrl = url + "user/current_user/";
-				
+
 				//setup a form
 				WWWForm form = new WWWForm();
 				
@@ -56,7 +72,7 @@ public class SendScore : MonoBehaviour {
 			//when the button is clicked
 			
 			//setup url to the web page that is called
-			string customUrl = url;
+			string customUrl = url + "score/create_or_update";
 			
 			//setup a form
 			WWWForm form = new WWWForm();
@@ -96,9 +112,12 @@ public class SendScore : MonoBehaviour {
 		if (www.error == null)
 		{
 			//write data returned
-			Debug.Log(www.text);
 			int temp = -1;
-			bool worked = int.TryParse( www.text, out temp);
+			var keys = JSON.Parse(www.text);
+
+			bool worked = int.TryParse( keys["user"], out temp);
+		
+
 			if (worked) {
 				userID = temp;
 				print (userID);
