@@ -99,6 +99,9 @@ public class SendScore : MonoBehaviour {
 			Debug.Log(www.text);
 			int temp = -1;
 			bool worked = int.TryParse( www.text, out temp);
+			print (worked);
+			print(temp);
+
 			if (worked) {
 				userID = temp;
 				print (userID);
