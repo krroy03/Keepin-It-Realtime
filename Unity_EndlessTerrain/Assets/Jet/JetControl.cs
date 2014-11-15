@@ -76,15 +76,10 @@ public class JetControl : MonoBehaviour
 						GUI.Button (new Rect (0, Screen.height * 4 / 5, Screen.width / 4, Screen.height / 8), "Score: " + score.ToString ());
 					
 						//	draw health
-						//draw the background:
-						GUI.BeginGroup (new Rect (pos.x, pos.y, size.x, size.y));
-						//GUI.Box (new Rect (0, 0, size.x, size.y), emptyTex);
+			GUI.Box (new Rect (Screen.width *4/5, Screen.height * 4 / 5, size.x, size.y), emptyTex);
 			
 						//draw the filled-in part:
-						GUI.BeginGroup (new Rect (0, 0, size.x * barDisplay, size.y));
-			//GUI.Box (new Rect (0, 0, size.x * barDisplay, size.y), fullTex);
-						GUI.EndGroup ();
-						GUI.EndGroup ();
+			//GUI.Box (new Rect (Screen.width *4/5, Screen.height * 4 / 5, size.x * barDisplay, size.y), fullTex);
 				}
 		
 		}
@@ -132,6 +127,15 @@ public class JetControl : MonoBehaviour
 	
 		}
 
+		void OnTriggerEnter (Collider col)
+		{
+				if (col.CompareTag ("Bullet") && health > 0) {
+						// if hits missle, lose hp
+						health -= 10.0f;
+			print (health);
+				}
+		}
+
 		void OnCollisionEnter (Collision col)
 		{
 				if (networkView.isMine) {
@@ -144,7 +148,7 @@ public class JetControl : MonoBehaviour
 								oldSpeed = jetSpeed;
 								jetSpeed = 0.001f;
 						}
-			print (col.collider.tag);
+		
 						
 				}
 		}
@@ -161,10 +165,7 @@ public class JetControl : MonoBehaviour
 								jetBody.isKinematic = false;
 								jetSpeed = oldSpeed;
 								
-								if (col.collider.CompareTag ("Bullet") && health > 0) {
-										// if hits missle, lose hp
-										health -= 10.0f;
-								}
+								
 						}
 				}
 		}
