@@ -3,12 +3,13 @@ using System.Collections;
 
 public class SendScore : MonoBehaviour {
 
-	//The URL to the server - In our case localhost with port number 2475
+	//The URL to the server - In our case localhost with port number 1337
 	private string url = "http://128.237.165.137:1337/";
 
 	private int score = 0;
 	private JetControl control;
 	private int userID; 
+	private int count = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -19,7 +20,29 @@ public class SendScore : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		score = control.score;
+		if (networkView.isMine) {
+						count++;
+						score = control.score;
+			if (count % 600 == 0) {
+				// so every 10 seconds, update score in database 
+			}
+			if (userID < 0) {
+				// get userID if we don't have it yet
+				//setup url to the webpage that is called
+				string customUrl = url + "user/current_user/";
+				
+				//setup a form
+				WWWForm form = new WWWForm();
+				
+				//Setup the paramaters
+				//
+				
+				//Call the server
+				WWW www = new WWW(customUrl, form);
+				StartCoroutine(WaitForRequest(www));
+			}
+		}
+
 	}
 
 	void OnGUI()
@@ -44,28 +67,25 @@ public class SendScore : MonoBehaviour {
 			
 			//Call the server
 			WWW www = new WWW(customUrl, form);
-			StartCoroutine(WaitForRequest(www));
-		}
-
-		// make the second button 
-		if(GUI.Button(new Rect(20,180,80,20), "GetUserID")) {
-			
-			//when the button is clicked
-			
-			//setup url to the webpage that is called
-			string customUrl = url + "user/current_user/";
-			
-			//setup a form
-			WWWForm form = new WWWForm();
-			
-			//Setup the paramaters
-			//
-			
-			//Call the server
-			WWW www = new WWW(customUrl, form);
-			StartCoroutine(WaitForRequest(www));
+			StartCoroutine(WaitForEmptyRequest(www));
 		}
 		
+	}
+
+	IEnumerator WaitForEmptyRequest(WWW www)
+	{
+		yield return www;
+		
+		// check for errors
+		if (www.error == null)
+		{
+			//write data returned
+			Debug.Log(www.text);
+			
+			
+		} else {
+			Debug.Log("WWW Error: "+ www.error);
+		}
 	}
 
 	IEnumerator WaitForRequest(WWW www)
@@ -77,8 +97,14 @@ public class SendScore : MonoBehaviour {
 		{
 			//write data returned
 			Debug.Log(www.text);
+			int temp = -1;
+			bool worked = int.TryParse( www.text, out temp);
+			if (worked) {
+				userID = temp;
+				print (userID);
+			}
 
-			
+
 		} else {
 			Debug.Log("WWW Error: "+ www.error);
 		}
