@@ -10,10 +10,10 @@ document.write('<script type="text\/javascript" src="' + unityObjectUrl + '"><\/
 <script type="text/javascript">
 <!--
   var config = {
-    width: 960, 
+    width: 960,
     height: 600,
     params: { enableDebugging:"0" }
-    
+
   };
   var u = new UnityObject2(config);
 
@@ -23,7 +23,7 @@ document.write('<script type="text\/javascript" src="' + unityObjectUrl + '"><\/
     var $brokenScreen = jQuery("#unityPlayer").find(".broken");
     $missingScreen.hide();
     $brokenScreen.hide();
-    
+
     u.observeProgress(function (progress) {
       switch(progress.pluginStatus) {
         case "broken":
@@ -55,14 +55,14 @@ document.write('<script type="text\/javascript" src="' + unityObjectUrl + '"><\/
   });
 -->
 </script>
-<script> 
+<script>
   $(function(){
     var game = $("<iframe src='/templates/Unity_Deployment1.html'>");
 
     $("#unityGame").append(game);
-    //load("/templates/Unity_Deployment1.html"); 
+    //load("/templates/Unity_Deployment1.html");
   });
-</script> 
+</script>
 
 <div class="container row">
   <div class="half">
@@ -108,3 +108,27 @@ document.write('<script type="text\/javascript" src="' + unityObjectUrl + '"><\/
   </div>
   <p class="footer">&laquo; created with <a href="http://unity3d.com/unity/" title="Go to unity3d.com">Unity</a> &raquo;</p>
 </div>
+
+<div id="chatbox" class "container row">
+  <script>
+    var MessageModel = Backbone.Model.extend({
+        urlRoot: '/messages',
+    });
+
+    var MessageCollection = Backbone.Collection.extend({
+        url: '/messages',
+        model: MessageModel,
+    });
+
+    var messages = new MessageCollection();
+    messages.fetch();
+
+    $("#postMessageButton").click(function(){
+        var messageText = $("#message").val();
+        messages.create({message: messageText}, {wait: true});
+        $("#message").val("");
+    });
+  </script>
+</div>
+// TODO: req.session.user for chat
+

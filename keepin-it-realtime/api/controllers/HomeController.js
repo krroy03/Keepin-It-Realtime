@@ -6,11 +6,15 @@
  */
 
 module.exports = {
-	
+
 
   index: function (req, res) {
     console.log(req.session.user);
-
+    if (req.session.user) {
+        res.view({username: req.session.user.username});
+    } else {
+      res.view({username: 'rando'});
+    }
     res.view('index');
   }
 
