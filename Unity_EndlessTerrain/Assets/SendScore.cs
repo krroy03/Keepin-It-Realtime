@@ -97,6 +97,7 @@ public class SendScore : MonoBehaviour {
 		{
 			//write data returned
 			Debug.Log(www.text);
+			Debug.Log(www.text.Length);
 			int temp = -1;
 			bool worked = int.TryParse( www.text, out temp);
 			Debug.Log(worked);
