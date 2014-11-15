@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using SimpleJSON;
+
 
 public class SendScore : MonoBehaviour {
 
@@ -30,7 +32,7 @@ public class SendScore : MonoBehaviour {
 				// get userID if we don't have it yet
 				//setup url to the webpage that is called
 				string customUrl = url + "user/current_user/";
-				
+
 				//setup a form
 				WWWForm form = new WWWForm();
 				
@@ -96,12 +98,11 @@ public class SendScore : MonoBehaviour {
 		if (www.error == null)
 		{
 			//write data returned
-			Debug.Log(www.text);
-			Debug.Log(www.text.Length);
 			int temp = -1;
-			bool worked = int.TryParse( www.text, out temp);
-			Debug.Log(worked);
-			Debug.Log(temp);
+			var keys = JSON.Parse(www.text);
+
+			bool worked = int.TryParse( keys["user"], out temp);
+		
 
 			if (worked) {
 				userID = temp;
