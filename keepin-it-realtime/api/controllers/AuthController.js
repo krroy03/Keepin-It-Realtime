@@ -9,6 +9,7 @@ module.exports = {
     res.view();
   },
   process: function(req, res){
+
     passport.authenticate('local', function(err, user, info) {
       if ((err) || (!user)) {
         return res.send({
@@ -18,6 +19,7 @@ module.exports = {
       }
       req.logIn(user, function(err) {
         if (err) res.send(err);
+        console.log(req.session.passport.user);
         return res.view('index');
       });
     })(req, res);

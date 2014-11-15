@@ -47,6 +47,7 @@ passport.deserializeUser(function (id, done) {
 // with a user object.
 passport.use(new LocalStrategy(
   function (username, password, done) {
+    console.log("local");
     // asynchronous verification, for effect...
     process.nextTick(function () {
       // Find the user by username. If there is no user with the given

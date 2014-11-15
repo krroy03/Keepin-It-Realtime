@@ -11,6 +11,7 @@
 }
 .clearfix {
   clear: both;
+  display: block;
 }
 a {
   color: #777;

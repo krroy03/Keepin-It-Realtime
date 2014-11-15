@@ -37,8 +37,8 @@ module.exports.sockets = {
     console.log("disconnected");
     var today = new Date();
     var expires = new Date(session.expires);
-    console.log(session);
-    console.log(today, expires);    
+    console.log(session.passport);
+    // console.log(today, expires);    
     if (today > expires) {
       console.log("expired");
       if (session.user) {

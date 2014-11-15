@@ -697,7 +697,7 @@ header #usernav a span img {
   height: 0;
 }
 .clearfix {
-  display: inline-block;
+  display: block;
 }
 html[xmlns] .clearfix {
   display: block;

@@ -67,7 +67,7 @@ document.write('<script type="text\/javascript" src="' + unityObjectUrl + '"><\/
 <div class="container row">
   <div class="half">
     <h1>Login</h1>
-    <form action="/process">
+    <form action="/process" method="post">
       <input type="text" name="username" placeholder="Username">
       <input type="password" name="password" placeholder="Password">
       <input class="btn" type="submit">
@@ -79,7 +79,18 @@ document.write('<script type="text\/javascript" src="' + unityObjectUrl + '"><\/
   </div>
   <div class="clearfix"></div>
 </div>
-<div id="game">
+<div class="container row">
+  <div class="half">
+    <h1>Signup</h1>
+    <form action="/user/create" method="post">
+      <input type="text" name="username" placeholder="Username">
+      <input type="password" name="password" placeholder="Password">
+      <input class="btn" type="submit">
+    </form>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div id="game" class="container row">
   <p class="header"><span>Unity Web Player | </span>_2D v3</p>
   <div class="content">
     <div id="unityPlayer">

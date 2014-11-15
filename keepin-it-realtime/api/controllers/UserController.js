@@ -4,6 +4,7 @@
  * @description :: Server-side logic for managing users
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
+var passport = require('passport');
 
 module.exports = {
 	
@@ -12,53 +13,107 @@ module.exports = {
   /**
    * `UserController.create()`
    */
-  // create: function (req, res) {
-  //   var session_user = req.session.user;
 
-  //   // If session has a user, dont create another
-  //   if (session_user) {
-  //     console.log("User already created", session_user);
-  //     res.redirect('/user/show/' + session_user);
-  //   }
+  create: function (req, res) {
+    var session_user = req.session.user;
+    var is_guest = req.param('quest');
+    var username = req.param('username')
+      , password = req.param('password');
 
-  //   // Only create user if there is no session user
-  //   else {
-  //     var userObj = {
-  //       username: "Random"
-  //     }
+    if (!username) {
+      console.log(new Error('No password was entered.'));
+      req.session.flash = {
+        err: new Error('No username was entered.')
+      }
 
-  //     User.create(userObj, function userCreated(err, user) {
-  //       // // If there's an error
-  //       // if (err) return next(err);
+      // If error redirect back to sign-up page
+      return res.redirect('/');
+    }
 
-  //       if (err) {
-  //         console.log(err);
-  //         req.session.flash = {
-  //           err: err
-  //         }
+    if (!password) {
+      console.log(new Error('No password was entered.'));
+      req.session.flash = {
+        err: new Error('No password was entered.')
+      }
 
-  //         // If error redirect back to sign-up page
-  //         return res.redirect('/');
-  //       }
-  //       console.log("User created");
-  //       req.session.user = user.id;
-  //       var t = new Date();
-  //       t.setDate(t.getDate() + 1 );
-  //       // t.setSeconds(t.getSeconds() + 10);
-  //       req.session.expires = t;
+      // If error redirect back to sign-up page
+      return res.redirect('/');
+    }
 
-  //       // Let other subscribed sockets know that the user was created.
-  //       User.publishCreate(user);
+    // If session has a user, dont create another
+    if (session_user) {
+      console.log("User already created", session_user);
+      res.redirect('/user/show/' + session_user);
+    }
 
-  //       // After successfully creating the user
-  //       // redirect to the show action
-  //       // From ep1-6: //res.json(user); 
+    // Only create user if there is no session user
+    else {
+      if (is_guest) {
+        var userObj = {
+          username: username,
+          password: password
+        }   
+      }
+      else {
+        var userObj = {
+          username: username,
+          password: password
+        }        
+      }
 
-  //       res.redirect('/user/show/' + user.id);
-  //     });
-  //   }
 
-  // },
+      User.create(userObj, function userCreated(err, user) {
+        // // If there's an error
+        // if (err) return next(err);
+
+        if (err) {
+          console.log(err);
+          req.session.flash = {
+            err: err
+          }
+
+          // If error redirect back to sign-up page
+          return res.redirect('/');
+        }
+        console.log("User created");
+        req.session.user = user.id;
+        var t = new Date();
+        t.setDate(t.getDate() + 1 );
+        // t.setSeconds(t.getSeconds() + 10);
+        req.session.expires = t;
+
+        // Let other subscribed sockets know that the user was created.
+        User.publishCreate(user);
+
+        passport.authenticate('local', function(err, user, info) {
+          if ((err) || (!user)) {
+            return res.send({
+            message: 'login failed'
+            });
+            res.send(err);
+          }
+          req.logIn(user, function(err) {
+            if (err) res.send(err);
+            console.log(req.session.passport.user);
+            res.redirect('/user/show/' + user.id);
+          });
+        })(req, res);
+
+        // After successfully creating the user
+        // redirect to the show action
+        // From ep1-6: //res.json(user); 
+
+      });
+    }
+
+  },
+
+  current_user: function(req, res) {
+    console.log(req.session.passport.user);
+    return res.json({
+      user: req.session.passport.user
+    });
+  }, 
 
 
   /**
