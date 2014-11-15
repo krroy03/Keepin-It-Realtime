@@ -25,9 +25,23 @@ public class SendScore : MonoBehaviour {
 		if (networkView.isMine) {
 						count++;
 						score = control.score;
-			if (count % 600 == 0) {
+			if (count % 600 == 0 && userID >= 0) {
 				// so every 10 seconds, update score in database 
+				//setup url to the web page that is called
+				string customUrl = url + "score/create_or_update";
+				
+				//setup a form
+				WWWForm form = new WWWForm();
+				
+				//Setup the paramaters
+				form.AddField("UserID", userID.ToString());
+				form.AddField("Score", score.ToString());
+				
+				//Call the server
+				WWW www = new WWW(customUrl, form);
+				StartCoroutine(WaitForEmptyRequest(www));
 			}
+
 			if (userID < 0) {
 				// get userID if we don't have it yet
 				//setup url to the webpage that is called
@@ -58,7 +72,7 @@ public class SendScore : MonoBehaviour {
 			//when the button is clicked
 			
 			//setup url to the web page that is called
-			string customUrl = url + "user/get_scores/";
+			string customUrl = url + "score/create_or_update";
 			
 			//setup a form
 			WWWForm form = new WWWForm();
