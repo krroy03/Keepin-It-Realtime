@@ -115,9 +115,7 @@ module.exports = {
     if (!session_user) {
       session_user = 1000;
     }
-    return res.json({
-      user: session_user
-    });
+    return res.send( session_user );
   }, 
 
   // Get scores
