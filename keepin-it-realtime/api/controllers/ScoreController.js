@@ -7,7 +7,7 @@
 
 module.exports = {
 
-    create: function (req, res) {
+    create_or_update: function (req, res) {
     var user_id = req.param('UserID')
       , score = req.param('Score');
 
@@ -36,27 +36,41 @@ module.exports = {
         user_id: user_id,
         score: score
       }   
-
-      Score.create(scoreObj, function scoreCreated(err, score) {
-        // // If there's an error
-        // if (err) return next(err);
-
-        if (err) {
-          console.log(err);
-          req.session.flash = {
-            err: err
-          }
-
-          // If error redirect back to sign-up page
-          return res.redirect('/');
+      Score.findOne().where({user_id: user_id}).exec(function (err, curr_score) {
+        if (curr_score) {
+          curr_score.score = score;
+          curr_score.save(function(error) {
+            if(error) {
+                // do something with the error.
+            } else {
+                // value saved!
+              res.redirect('/');
+            }
+          });
         }
-        console.log("Score created");
+        else {
+          Score.create(scoreObj, function scoreCreated(err, score) {
+            // // If there's an error
+            // if (err) return next(err);
 
-        // After successfully creating the user
-        // redirect to the show action
-        console.log(score);
-        res.redirect('/');
+            if (err) {
+              console.log(err);
+              req.session.flash = {
+                err: err
+              }
 
+              // If error redirect back to sign-up page
+              return res.redirect('/');
+            }
+            console.log("Score created");
+
+            // After successfully creating the user
+            // redirect to the show action
+            console.log(score);
+            res.redirect('/');
+
+          });
+        }
       });
     }
 
