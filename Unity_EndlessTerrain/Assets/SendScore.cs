@@ -26,7 +26,7 @@ public class SendScore : MonoBehaviour {
 			if (count % 600 == 0) {
 				// so every 10 seconds, update score in database 
 			}
-			if (userID < 0) {
+			if (userID > 0) {
 				// get userID if we don't have it yet
 				//setup url to the webpage that is called
 				string customUrl = url + "user/current_user/";
@@ -56,7 +56,7 @@ public class SendScore : MonoBehaviour {
 			//when the button is clicked
 			
 			//setup url to the web page that is called
-			string customUrl = url;
+			string customUrl = url + "user/get_score/";
 			
 			//setup a form
 			WWWForm form = new WWWForm();
