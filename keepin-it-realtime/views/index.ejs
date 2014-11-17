@@ -107,7 +107,7 @@
               url: "/message/"+to,
               data: {message: message},
               success: function(){
-                console.log('message sent')
+                $("#messageModalContainer").css("display", "none");
               }
             });
           }
