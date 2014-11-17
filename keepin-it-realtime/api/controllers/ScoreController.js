@@ -85,13 +85,13 @@ module.exports = {
         res.redirect('/');
       }
       else {
-        User.findOne(req.session.user).then(function(user) {
+        /*User.findOne(req.session.user).then(function(err, user) {
           console.log("username");
           username = user.username;
-          return res.view({scores: scores, username: user.username});
-        });
+          return res.view({scores: scores, username: username});
+        });*/
         //console.log(username);
-        //res.view({scores: scores, username: username});
+        res.view({scores: scores, username: username});
       }
     });
 
