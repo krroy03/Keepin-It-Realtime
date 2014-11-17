@@ -1,1 +1,5 @@
-<%= user.messages %>
+<% for (sender in user.messages){ %>
+  <% for (var m=0; m<user.messages[sender].length; m++){ %>
+    <p1> <%= user.messages[sender][m] %>
+  <% } %>
+<% } %>
