@@ -17,7 +17,7 @@ public class SendScore : MonoBehaviour {
 	void Start () {
 		score = 0;
 		control = this.GetComponent<JetControl> ();
-		userID = -1;
+		userID = 120;
 	}
 	
 	// Update is called once per frame
