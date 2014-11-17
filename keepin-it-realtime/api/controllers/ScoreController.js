@@ -83,13 +83,11 @@ module.exports = {
       if (err) {
         console.log(err);
         res.redirect('/');
-      }
-      else {
-        /*User.findOne(req.session.user).then(function(err, user) {
-          console.log("username");
-          username = user.username;
-          return res.view({scores: scores, username: username});
-        });*/
+      } else if(req.session.user) {
+        User.findOne(req.session.user).then(function(user) {
+          return res.view({scores: scores, username: user.username});
+        });
+      } else {
         //console.log(username);
         res.view({scores: scores, username: username});
       }
