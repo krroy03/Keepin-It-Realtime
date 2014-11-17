@@ -77,24 +77,29 @@ module.exports = {
   },
 
   showAll: function(req, res) {
+    var rn = Math.floor(Math.random() * 999999) + 1
+    var username = "rando" + String(rn);
     Score.find(function foundScores(err, scores) {
       if (err) {
         console.log(err);
         res.redirect('/');
       }
       else {
-        var username = "rando";
-        if (req.session.user) {
-          User.findOne(req.session.user, function foundUser(err, user) {
-            if (err) {
-              console.log("no user found");
-            }
-            res.view({username: user.username});
-          });
-        }
         res.view({scores: scores, username: username});
       }
     });
+
+    /*if (req.session.user) {
+      User.find(function foundUser(err, user) {
+        if (err) {
+          console.log("no user found");
+        } else {
+          res.view({username: user.username});
+        }
+      });
+    } else {
+      res.view({username: username});
+    }*/
   }
 
 	// update: function(req, res) {

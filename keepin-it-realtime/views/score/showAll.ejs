@@ -101,9 +101,42 @@ document.write('<script type="text\/javascript" src="' + unityObjectUrl + '"><\/
 </div>
 
 <script>
-  var ChatModel = Backbone.Model.extend({
+var ChatModel = Backbone.Model.extend({
     urlRoot: '/chatbox',
   });
+var SailsCollection = Backbone.Collection.extend({
+  sailsCollection: "",
+  socket: null,
+  sync: function(method, model, options){
+    var where = {};
+    if (options.where) {
+      where = {
+        where: options.where
+      }
+    }
+    if(typeof this.sailsCollection === "string" && this.sailsCollection !== "") {
+      this.socket = io.connect();
+      this.socket.on("connect", _.bind(function(){
+        this.socket.request("/" + this.sailsCollection, where, _.bind(function(users){
+          this.set(users);
+        }, this));
+
+        this.socket.on("message", _.bind(function(msg){
+          var m = msg.uri.split("/").pop();
+          if (m === "create") {
+            this.add(msg.data);
+          } else if (m === "update") {
+            this.get(msg.data.id).set(msg.data);
+          } else if (m === "destroy") {
+            this.remove(this.get(msg.data.id));
+          }
+        }, this));
+      }, this));
+    } else {
+      console.log("Error: Cannot retrieve models because property 'sailsCollection' not set on the collection");
+    }
+  }
+});
 
 var ChatCollection = Backbone.Collection.extend({
     url: '/chatbox',
@@ -145,39 +178,5 @@ template: _.template("<div><p><b><%= username %>:</b> {{ text }}</p></div>"),
 });
 
 var cView = new ChatboxView({collection: chats});
-
-var SailsCollection = Backbone.Collection.extend({
-  sailsCollection: "",
-  socket: null,
-  sync: function(method, model, options){
-    var where = {};
-    if (options.where) {
-      where = {
-        where: options.where
-      }
-    }
-    if(typeof this.sailsCollection === "string" && this.sailsCollection !== "") {
-      this.socket = io.connect();
-      this.socket.on("connect", _.bind(function(){
-        this.socket.request("/" + this.sailsCollection, where, _.bind(function(users){
-          this.set(users);
-        }, this));
-
-        this.socket.on("text", _.bind(function(msg){
-          var m = msg.uri.split("/").pop();
-          if (m === "create") {
-            this.add(msg.data);
-          } else if (m === "update") {
-            this.get(msg.data.id).set(msg.data);
-          } else if (m === "destroy") {
-            this.remove(this.get(msg.data.id));
-          }
-        }, this));
-      }, this));
-    } else {
-      console.log("Error: Cannot retrieve models because property 'sailsCollection' not set on the collection");
-    }
-  }
-});
 </script>
 
