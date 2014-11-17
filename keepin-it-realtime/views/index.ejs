@@ -1,69 +1,5 @@
-<script type='text/javascript' src='/jquery.min.js'></script>
-<script type="text/javascript">
-<!--
-var unityObjectUrl = "/UnityObject2.js";
-if (document.location.protocol == 'https:')
-  unityObjectUrl = unityObjectUrl.replace("http://", "https://ssl-");
-document.write('<script type="text\/javascript" src="' + unityObjectUrl + '"><\/script>');
--->
-</script>
-<script type="text/javascript">
-<!--
-  var config = {
-    width: 960,
-    height: 600,
-    params: { enableDebugging:"0" }
-
-  };
-  var u = new UnityObject2(config);
-
-  jQuery(function() {
-
-    var $missingScreen = jQuery("#unityPlayer").find(".missing");
-    var $brokenScreen = jQuery("#unityPlayer").find(".broken");
-    $missingScreen.hide();
-    $brokenScreen.hide();
-
-    u.observeProgress(function (progress) {
-      switch(progress.pluginStatus) {
-        case "broken":
-          $brokenScreen.find("a").click(function (e) {
-            e.stopPropagation();
-            e.preventDefault();
-            u.installPlugin();
-            return false;
-          });
-          $brokenScreen.show();
-        break;
-        case "missing":
-          $missingScreen.find("a").click(function (e) {
-            e.stopPropagation();
-            e.preventDefault();
-            u.installPlugin();
-            return false;
-          });
-          $missingScreen.show();
-        break;
-        case "installed":
-          $missingScreen.remove();
-        break;
-        case "first":
-        break;
-      }
-    });
-    u.initPlugin(jQuery("#unityPlayer")[0], "Unity_Deployment1.unity3d");
-  });
--->
-</script>
-<script>
-  $(function(){
-    var game = $("<iframe src='/templates/Unity_Deployment1.html'>");
-
-    $("#unityGame").append(game);
-    //load("/templates/Unity_Deployment1.html");
-  });
-</script>
-
+<% if (!req.session.user) { %>
+        
 <div class="container row">
   <div class="half">
     <h1>Login</h1>
@@ -90,22 +26,152 @@ document.write('<script type="text\/javascript" src="' + unityObjectUrl + '"><\/
   </div>
   <div class="clearfix"></div>
 </div>
-<div id="game" class="container row">
-  <p class="header"><span>Unity Web Player | </span>_2D v3</p>
-  <div class="content">
-    <div id="unityPlayer">
-      <div class="missing">
-        <a href="http://unity3d.com/webplayer/" title="Unity Web Player. Install now!">
-          <img alt="Unity Web Player. Install now!" src="http://webplayer.unity3d.com/installation/getunity.png" width="193" height="63" />
-        </a>
+
+<% } else { %>
+    <div class="container row nomargintop">
+      
+      <div class="half">
+        <div class="container row fullWidth">
+          <h1> All Users </h1>
+          <div class="clearfix"></div>
+        </div>
+        <% for (var u=0; u<allUsers.length; u++){ %>
+          <div class="container row nomargintop fullWidth">
+            <div class="half">
+              <span class="username"><%= allUsers[u].username %></span>
+            </div>
+            <div class="half">
+              <% if (user.friends.indexOf(allUsers[u].id) === -1){ %>
+              <div class="addFriend btn floatright" data-name="<%= allUsers[u].username %>" id="<%= allUsers[u].id %>">Add Friend</div>
+              <% } else { %>
+              <div class="btn btn-disabled floatright" id="<%= allUsers[u].id %>">Friends</div>
+              <% } %>
+            </div>
+            <div class="clearfix"></div>
+            <br>
+            <hr>
+          </div>
+        <% } %>
       </div>
-      <div class="broken">
-        <a href="http://unity3d.com/webplayer/" title="Unity Web Player. Install now! Restart your browser after install.">
-          <img alt="Unity Web Player. Install now! Restart your browser after install." src="http://webplayer.unity3d.com/installation/getunityrestart.png" width="193" height="63" />
-        </a>
+
+      <div id='friendList' class = "half">
+        <div class="container row fullWidth">
+          <h1> Friends </h1>
+          <div class="clearfix"></div>
+        </div>
+        <% for (var u=0; u < friends.length; u++){ %>
+          <div class="container row nomargintop fullWidth">
+            <div class="half">
+              <span class="username"><%= friends[u].username %></span>
+            </div>
+            <div class="half">
+              <a class="message btn floatright" data-name="<%= friends[u].username %>"  id="<%= friends[u].id %>">Message</a>
+            </div>
+            <div class="clearfix"></div>
+            <br>
+            <hr>
+          </div>
+        <% } %>
+      </div>
+
+    </div>
+
+    <div id = "messageModalContainer" style = "display:none;">
+      <div id = "mask" style = "position:fixed;top:0px;bottom:0px;left:0px;right:0px;background:rgba(255, 255, 255, .5)">
+      </div>
+      <div id = "messageModal">
+        <div id="to">
+        </div>
+        <textarea id = "messageArea">
+        </textarea>
+        <button class="btn" id = "closeMessageContainer">
+          Close
+        </button>
+        <button class="btn" id = "sendMessage">
+          Send
+        </button>
       </div>
     </div>
-  </div>
-  <p class="footer">&laquo; created with <a href="http://unity3d.com/unity/" title="Go to unity3d.com">Unity</a> &raquo;</p>
-</div>
 
+    <script type='text/javascript' src='/jquery.min.js'></script>
+    <script>
+      
+      $(document).ready(function(){
+        $("#sendMessage").click(function(){
+          to = $("#to").data('toid');
+          message = $("#messageArea").val()
+          if(message == "") alert('Please input a message')
+          else{
+            $.ajax({
+              type: "POST",
+              url: "/message/"+to,
+              data: {message: message},
+              success: function(){
+                console.log('message sent')
+              }
+            });
+          }
+        });
+
+        $("#closeMessageContainer").click(function(){
+          $("#messageModalContainer").css("display", "none");
+        });
+
+        function setMessageModal(el){
+          console.log($(el).data("name"));
+          $("#messageModalContainer").css("display", "block");
+          $("#to").html("To:"+$(el).data("name"));
+          $("#to").data("toid", $(el).attr('id'));
+        }
+
+        $(".message").click(function(){
+          setMessageModal(this);
+        })
+
+        $('.addFriend').click(function(){
+          userid = $(this).attr('id');
+
+          $.ajax({
+            type: "POST",
+            url: "/addFriend/"+userid,
+            success: function(id){
+
+              return function(){
+                var thisButton = $("#"+id);
+
+                thisButton.removeClass('addFriend').addClass('btn-disabled').html('Friends');
+                thisButton.unbind('click');
+
+                row = $("<div class='container row nomargintop fullWidth'>");
+                firstcol = $("<div class='half'>");
+                username = $("<span class='username'>");
+
+                username.html(thisButton.attr('data-name'));
+
+                secondcol = $("<div class='half'>");
+                message = $("<a class='message btn floatright'>")
+                message.attr('id', thisButton.attr('id'));
+                message.html('Message');
+                message.data("name", thisButton.attr('data-name'))
+                message.click(function(){
+                  setMessageModal(this)});
+                clearfix = $('<div class="clearfix">')
+                br = $("<br>");
+                hr = $("<hr>");
+                firstcol.append(username);
+                row.append(firstcol);
+                secondcol.append(message);
+                row.append(secondcol);
+                row.append(clearfix);
+                row.append(br);
+                row.append(hr);
+                $('#friendList').append(row);
+              }
+            }(userid)
+          });
+
+        });
+      });
+    </script>
+
+<% } %>

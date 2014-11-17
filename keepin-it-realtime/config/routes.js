@@ -50,7 +50,15 @@ module.exports.routes = {
   '/game': {
     controller: 'ScoreController',
     action: 'showAll'
-  }
+  },
+  'post /addFriend/:id':{
+    controller: 'UserController',
+    action: 'addFriend'
+  },
+  'post /message/:id':{
+    controller: 'UserController',
+    action: 'sendMessage'
+  },
   /***************************************************************************
   *                                                                          *
   * Custom routes here...                                                    *

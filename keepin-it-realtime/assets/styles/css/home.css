@@ -98,7 +98,7 @@ p {
   color: #333;
   margin-bottom: 15px;
 }
-h1 {
+h1{
   font-family: Helvetica, Arial, Verdana, sans-serif;
   color: #444;
   font-weight: bold;
@@ -332,4 +332,53 @@ html[xmlns] .clearfix {
 }
 .nobrdr {
   border: 0px !important;
+}
+
+#messageModal {
+    width: 50%;
+    height: 50%;
+    background: white;
+    position: fixed;
+    margin:auto;
+    border: 1px solid;
+    margin-left: 25%;
+    padding: 10px;
+}
+
+#messageModalContainer {
+    text-align: center;
+    line-height:12px;
+    font-size: 12px;
+}
+
+
+#messageArea {
+  display: block;
+    height: 60%;
+    width: 80%;
+    margin: 20px !important;
+}
+
+.username{
+  font-family: Helvetica, Arial, Verdana, sans-serif;
+  color: #444;
+  font-weight: bold;
+  font-size: 1.7em;
+  line-height: 2.0em;
+}
+
+.nomargintop{
+  margin-top: 0 !important;
+}
+
+.floatright{
+  float: right !important;
+}
+
+.fullWidth{
+  width: 100% !important;
+}
+
+.paddingleft{
+  margin-left: 5px;
 }

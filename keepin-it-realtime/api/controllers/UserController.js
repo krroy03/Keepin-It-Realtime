@@ -154,6 +154,17 @@ module.exports = {
     });
   },
 
+  messages: function(req, res, next) {
+    if (req.user.id){
+      User.findOne(req.user.id, function foundUser(err, user) {
+        if (err) return next(err);
+        if (!user) return next();
+        res.view({
+          user: user
+        });
+      });
+    }
+  },
 
   /**
    * `UserController.destroy()`
@@ -187,7 +198,102 @@ module.exports = {
     });
   },
 
+  addFriend: function(req, res){
+    console.log('addFriend')
+    errors = []
+    if (('id' in req.params) && (typeof(parseInt(req.params['id']))==='number')){
+      friendId = parseInt(req.params['id'])
+      User.findOne()
+          .where({'id': req.user.id})
+          .then(function(user){
+            if (user.friends.indexOf(friendId) === -1){
+              user.friends.push(friendId)
+              user.save(function(err){
+                if (err) console.log(err)
+              });
+            }
+            // User.findOne()
+            //     .where({'id':req.params['id']})
+            //     .then(function(friend){
+            //       user.friends.add(friend.id);
+            //       user.save(function(err) {
+            //         if(err) {
+            //           // do something with the error.
+            //           errors += [err];
+            //           console.log('Save ERROR: ');
+            //           console.log(err);
+            //         }
+            //         else{
+            //           console.log('added friend saved!!!')
+            //         }
+            //       });
+            //     })
+            //     .fail(function(err){
+            //       console.log(err)
+            //     });
+          });
+    
+    }
+    else{
+      console.log('no id found in request')
+    }
 
+    res.send({success: true});
+
+  },
+
+
+  sendMessage: function(req, res){
+    errors = []
+    if (('id' in req.params) && (typeof(parseInt(req.params['id']))==='number')){
+      toid = parseInt(req.params['id'])
+      User.findOne()
+          .where({'id': toid})
+          .then(function(user){
+            if (!user.messages[req.user.id]){
+              user.messages[req.user.id] = []
+            }
+            user.messages[req.user.id].push(req.body.message)
+            user.save(function(err){
+              if (err) console.log(err)
+            });
+
+            // if (user.friends.indexOf(friendId) === -1){
+            //   user.friends.push(friendId)
+            //   user.save(function(err){
+            //     if (err) console.log(err)
+            //     else console.log(user)
+            //   });
+            // }
+            // User.findOne()
+            //     .where({'id':req.params['id']})
+            //     .then(function(friend){
+            //       user.friends.add(friend.id);
+            //       user.save(function(err) {
+            //         if(err) {
+            //           // do something with the error.
+            //           errors += [err];
+            //           console.log('Save ERROR: ');
+            //           console.log(err);
+            //         }
+            //         else{
+            //           console.log('added friend saved!!!')
+            //         }
+            //       });
+            //     })
+            //     .fail(function(err){
+            //       console.log(err)
+            //     });
+          });
+    
+    }
+    else{
+      console.log('no id found in request')
+    }
+
+    res.send({success: true});
+
+  },
   /**
    * `UserController.subscribe()`
    */
