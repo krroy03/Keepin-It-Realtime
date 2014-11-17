@@ -9,20 +9,33 @@ module.exports = {
     res.view();
   },
   process: function(req, res){
-
-    passport.authenticate('local', function(err, user, info) {
-      if ((err) || (!user)) {
-        return res.send({
-        message: 'login failed'
-        });
-        res.send(err);
+    User.findOne(req.param('id'), function foundUser(err, user) {
+      if (err) {
+        console.log(err);
+        res.redirect('/');
       }
-      req.logIn(user, function(err) {
-        if (err) res.send(err);
-        console.log(req.session.passport.user);
-        return res.view('index');
-      });
-    })(req, res);
+      if (!user) {
+        console.log('user doesnt exist');
+        res.redirect('/')
+      }
+
+      passport.authenticate('local', function(err, user, info) {
+        if ((err) || (!user)) {
+          return res.send({
+          message: 'login failed'
+          });
+          res.send(err);
+        }
+        req.logIn(user, function(err) {
+          if (err) res.send(err);
+          console.log(user);
+          console.log(req.session.passport.user);
+          return res.view('index');
+        });
+      })(req, res);
+
+    });
+
   },
   logout: function (req,res){
     req.logout();
