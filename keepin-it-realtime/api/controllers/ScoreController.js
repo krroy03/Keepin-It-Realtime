@@ -32,46 +32,61 @@ module.exports = {
     }
 
     if (user_id && score) {
-      var scoreObj = {
-        user_id: user_id,
-        score: score
-      }
-      Score.findOne().where({user_id: user_id}).exec(function (err, curr_score) {
-        if (curr_score) {
-          curr_score.score = score;
-          curr_score.save(function(error) {
-            if(error) {
-                // do something with the error.
-            } else {
-                // value saved!
-              res.redirect('/');
-            }
-          });
-        }
-        else {
-          Score.create(scoreObj, function scoreCreated(err, score) {
-            // // If there's an error
-            // if (err) return next(err);
+      User.findOne(user_id, function foundUser(err, user) {
+        if (err) {
+          console.log(err);
+          req.session.flash = {
+            err: err
+          }
 
-            if (err) {
-              console.log(err);
-              req.session.flash = {
-                err: err
+          // If error redirect back to sign-up page
+          return res.redirect('/');
+        }
+
+        var scoreObj = {
+          user: user,
+          username: user.username, 
+          score: score
+        }
+        Score.findOne().where({user_id: user_id}).exec(function (err, curr_score) {
+          if (curr_score) {
+            curr_score.score = score;
+            curr_score.save(function(error) {
+              if(error) {
+                  // do something with the error.
+              } else {
+                  // value saved!
+                res.redirect('/');
               }
+            });
+          }
+          else {
+            Score.create(scoreObj, function scoreCreated(err, score) {
+              // // If there's an error
+              // if (err) return next(err);
 
-              // If error redirect back to sign-up page
-              return res.redirect('/');
-            }
-            console.log("Score created");
+              if (err) {
+                console.log(err);
+                req.session.flash = {
+                  err: err
+                }
 
-            // After successfully creating the user
-            // redirect to the show action
-            console.log(score);
-            res.redirect('/');
+                // If error redirect back to sign-up page
+                return res.redirect('/');
+              }
+              console.log("Score created");
 
-          });
-        }
+              // After successfully creating the user
+              // redirect to the show action
+              console.log(score);
+              res.redirect('/');
+
+            });
+          }
+        });
+
       });
+
     }
 
   },

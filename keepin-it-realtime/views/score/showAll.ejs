@@ -66,13 +66,16 @@ document.write('<script type="text\/javascript" src="' + unityObjectUrl + '"><\/
   });
 </script>
 <div class="container">
+<h1>Scoreboard</h1>
 <% scores.forEach(function(score)  { %>
-    <p><%= score.score %> <%= score.user_id %></p>
+  <div class="bar">
+    <h4><%= score.username %></h4>
+    <p><%= score.score %> </p>
+  </div>
 <% }); %>
 </div>
 
 <div id="game" class="container row">
-  <p class="header"><span>Unity Web Player | </span>_2D v3</p>
   <div class="content">
     <div id="unityPlayer">
       <div class="missing">

@@ -8,10 +8,13 @@
 module.exports = {
 
   attributes: {
-    user_id: {
-      type: 'integer',
+    user: {
+      model: 'user',
       required: true,
       unique: true
+    },
+    username: {
+      type: 'string'
     },
     score: {
       type: 'integer',

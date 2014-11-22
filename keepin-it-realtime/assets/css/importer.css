@@ -402,7 +402,7 @@ a {
   color: #fff;
   font-size: 14px;
 }
-.btn-disable {
+.btn-disabled {
   display: inline-block;
   padding: 0 20px;
   line-height: 40px;
@@ -412,7 +412,6 @@ a {
   color: #eee;
   font-size: 14px;
 }
-
 nav {
   height: 50px;
   border-bottom: 1px solid #ccc;
@@ -719,6 +718,6 @@ html[xmlns] .clearfix {
 .nobrdr {
   border: 0px !important;
 }
-li {
-  height: 25px;
+.bar h4 {
+  float: left;
 }
