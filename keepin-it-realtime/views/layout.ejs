@@ -41,7 +41,8 @@
         <li><a href="/game">Game</a></li>
         <% if (req.session.user) { %>
           <li><a href="/user/show/<%- req.session.user %>">Account</a></li>
-          <li><a href="/user/messages/<%- req.session.user %> %>">Messages</a></li>
+          <li><a href="/user/messages/<%- req.session.user %>">Messages</a></li>
+          <li><a href="/logout">Logout</a></li>
         <% } %>
       </ul>
     </nav>

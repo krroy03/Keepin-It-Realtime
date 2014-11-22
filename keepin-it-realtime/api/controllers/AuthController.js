@@ -19,14 +19,14 @@ module.exports = {
       req.logIn(user, function(err) {
         if (err) res.send(err);
         req.session.user = req.session.passport.user;
-        console.log(req.session.passport.user);
-        return res.view('index');
+        return res.redirect('/user/show/' + req.session.user);
       });
     })(req, res);
   },
   logout: function (req,res){
     req.logout();
-    res.send('logout successful');
+    req.session.user = null;
+    return res.view('index');
   }
 };
  
