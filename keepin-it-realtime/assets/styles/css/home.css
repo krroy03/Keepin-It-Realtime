@@ -27,6 +27,9 @@ span.username {
 .floatright {
   float: right;
 }
+.nomargintop {
+  margin-top: 0;
+}
 .btn {
   display: inline-block;
   padding: 0 20px;
