@@ -3,13 +3,14 @@
 
 
     function renderScores(data) {
-      $.each(data, function( i, val ) {
-        var scoreboard = $('#scoreboard');
+      var scoreboard = $('#scoreboard');
+      scoreboard.find('*').not('h1').remove();
+      
+      $.each(data.scores, function( i, val ) {
         var bar = $('<div class="bar"></div>');
 
-        scoreboard.find('*').not('h1').remove();
-        bar.append($('<h4>' + val[0].username + '</h4>'));
-        bar.append($('<p>' + val[0].score + '</p>'));
+        bar.append($('<h4>' + val.username + '</h4>'));
+        bar.append($('<p>' + val.score + '</p>'));
         scoreboard.append(bar);
 
       });
@@ -24,7 +25,7 @@
             dataType : "json",
             success: function( data ){
 
-              console.log("Refresh data", data);
+              console.log("Refresh data", data.scores);
               renderScores(data);
             }
         });
