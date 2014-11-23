@@ -148,8 +148,15 @@ module.exports = {
     User.findOne(req.param('id'), function foundUser(err, user) {
       if (err) return next(err);
       if (!user) return next();
-      res.view({
-        user: user
+      User.find().where({id: user.friends}).exec(function(err, friends){
+        if (err) friends = []
+
+        Score.find().where({user: user.id}).exec(function(err, scores) {
+          if (err) scores = []
+
+          return res.view({user: user, scores: scores, friends: friends});
+
+        });
       });
     });
   },
@@ -250,10 +257,10 @@ module.exports = {
       User.findOne()
           .where({'id': toid})
           .then(function(user){
-            if (!user.messages[req.user.id]){
-              user.messages[req.user.id] = []
+            if (!user.messages[req.user.username]){
+              user.messages[req.user.username] = []
             }
-            user.messages[req.user.id].push(req.body.message)
+            user.messages[req.user.username].push(req.body.message)
             user.save(function(err){
               if (err) console.log(err)
             });

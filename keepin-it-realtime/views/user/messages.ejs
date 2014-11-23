@@ -1,5 +1,11 @@
+<div class="container">
 <% for (sender in user.messages){ %>
-  <% for (var m=0; m<user.messages[sender].length; m++){ %>
-    <p1> <%= user.messages[sender][m] %>
+  <% for (var m=user.messages[sender].length - 1; m>=0; m--){ %>
+    <div class="bar">
+      <h4> <%= sender %> </h4>
+      <p> <%= user.messages[sender][m] %> </p>
+    </div>
   <% } %>
 <% } %>
+</div>
+

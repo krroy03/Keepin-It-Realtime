@@ -8,6 +8,7 @@
 module.exports = {
 
     create_or_update: function (req, res) {
+    console.log("create or update");
     var user_id = req.param('UserID')
       , score = req.param('Score');
 
@@ -48,7 +49,7 @@ module.exports = {
           username: user.username, 
           score: score
         }
-        Score.findOne().where({user_id: user_id}).exec(function (err, curr_score) {
+        Score.findOne().where({user: user_id}).exec(function (err, curr_score) {
           if (curr_score) {
             curr_score.score = score;
             curr_score.save(function(error) {

@@ -13,7 +13,7 @@
     </ul>
   </nav> -->
 
-  <div id="content" class="clearfix">
+  <div class="container clearfix">
     <section id="left">
       <div id="userStats" class="clearfix">
         <div class="pic">
@@ -24,6 +24,11 @@
           <h1><%= user.username %></h1>
           <div class="sep"></div>
           <h2>Stats</h2>
+
+          <% for (score in scores){ %>
+            <%= score.username %>
+          <% } %>
+
           <ul class="numbers clearfix">
             <li>Points<strong>123,456</strong></li>
             <li class="nobrdr">Date<strong>10/1</strong></li>
@@ -53,13 +58,13 @@
         <div class="head"><h1>Friends</h1></div>
         <div class="boxy">
           <div class="friendslist clearfix">
-            <% for (friend in user.friends){ %>
+          <% if (friends){ %>
+            <% for (var u=0; u < friends.length; u++){ %>
               <div class="friend">
-                <a href="#"><img src="/images/img/friend_avatar_default.jpg" width="60" height="60" alt="User 1" /></a><span class="friendly"><a href="#"><%= friend.username %></a></span>
+                <a href="#"><img src="/images/img/friend_avatar_default.jpg" width="60" height="60" alt="User 1" /></a><span class="friendly"><a href="/user/show/<%= friends[u].id %>"><%= friends[u].username %></a></span>
               </div>
-
             <% } %>
-
+          <% } %>
           </div>
 
           <span><a href="#">See all...</a></span>
