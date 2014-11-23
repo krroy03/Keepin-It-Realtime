@@ -152,6 +152,7 @@ module.exports = {
         if (err) friends = []
 
         Score.find().where({user: user.id}).exec(function(err, scores) {
+          console.log(scores);
           if (err) scores = []
 
           return res.view({user: user, scores: scores, friends: friends});

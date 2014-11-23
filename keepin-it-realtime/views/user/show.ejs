@@ -25,26 +25,25 @@
           <div class="sep"></div>
           <h2>Stats</h2>
 
-          <% for (score in scores){ %>
-            <%= score.username %>
+          <% if (scores){ %>
+            <% for (var u=0; u < scores.length; u++){ %>
+
+              <ul class="numbers clearfix">
+                <li>Points<strong><%= scores[u].score %></strong></li>
+                <li class="nobrdr">Date<strong class="score-<%= u %>">
+                  <script type="text/javascript">
+                    (function($){
+                      $(function(){
+                        $('.score-<%= u %>').html($.timeago("<%=scores[u].updatedAt%>"));
+                      }); // end of document ready
+                    })(jQuery); // end of jQuery name space
+                  </script>
+                </strong></li>
+              </ul>
+              
+
+            <% } %>
           <% } %>
-
-          <ul class="numbers clearfix">
-            <li>Points<strong>123,456</strong></li>
-            <li class="nobrdr">Date<strong>10/1</strong></li>
-          </ul>
-
-          <div class="sep"></div>
-          <ul class="numbers clearfix">
-            <li>Points<strong>123,456</strong></li>
-            <li class="nobrdr">Date<strong>10/1</strong></li>
-          </ul>
-
-          <div class="sep"></div>
-          <ul class="numbers clearfix">
-            <li>Points<strong>123,456</strong></li>
-            <li class="nobrdr">Date<strong>10/1</strong></li>
-          </ul>
 
         </div>
       </div>
