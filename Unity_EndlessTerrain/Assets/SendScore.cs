@@ -6,7 +6,7 @@ using SimpleJSON;
 public class SendScore : MonoBehaviour {
 
 	//The URL to the server - In our case localhost with port number 1337
-	private string url = "http://128.237.169.253:1337/";
+	private string url = "http://localhost:1337/";
 
 	private int score = 0;
 	private JetControl control;
@@ -17,7 +17,7 @@ public class SendScore : MonoBehaviour {
 	void Start () {
 		score = 0;
 		control = this.GetComponent<JetControl> ();
-		userID = 120;
+		userID = -1;
 	}
 	
 	// Update is called once per frame
