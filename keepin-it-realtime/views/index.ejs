@@ -29,24 +29,19 @@
 <% } else { %>
     <div class="container row nomargintop">
       <div class="half">
-        <div class="container row fullWidth">
+        <div class="row fullWidth">
           <h1> All Users </h1>
           <div class="clearfix"></div>
         </div>
         <% if (allUsers){ %>
           <% for (var u=0; u<allUsers.length; u++){ %>
-            <div class="container row nomargintop fullWidth">
-              <div class="half">
-                <span class="username"><%= allUsers[u].username %></span>
-              </div>
-              <div class="half">
-                <% if (user.friends.indexOf(allUsers[u].id) === -1){ %>
-                <div class="addFriend btn floatright" data-name="<%= allUsers[u].username %>" id="<%= allUsers[u].id %>">Add Friend</div>
-                <% } else { %>
-                <div class="btn btn-disabled floatright" id="<%= allUsers[u].id %>">Friends</div>
-                <% } %>
-              </div>
-              <div class="clearfix"></div>
+            <div class="row nomargintop fullWidth">
+              <span class="username"><%= allUsers[u].username %></span>
+              <% if (user.friends.indexOf(allUsers[u].id) === -1){ %>
+              <div class="addFriend btn floatright" data-name="<%= allUsers[u].username %>" id="<%= allUsers[u].id %>">Add Friend</div>
+              <% } else { %>
+              <div class="btn btn-disabled floatright" id="<%= allUsers[u].id %>">Friends</div>
+              <% } %>
               <br>
               <hr>
             </div>
@@ -55,13 +50,13 @@
       </div>
 
       <div id='friendList' class = "half">
-        <div class="container row fullWidth">
+        <div class="row fullWidth">
           <h1> Friends </h1>
           <div class="clearfix"></div>
         </div>
         <% if (friends){ %>
           <% for (var u=0; u < friends.length; u++){ %>
-            <div class="container row nomargintop fullWidth">
+            <div class="row nomargintop fullWidth">
               <div class="half">
                 <span class="username"><%= friends[u].username %></span>
               </div>
@@ -143,7 +138,7 @@
                 thisButton.removeClass('addFriend').addClass('btn-disabled').html('Friends');
                 thisButton.unbind('click');
 
-                row = $("<div class='container row nomargintop fullWidth'>");
+                row = $("<div class='row nomargintop fullWidth'>");
                 firstcol = $("<div class='half'>");
                 username = $("<span class='username'>");
 

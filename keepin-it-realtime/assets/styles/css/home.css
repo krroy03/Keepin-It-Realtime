@@ -6,16 +6,26 @@
   margin-top: 50px;
 }
 .row .half {
+  box-sizing: border-box;
+  padding-right: 20px;
   width: 50%;
   float: left;
 }
 .clearfix {
   clear: both;
-  display: block;
 }
 a {
   color: #777;
   text-decoration: none;
+}
+span.username {
+  font-size: 18px;
+  display: inline-block;
+  line-height: 40px;
+  height: 40px;
+}
+.floatright {
+  float: right;
 }
 .btn {
   display: inline-block;
@@ -25,6 +35,16 @@ a {
   background-color: #317fff;
   text-transform: uppercase;
   color: #fff;
+  font-size: 14px;
+}
+.btn-disabled {
+  display: inline-block;
+  padding: 0 20px;
+  line-height: 40px;
+  font-family: "Montserrat", Helvetica, arial, sans-serif;
+  background-color: #ccc;
+  text-transform: uppercase;
+  color: #eee;
   font-size: 14px;
 }
 nav {
@@ -98,7 +118,7 @@ p {
   color: #333;
   margin-bottom: 15px;
 }
-h1{
+h1 {
   font-family: Helvetica, Arial, Verdana, sans-serif;
   color: #444;
   font-weight: bold;
@@ -322,7 +342,7 @@ header #usernav a span img {
   height: 0;
 }
 .clearfix {
-  display: inline-block;
+  display: block;
 }
 html[xmlns] .clearfix {
   display: block;
@@ -332,53 +352,4 @@ html[xmlns] .clearfix {
 }
 .nobrdr {
   border: 0px !important;
-}
-
-#messageModal {
-    width: 50%;
-    height: 50%;
-    background: white;
-    position: fixed;
-    margin:auto;
-    border: 1px solid;
-    margin-left: 25%;
-    padding: 10px;
-}
-
-#messageModalContainer {
-    text-align: center;
-    line-height:12px;
-    font-size: 12px;
-}
-
-
-#messageArea {
-  display: block;
-    height: 60%;
-    width: 80%;
-    margin: 20px !important;
-}
-
-.username{
-  font-family: Helvetica, Arial, Verdana, sans-serif;
-  color: #444;
-  font-weight: bold;
-  font-size: 1.7em;
-  line-height: 2.0em;
-}
-
-.nomargintop{
-  margin-top: 0 !important;
-}
-
-.floatright{
-  float: right !important;
-}
-
-.fullWidth{
-  width: 100% !important;
-}
-
-.paddingleft{
-  margin-left: 5px;
 }

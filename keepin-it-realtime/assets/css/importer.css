@@ -36,6 +36,11 @@ body {
 ul {
   padding: 0;
 }
+hr {
+  margin: 10px 0;
+  border: 0 ;
+  border-bottom: 1px solid #ddd;
+}
 /* HTML5 display definitions
    ========================================================================== */
 /**
@@ -382,6 +387,8 @@ th {
   margin-top: 50px;
 }
 .row .half {
+  box-sizing: border-box;
+  padding-right: 20px;
   width: 50%;
   float: left;
 }
@@ -391,6 +398,15 @@ th {
 a {
   color: #777;
   text-decoration: none;
+}
+span.username {
+  font-size: 18px;
+  display: inline-block;
+  line-height: 40px;
+  height: 40px;
+}
+.floatright {
+  float: right;
 }
 .btn {
   display: inline-block;
