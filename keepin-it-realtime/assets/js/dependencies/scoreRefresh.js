@@ -16,11 +16,20 @@
       });
     }
 
+
+    var req_url;
+    if (window.location.pathname === "/game/chess") {
+      req_url = "/score/chess";
+    }
+    else if (window.location.pathname === "/game/platformer") {
+      req_url = "/score/platformer";
+    }
+
     function refreshScores() {
       console.log("Refresh");
         $.ajax({
             type: "GET",
-            url : "/score/showAll",
+            url : req_url,
             data : {refresh: true},
             dataType : "json",
             success: function( data ){
@@ -30,6 +39,7 @@
             }
         });
     }
+
 
     refreshScores();
     // causes the sendRequest function to run every 10 seconds
