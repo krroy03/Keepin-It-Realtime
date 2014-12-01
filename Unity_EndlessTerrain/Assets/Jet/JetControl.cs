@@ -64,7 +64,14 @@ public class JetControl : MonoBehaviour
 								score += 5;
 					
 						barDisplay = health / 100.0f;
-				} 
+				} else if (!networked) {
+						inputMovement ();
+						// update score 
+						if (!collided)
+								score += 5;
+			
+						barDisplay = health / 100.0f;
+				}
 				
 		}
 		
@@ -76,10 +83,10 @@ public class JetControl : MonoBehaviour
 						GUI.Button (new Rect (0, Screen.height * 4 / 5, Screen.width / 4, Screen.height / 8), "Score: " + score.ToString ());
 					
 						//	draw health
-			//GUI.Box (new Rect (Screen.width *4/5, Screen.height * 4 / 5, size.x, size.y), emptyTex);
+						//GUI.Box (new Rect (Screen.width *4/5, Screen.height * 4 / 5, size.x, size.y), emptyTex);
 			
 						//draw the filled-in part:
-			GUI.Box (new Rect (Screen.width *4/5, Screen.height * 4 / 5, size.x * barDisplay, size.y), fullTex);
+						GUI.Box (new Rect (Screen.width * 4 / 5, Screen.height * 4 / 5, size.x * barDisplay, size.y), fullTex);
 
 				}
 		
@@ -133,7 +140,7 @@ public class JetControl : MonoBehaviour
 				if (col.CompareTag ("Bullet") && health > 0) {
 						// if hits missle, lose hp
 						health -= 10.0f;
-			print (health);
+						print (health);
 				}
 		}
 

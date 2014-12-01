@@ -119,4 +119,12 @@ public class Enemy : MonoBehaviour
 		enemyScale.x *= -1;
 		transform.localScale = enemyScale;
 	}
+
+	void OnCollisionEnter(Collision col) {
+		if (col.collider.CompareTag ("Bullet")) {
+						Debug.Log ("hit bullet");
+
+				} else 
+						Debug.Log ("Hit Player");
+	}
 }

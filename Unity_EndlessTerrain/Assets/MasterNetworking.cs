@@ -6,7 +6,7 @@ public class MasterNetworking : MonoBehaviour
 
 
 		private const string typeName = "KeepingItRealTime";
-		private const string gameName = "Roy";
+		private const string gameName = "Jet";
 		public bool networked = false;
 		public bool visitor = false;
 		private bool showHosts = false;
@@ -32,6 +32,7 @@ public class MasterNetworking : MonoBehaviour
 						spawned = true;
 						Debug.Log ("spawned client at leader pos");
 				}
+				
 
 		}
 

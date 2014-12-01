@@ -63,11 +63,13 @@
      <Compile Include="Assets\Endless2DTerrain\Demos\Scripts\ChaseCamera.cs" />
      <Compile Include="Assets\Endless2DTerrain\Demos\Scripts\CoinPickup.cs" />
      <Compile Include="Assets\Endless2DTerrain\Demos\Scripts\PlayerMovement.cs" />
+     <Compile Include="Assets\Fire.cs" />
      <Compile Include="Assets\GroundMove.cs" />
      <Compile Include="Assets\HeroControl.cs" />
      <Compile Include="Assets\JSON Tests\CSharp\Test_CSharp.cs" />
      <Compile Include="Assets\Jet\FollowCam.cs" />
      <Compile Include="Assets\Jet\JetControl.cs" />
+     <Compile Include="Assets\JetRocket.cs" />
      <Compile Include="Assets\MasterChat.cs" />
      <Compile Include="Assets\MasterNetworking.cs" />
      <Compile Include="Assets\Scripts\BackgroundParallax.cs" />

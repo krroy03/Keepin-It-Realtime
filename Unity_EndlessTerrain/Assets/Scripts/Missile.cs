@@ -36,6 +36,13 @@ public class Missile : MonoBehaviour
 			// Destroy the rocket.
 			Destroy (gameObject);
 		}
+
+		if (col.collider.tag == "Bullet") {
+
+			OnExplode() ;
+			Destroy (col.gameObject);
+			Destroy(this.gameObject);
+				}
 		// Otherwise if it hits a bomb crate...
 //		else if(col.tag == "Enemy")
 //		{

@@ -36,6 +36,7 @@ public class SendScore : MonoBehaviour {
 				//Setup the paramaters
 				form.AddField("UserID", userID.ToString());
 				form.AddField("Score", score.ToString());
+				form.AddField ("GameID", "Platformer");
 				
 				//Call the server
 				WWW www = new WWW(customUrl, form);
@@ -66,25 +67,7 @@ public class SendScore : MonoBehaviour {
 		// Make a background box
 		GUI.Box(new Rect(10,10,100,90), "Loader Menu");
 		
-		// Make the first button.
-		if(GUI.Button(new Rect(20,40,80,20), "SendScore") && userID >= 0) {
-			
-			//when the button is clicked
-			
-			//setup url to the web page that is called
-			string customUrl = url + "score/create_or_update";
-			
-			//setup a form
-			WWWForm form = new WWWForm();
-			
-			//Setup the paramaters
-			form.AddField("UserID", userID.ToString());
-			form.AddField("Score", score.ToString());
-			
-			//Call the server
-			WWW www = new WWW(customUrl, form);
-			StartCoroutine(WaitForEmptyRequest(www));
-		}
+
 		
 	}
 
