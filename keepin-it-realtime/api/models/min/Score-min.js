@@ -1,0 +1,1 @@
+module.exports={attributes:{user:{model:"user",required:!0,unique:!0},username:{type:"string"},score:{type:"integer",required:!0}}};

@@ -49,7 +49,15 @@ module.exports.routes = {
   },
   '/game': {
     controller: 'ScoreController',
-    action: 'showAll'
+    action: 'chooseGame'
+  },
+  '/game/chess': {
+    controller: 'ScoreController',
+    action: 'chess'
+  },
+  '/game/platformer': {
+    controller: 'ScoreController',
+    action: 'platformer'
   },
   'post /addFriend/:id':{
     controller: 'UserController',

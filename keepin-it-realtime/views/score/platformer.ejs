@@ -1,0 +1,184 @@
+<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
+<script type="text/javascript">
+<!--
+var unityObjectUrl = "/UnityObject2.js";
+if (document.location.protocol == 'https:')
+  unityObjectUrl = unityObjectUrl.replace("http://", "https://ssl-");
+document.write('<script type="text\/javascript" src="' + unityObjectUrl + '"><\/script>');
+-->
+</script>
+<script type="text/javascript">
+<!--
+  var config = {
+    width: 960,
+    height: 600,
+    params: { enableDebugging:"0" }
+
+  };
+  var u = new UnityObject2(config);
+
+  jQuery(function() {
+
+    var $missingScreen = jQuery("#unityPlayer").find(".missing");
+    var $brokenScreen = jQuery("#unityPlayer").find(".broken");
+    $missingScreen.hide();
+    $brokenScreen.hide();
+
+    u.observeProgress(function (progress) {
+      switch(progress.pluginStatus) {
+        case "broken":
+          $brokenScreen.find("a").click(function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            u.installPlugin();
+            return false;
+          });
+          $brokenScreen.show();
+        break;
+        case "missing":
+          $missingScreen.find("a").click(function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            u.installPlugin();
+            return false;
+          });
+          $missingScreen.show();
+        break;
+        case "installed":
+          $missingScreen.remove();
+        break;
+        case "first":
+        break;
+      }
+    });
+    u.initPlugin(jQuery("#unityPlayer")[0], "Unity_Deployment1.unity3d");
+  });
+-->
+</script>
+<script>
+  $(function(){
+    var game = $("<iframe src='/templates/Unity_Deployment1.html'>");
+
+    $("#unityGame").append(game);
+    //load("/templates/Unity_Deployment1.html");
+  });
+</script>
+<div id="scoreboard" class="container">
+<h1>Scoreboard</h1>
+<% scores.forEach(function(score)  { %>
+  <div class="bar">
+    <h4><%= score.username %></h4>
+    <p><%= score.score %> </p>
+  </div>
+<% }); %>
+</div>
+
+<div id="game" class="container row">
+  <div class="content">
+    <div id="unityPlayer">
+      <div class="missing">
+        <a href="http://unity3d.com/webplayer/" title="Unity Web Player. Install now!">
+          <img alt="Unity Web Player. Install now!" src="http://webplayer.unity3d.com/installation/getunity.png" width="193" height="63" />
+        </a>
+      </div>
+      <div class="broken">
+        <a href="http://unity3d.com/webplayer/" title="Unity Web Player. Install now! Restart your browser after install.">
+          <img alt="Unity Web Player. Install now! Restart your browser after install." src="http://webplayer.unity3d.com/installation/getunityrestart.png" width="193" height="63" />
+        </a>
+      </div>
+    </div>
+  </div>
+  <p class="footer">&laquo; created with <a href="http://unity3d.com/unity/" title="Go to unity3d.com">Unity</a> &raquo;</p>
+</div>
+
+<div id="chat" class="container row half">
+  <h2>Chat here, <%= username %>!</h2>
+  <div id="chatForm" style="float:left;">
+    <textarea id="text" rows="4" cols="100" style="width:300px; height:20px; padding:1em"></textarea>
+    <button id="chatBtn">Chat</button>
+  </div>
+  <div id="chatContainer" style="float:right;">
+  </div>
+</div>
+
+<script>
+var ChatModel = Backbone.Model.extend({
+    urlRoot: '/chatbox',
+  });
+var SailsCollection = Backbone.Collection.extend({
+  sailsCollection: "",
+  socket: null,
+  sync: function(method, model, options){
+    var where = {};
+    if (options.where) {
+      where = {
+        where: options.where
+      }
+    }
+    if(typeof this.sailsCollection === "string" && this.sailsCollection !== "") {
+      this.socket = io.connect();
+      this.socket.on("connect", _.bind(function(){
+        this.socket.request("/" + this.sailsCollection, where, _.bind(function(users){
+          this.set(users);
+        }, this));
+
+        this.socket.on("message", _.bind(function(msg){
+          var m = msg.uri.split("/").pop();
+          if (m === "create") {
+            this.add(msg.data);
+          } else if (m === "update") {
+            this.get(msg.data.id).set(msg.data);
+          } else if (m === "destroy") {
+            this.remove(this.get(msg.data.id));
+          }
+        }, this));
+      }, this));
+    } else {
+      console.log("Error: Cannot retrieve models because property 'sailsCollection' not set on the collection");
+    }
+  }
+});
+
+var ChatCollection = Backbone.Collection.extend({
+    url: '/chatbox',
+    model: ChatModel,
+});
+
+var chats = new ChatCollection();
+chats.fetch();
+
+$("#chatBtn").click(function(){
+    var text = $("#text").val();
+    console.log(text);
+    chats.create({text: text}, {wait: true});
+    $("#text").val("");
+});
+
+$("#chatForm").keyup(function(event){
+    if(event.keyCode == 13){
+        $("#chatBtn").click();
+    }
+});
+
+_.templateSettings = {
+interpolate : /\{\{(.+?)\}\}/g
+};
+var ChatboxView = Backbone.View.extend({
+el: '#chatContainer',
+initialize: function () {
+    this.collection.on('add', this.render, this);
+    this.render();
+},
+template: _.template("<div><p><b><%= username %>:</b> {{ text }}</p></div>"),
+    render: function () {
+        this.$el.html("");
+        this.collection.each(function(msg){
+            this.$el.append(this.template(msg.toJSON()));
+        }, this)
+}
+});
+
+var cView = new ChatboxView({collection: chats});
+</script>
+

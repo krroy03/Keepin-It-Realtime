@@ -10,7 +10,8 @@ module.exports = {
     create_or_update: function (req, res) {
     console.log("create or update");
     var user_id = req.param('UserID')
-      , score = req.param('Score');
+      , score = req.param('Score'),
+        game_id = req.param('GameID');
 
     if (!user_id) {
       console.log(new Error('No username was entered.'));
@@ -32,7 +33,17 @@ module.exports = {
       return res.redirect('/');
     }
 
-    if (user_id && score) {
+    if (!game_id) {
+      console.log(new Error('No game was entered.'));
+      req.session.flash = {
+        err: new Error('No game was entered.')
+      }
+
+      // If error redirect back to sign-up page
+      return res.redirect('/');
+    }
+
+    if (user_id && score && game_id) {
       User.findOne(user_id, function foundUser(err, user) {
         if (err) {
           console.log(err);
@@ -47,6 +58,7 @@ module.exports = {
         var scoreObj = {
           user: user,
           username: user.username, 
+          game: game_id,
           score: score
         }
         Score.findOne().where({user: user_id}).exec(function (err, curr_score) {
@@ -60,6 +72,7 @@ module.exports = {
                 res.redirect('/');
               }
             });
+            console.log(curr_score);
           }
           else {
             Score.create(scoreObj, function scoreCreated(err, score) {
@@ -92,12 +105,18 @@ module.exports = {
 
   },
 
-  showAll: function(req, res) {
+  chooseGame: function(req, res) {
+
+    res.view('score/games');
+
+  },
+
+  platformer: function(req, res) {
     var refresh = req.param('refresh');
 
     var rn = Math.floor(Math.random() * 999999) + 1
     var username = "rando" + String(rn);
-    Score.find(function foundScores(err, scores) {
+    Score.find().sort({score: 'desc'}).exec(function foundScores(err, scores) {
       if (err) {
         console.log(err);
         res.redirect('/');
@@ -122,17 +141,38 @@ module.exports = {
       }
     });
 
-    /*if (req.session.user) {
-      User.find(function foundUser(err, user) {
-        if (err) {
-          console.log("no user found");
-        } else {
-          res.view({username: user.username});
+  },
+
+  chess: function(req, res) {
+    var refresh = req.param('refresh');
+
+    var rn = Math.floor(Math.random() * 999999) + 1
+    var username = "rando" + String(rn);
+    Score.find().sort({score: 'desc'}).exec(function foundScores(err, scores) {
+      if (err) {
+        console.log(err);
+        res.redirect('/');
+      } 
+      else {
+
+        if (refresh) {
+          console.log("showAllRefresh");
+          return res.json({
+            scores: scores
+          });
         }
-      });
-    } else {
-      res.view({username: username});
-    }*/
+
+        if(req.session.user) {
+          User.findOne(req.session.user).then(function(user) {
+            return res.view({scores: scores, username: user.username});
+          });
+        } 
+
+        //console.log(username);
+        res.view({scores: scores, username: username});
+      }
+    });
+
   }
 
 	// update: function(req, res) {

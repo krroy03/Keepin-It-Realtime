@@ -16,6 +16,10 @@ module.exports = {
     username: {
       type: 'string'
     },
+    game: {
+      type: 'string',
+      required: true,
+    },
     score: {
       type: 'integer',
       required: true
