@@ -64,9 +64,6 @@ public class SendScore : MonoBehaviour {
 
 	void OnGUI()
 	{
-		// Make a background box
-		GUI.Box(new Rect(10,10,100,90), "Loader Menu");
-		
 
 		
 	}

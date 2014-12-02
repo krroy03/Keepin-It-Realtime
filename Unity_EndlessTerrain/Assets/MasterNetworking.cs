@@ -14,6 +14,7 @@ public class MasterNetworking : MonoBehaviour
 		private Vector3 leaderPos;
 		public FollowCam camScript;
 		public GameObject jet;
+		public Respawn spawn; 
 		// Use this for initialization
 		void Start ()
 		{
@@ -73,7 +74,7 @@ public class MasterNetworking : MonoBehaviour
 				int port = Random.Range (20000, 22000);
 				Network.InitializeServer (4, port, false);
 				MasterServer.RegisterHost (typeName, gameName);
-		networked = true;
+				networked = true;
 	
 		}
 
@@ -126,7 +127,7 @@ public class MasterNetworking : MonoBehaviour
 		{
 		
 				Debug.Log ("player Connected, should have spawned player");
-				networkView.RPC ("sendLeaderPos", RPCMode.OthersBuffered, camScript.target.transform.position);
+				networkView.RPC ("sendLeaderPos", RPCMode.Others, camScript.target.transform.position);
 		}
 	
 		void OnPlayerDisconnected ()
@@ -136,18 +137,23 @@ public class MasterNetworking : MonoBehaviour
 	
 		}
 	
-		private void SpawnPlayer ()
+		public void SpawnPlayer ()
 		{		
+				if (camScript.target != null) { // so when respawning player, get most recent leader position
+						if (leaderPos.x < camScript.target.transform.position.x-5.0f) {
+								leaderPos = camScript.target.transform.position;
+						}
 
+				}
 				jet = (GameObject)Network.Instantiate (playerPrefab, leaderPos, playerPrefab.transform.rotation, 0);
-				
-
+				camScript.myJet = jet;
+				spawn.control = jet.GetComponent<JetControl> ();
 		}
 
 		[RPC] 
 		void sendLeaderPos (Vector3 pos)
 		{
 				leaderPos = pos;
-				print (pos);
 		}
+
 }

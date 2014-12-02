@@ -18,7 +18,7 @@ public class JetControl : MonoBehaviour
 		private MasterNetworking network;
 		
 		// health and score variables
-		private float health = 100.0f;
+		public float health = 100.0f;
 		public float barDisplay; //current progress
 		public Vector2 pos = new Vector2 (20, 40);
 		public Vector2 size = new Vector2 (60, 20);
@@ -64,14 +64,9 @@ public class JetControl : MonoBehaviour
 								score += 5;
 					
 						barDisplay = health / 100.0f;
-				} else if (!networked) {
-						inputMovement ();
-						// update score 
-						if (!collided)
-								score += 5;
+
+			}
 			
-						barDisplay = health / 100.0f;
-				}
 				
 		}
 		
@@ -141,6 +136,7 @@ public class JetControl : MonoBehaviour
 						// if hits missle, lose hp
 						health -= 10.0f;
 						print (health);
+			score -= 500;
 				}
 		}
 

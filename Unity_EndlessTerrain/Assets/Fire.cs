@@ -15,7 +15,7 @@ public class Fire : MonoBehaviour {
 	void Update ()
 	{
 		// If the fire button is pressed...
-		if(Input.GetButtonDown("Fire1"))
+		if (Input.GetKeyDown ("space"))
 		{
 			
 
