@@ -1,11 +1,3 @@
-/**
- * app.js
- *
- * Front-end code and event handling for sailsChat
- *
- */
-
-
 // Attach a listener which fires when a connection is established:
 io.socket.on('connect', function socketConnected() {
 
@@ -18,11 +10,12 @@ io.socket.on('connect', function socketConnected() {
     // Listen for the "hello" event from the server, which will provide us
     // with information about our user (data.me). Open the /config/sockets.js
     // file to see where the "hello" event is emitted.
-    /*io.socket.on('hello', function(data) {
-      window.me = data;
-      updateMyName(data);
-    });*/
-    updateMyName("rando");
+    io.socket.on('hello', function(data) {
+      //window.me = data;
+      //updateMyName(data);
+      addUser();
+    });
+    //updateMyName("rando");
 
     // Listen for the "room" event, which will be broadcast when something
     // happens to a room we're subscribed to.  See the "autosubscribe" attribute
@@ -75,7 +68,17 @@ io.socket.on('connect', function socketConnected() {
     // happens to a user we're subscribed to.  See the "autosubscribe" attribute
     // of the User model to see which messages will be broadcast by default
     // to subscribed sockets.
-    io.socket.on('user', function messageReceived(message) {
+    io.socket.on('user', function messageReceived(req, message) {
+      /*var user_id = req.param('UserID');
+      if (user_id) {
+        User.findOne(user_id, function foundUser(err, user) {
+          if (err) {
+            console.log(err);
+          } else {
+            addUser(user);
+          }
+        });
+      }*/
 
       switch (message.verb) {
 

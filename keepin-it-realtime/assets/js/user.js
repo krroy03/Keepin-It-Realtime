@@ -11,13 +11,15 @@ function updateName(req) {
 }
 
 // Add a user to the list of available users to chat with
-function addUser(user) {
+function addUser(req) {
+  //var username = req.param('username');
 
   // Get a handle to the user list <select> element
   var select = $('#users-list');
 
   // Create a new <option> for the <select> with the new user's information
-  var option = $('<option id="'+"user-"+user.id+'" value="'+user.id+'">'+(user.name == "unknown" ? "User #" + user.id : user.name)+'</option>');
+  var option = $('<option id="'+"user-"+user.id+'" value="'+user.id+'">'+(user.name == "rando" ? "User #" + user.id : user.name)+'</option>');
+  //var option = $('<option id="'+"user-1"+" value="+user.id+'">'+(user.name == "rando" ? "User #" + user.id : user.name)+'</option>');
 
   // Add the new <option> element
   select.append(option);
@@ -41,18 +43,20 @@ function removeUser(user) {
   userEl.css('display', 'none');
   $('body').append(userEl);
 
-  // Post a user status message if we're in a private convo
+  /*// Post a user status message if we're in a private convo
   if ($('#private-room-'+id).length) {
     postStatusMessage('private-messages-'+id, userName + ' has disconnected.');
     $('#private-message-'+id).remove();
     $('#private-button-'+id).remove();
-  }
+  }*/
 
 }
 
 // Add multiple users to the users list.
 function updateUserList(users) {
+  //var user_id = req.param('UserID');
   users.forEach(function(user) {
+    //if (user.id == user_id) {return;}
     addUser(user);
   });
 }

@@ -46,7 +46,7 @@ module.exports = {
           cb(err);
         }else{
           user.password = hash;
-          cb(null, user);
+          cb(null, user);User
         }
       });
     });
