@@ -1,3 +1,5 @@
+var user_id = 0;
+
 // Create the HTML to hold a public, multi-user chat room
 function createPublicRoom(room) {
 
@@ -31,7 +33,7 @@ function createPublicRoom(room) {
 }
 
 // Callback for when the user clicks the "Send message" button in a public room
-function onClickSendPublicMessage(req, e) {
+function onClickSendPublicMessage(e) {
 
   // Get the button that was pressed
   var button = e.currentTarget;
@@ -43,10 +45,19 @@ function onClickSendPublicMessage(req, e) {
   var message = $('#room-message-'+roomId).val();
   $('#room-message-'+roomId).val("");
 
-  // Add this message to the room
-  var user_id = req.parm('UserID');
-  addMessageToChatRoom(user_id, roomId, message);
 
+  // Add this message to the room
+  $.ajax({
+      type: "GET",
+      url : "/user/current_user_object",
+      data : {refresh: false},
+      dataType : "json",
+      success: function( user ){
+        user_id = user['user']['id'];
+      }
+    });
+
+  addMessageToChatRoom(user_id, roomId, message);
   // Send the message
   io.socket.post('/chat/public', {room: roomId, msg: message});
 
@@ -61,12 +72,22 @@ function addMessageToChatRoom(senderId, roomId, message) {
     return postStatusMessage(roomName, message);
   }
 
-  var fromMe = senderId == window.me.id;
+
+  $.ajax({
+      type: "GET",
+      url : "/user/current_user_object",
+      data : {refresh: false},
+      dataType : "json",
+      success: function( user ){
+        user_id = user['user']['id'];
+      }
+  });
+  var fromMe = senderId == user_id;
   var senderName = fromMe ? "Me" : $('#user-'+senderId).text();
   var justify = fromMe ? 'right' : 'left';
 
   var div = $('<div style="text-align:'+justify+'"></div>');
-  div.html('<strong>'+senderName+'</strong>: '+message);
+  div.html('<strong>'+senderName+'</strong>: '+message+'<br>');
   $('#'+roomName).append(div);
 
 }
@@ -104,8 +125,17 @@ function joinRoom(req) {
   createPublicRoom({id:roomId, name:roomName});
 
   // Join the room
-  //var user_id = req.param('UserID');
-  io.socket.post('/room/'+roomId+'/users', {id: 1});
+
+  $.ajax({
+      type: "GET",
+      url : "/user/current_user_object",
+      data : {refresh: true},
+      dataType : "json",
+      success: function( user ){
+        user_id = user['user']['id'];
+      }
+    });
+  io.socket.post('/room/'+roomId+'/users', {id: user_id});
 
   // Update the room user count
   increaseRoomCount(roomId);
@@ -125,7 +155,7 @@ function onClickLeaveRoom(e) {
   $('#public-room-'+roomId).remove();
 
   // Call the server to leave the room
-  io.socket.delete('/room/'+roomId+'/users', {id: window.me.id});
+  io.socket.delete('/room/'+roomId+'/users', {id: user_id});
 
   // Update the room user count
   decreaseRoomCount(roomId);

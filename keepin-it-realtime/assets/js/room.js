@@ -1,5 +1,6 @@
 // Add a new room to the list
-function newRoom(req) {
+var user_id = 0;
+function newRoom() {
 
   // Prompt the user for the name of the new room
   var roomName = prompt('Please enter a name for the new room');
@@ -14,11 +15,24 @@ function newRoom(req) {
       // Select it in the list
       $('#rooms-list').val(data.id);
 
+
       // Create the room HTML
       createPublicRoom({id:data.id, name:data.name});
 
       // Join the room
-      var user_id = req.param('UserId');
+      $.ajax({
+        type: "GET",
+        url : "/user/current_user_object",
+        data : {refresh: true},
+        dataType : "json",
+        success: function( user ){
+          user_id = user['user']['id'];
+        }
+      });
+      console.log("afajhflkasf");
+      console.log(user_id);
+
+      io.socket.make('/room/'+data.name+'/users', {id: user_id});
       io.socket.post('/room/'+data.id+'/users', {id: user_id});
 
       // Set the room user count to 1
@@ -49,6 +63,7 @@ function addRoom(room) {
 function increaseRoomCount(roomId) {
   var room = $('#room-'+roomId);
   var users = room.users || [];
+  console.log(users);
   var numUsers = users.length;
   var numbers = parseInt(room.attr('datausers'), 10);
   numUsers++;
