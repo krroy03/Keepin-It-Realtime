@@ -61,7 +61,7 @@ module.exports = {
           game: game_id,
           score: score
         }
-        Score.findOne().where({user: user_id}).exec(function (err, curr_score) {
+        Score.findOne().where({user: user_id, game: game_id}).exec(function (err, curr_score) {
           if (curr_score) {
             curr_score.score = score;
             curr_score.save(function(error) {
@@ -69,7 +69,7 @@ module.exports = {
                   // do something with the error.
               } else {
                   // value saved!
-                res.redirect('/');
+                return res.redirect('/');
               }
             });
             console.log(curr_score);
@@ -93,7 +93,7 @@ module.exports = {
               // After successfully creating the user
               // redirect to the show action
               console.log(score);
-              res.redirect('/');
+              return res.redirect('/');
 
             });
           }
