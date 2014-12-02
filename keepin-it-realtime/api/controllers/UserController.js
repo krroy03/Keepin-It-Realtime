@@ -117,6 +117,18 @@ module.exports = {
     });
   }, 
 
+  // Get current user session
+  current_user_object: function(req, res) {
+    User.findOne(req.session.passport.user, function foundUser(err, user) {
+      if (err || !user) user = {};
+
+      return res.json({
+        user: user
+      });
+    });
+
+  }, 
+
   // Get scores
   get_scores: function(req, res) {
     var session_user = req.session.passport.user;
