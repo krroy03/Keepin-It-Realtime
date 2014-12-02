@@ -116,7 +116,7 @@ module.exports = {
 
     var rn = Math.floor(Math.random() * 999999) + 1
     var username = "rando" + String(rn);
-    Score.find().sort({score: 'desc'}).exec(function foundScores(err, scores) {
+    Score.find().where({game: "Platformer"}).sort({score: 'desc'}).exec(function foundScores(err, scores) {
       if (err) {
         console.log(err);
         res.redirect('/');
@@ -148,7 +148,7 @@ module.exports = {
 
     var rn = Math.floor(Math.random() * 999999) + 1
     var username = "rando" + String(rn);
-    Score.find().sort({score: 'desc'}).exec(function foundScores(err, scores) {
+    Score.find().where({game: "Chess"}).sort({score: 'desc'}).exec(function foundScores(err, scores) {
       if (err) {
         console.log(err);
         res.redirect('/');
