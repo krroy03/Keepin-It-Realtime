@@ -67,6 +67,20 @@ module.exports.routes = {
     controller: 'UserController',
     action: 'sendMessage'
   },
+
+  'make /room/:roomName/users':{
+    controller:'RoomController',
+    action: 'create'
+  },
+
+  'post /room/:roomId/users':{
+    controller:'RoomController',
+    action: 'join'
+  },
+  'delete /room/:roomId/users':{
+    controller: 'RoomController',
+    action: 'leave'
+  },
   /***************************************************************************
   *                                                                          *
   * Custom routes here...                                                    *

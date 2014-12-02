@@ -1,3 +1,7 @@
+var user_id = 0;
+var username = "";
+var curr_user = null;
+
 // Attach a listener which fires when a connection is established:
 io.socket.on('connect', function socketConnected() {
 
@@ -7,15 +11,33 @@ io.socket.on('connect', function socketConnected() {
 
     // Once we have a connected socket, start listening for other events.
 
-    // Listen for the "hello" event from the server, which will provide us
-    // with information about our user (data.me). Open the /config/sockets.js
-    // file to see where the "hello" event is emitted.
-    io.socket.on('hello', function(data) {
-      //window.me = data;
-      //updateMyName(data);
-      addUser();
+
+    /*if (req.session.user) {
+      User.findOne(req.session.user).then(function(user){
+        console.log("user");
+        console.log(user);
+      });
+    } else {
+      console.log("not user");
+    }*/
+    //addUser();
+    $.ajax({
+      type: "GET",
+      url : "/user/current_user_object",
+      data : {refresh: true},
+      dataType : "json",
+      success: function( user ){
+        console.log("User data", user);
+        console.log(user['user']);
+        user_id = user['user']['id'];
+        username = user['user']['username'];
+        addUser(user['user']);
+      }
     });
-    //updateMyName("rando");
+
+    //console.log("ajflkasjfklasjfkls");
+    //console.log(curr_user);
+    //addUser(curr_user);
 
     // Listen for the "room" event, which will be broadcast when something
     // happens to a room we're subscribed to.  See the "autosubscribe" attribute
@@ -69,17 +91,6 @@ io.socket.on('connect', function socketConnected() {
     // of the User model to see which messages will be broadcast by default
     // to subscribed sockets.
     io.socket.on('user', function messageReceived(req, message) {
-      /*var user_id = req.param('UserID');
-      if (user_id) {
-        User.findOne(user_id, function foundUser(err, user) {
-          if (err) {
-            console.log(err);
-          } else {
-            addUser(user);
-          }
-        });
-      }*/
-
       switch (message.verb) {
 
         // Handle user creation
