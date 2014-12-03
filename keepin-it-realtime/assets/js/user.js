@@ -1,28 +1,34 @@
+var user_id = 0;
 // Update the value in the user name input.
 function updateMyName(me) {
   $('#my-name').val(me.name == 'unknown' ? 'User #' + me.id : me.name);
 }
 
 // Update the current user's username
-function updateName(req) {
+function updateName() {
   // Use the Sails blueprint action to update the user
-  var user_id = req.param('UserID');
   io.socket.put('/user/'+user_id, {name: $('#my-name').val()});
 }
 
 // Add a user to the list of available users to chat with
-function addUser(req) {
-  //var username = req.param('username');
-
-  // Get a handle to the user list <select> element
-  var select = $('#users-list');
-
-  // Create a new <option> for the <select> with the new user's information
-  var option = $('<option id="'+"user-"+user.id+'" value="'+user.id+'">'+(user.name == "rando" ? "User #" + user.id : user.name)+'</option>');
-  //var option = $('<option id="'+"user-1"+" value="+user.id+'">'+(user.name == "rando" ? "User #" + user.id : user.name)+'</option>');
-
-  // Add the new <option> element
-  select.append(option);
+function addUser(user) {
+  $.ajax({
+        type: "GET",
+        url : "/user/current_user_object",
+        data : {refresh: true},
+        dataType : "json",
+        success: function( user ){
+          user_id = user['user']['id'];
+          var curr_user = user['user'];
+          // Get a handle to the user list <select> element
+          var select = $('#users-list');
+          // Create a new <option> for the <select> with the new user's information
+          var option = $('<option id="'+"user-"+curr_user.id+'" value="'+curr_user.id+'">'+curr_user.username+'</option>');
+          //var option = $('<option id="'+user.id+" value="+user.id+'">'+(user.name == "rando" ? "User #" + user.id : user.name)+'</option>');
+          // Add the new <option> element
+          select.append(option);
+        }
+      });
 }
 
 // Remove a user from the list of available users to chat with, by sending
@@ -54,9 +60,20 @@ function removeUser(user) {
 
 // Add multiple users to the users list.
 function updateUserList(users) {
-  //var user_id = req.param('UserID');
-  users.forEach(function(user) {
-    //if (user.id == user_id) {return;}
-    addUser(user);
+  $.ajax({
+    type: "GET",
+    url : "/user/current_user_object",
+    data : {refresh: true},
+    dataType : "json",
+    success: function( user ){
+      console.log("User data", user);
+      console.log(user['user']);
+      user_id = user['user']['id'];
+      users.forEach(function(user) {
+      if (user.id == user_id) {return;}
+        addUser(user['user']);
+      });
+    }
   });
+
 }

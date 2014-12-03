@@ -61,15 +61,20 @@ module.exports = {
           game: game_id,
           score: score
         }
-        Score.findOne().where({user: user_id}).exec(function (err, curr_score) {
+        Score.findOne().where({user: user_id, game: game_id}).exec(function (err, curr_score) {
           if (curr_score) {
-            curr_score.score = score;
+            if (game_id === "Chess") {
+              curr_score.score += score;
+            }
+            else {
+              curr_score.score = score;
+            }
             curr_score.save(function(error) {
               if(error) {
                   // do something with the error.
               } else {
                   // value saved!
-                res.redirect('/');
+                return res.redirect('/');
               }
             });
             console.log(curr_score);
@@ -93,7 +98,7 @@ module.exports = {
               // After successfully creating the user
               // redirect to the show action
               console.log(score);
-              res.redirect('/');
+              return res.redirect('/');
 
             });
           }
@@ -116,7 +121,7 @@ module.exports = {
 
     var rn = Math.floor(Math.random() * 999999) + 1
     var username = "rando" + String(rn);
-    Score.find().sort({score: 'desc'}).exec(function foundScores(err, scores) {
+    Score.find().where({game: "Platformer"}).sort({score: 'desc'}).limit(10).exec(function foundScores(err, scores) {
       if (err) {
         console.log(err);
         res.redirect('/');
@@ -148,7 +153,7 @@ module.exports = {
 
     var rn = Math.floor(Math.random() * 999999) + 1
     var username = "rando" + String(rn);
-    Score.find().sort({score: 'desc'}).exec(function foundScores(err, scores) {
+    Score.find().where({game: "Chess"}).sort({score: 'desc'}).limit(10).exec(function foundScores(err, scores) {
       if (err) {
         console.log(err);
         res.redirect('/');
