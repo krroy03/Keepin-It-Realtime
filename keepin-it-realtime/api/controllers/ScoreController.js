@@ -67,7 +67,9 @@ module.exports = {
               curr_score.score += score;
             }
             else {
-              curr_score.score = score;
+              if (score > curr_score.score) {
+                curr_score.score = score;
+              }
             }
             curr_score.save(function(error) {
               if(error) {
