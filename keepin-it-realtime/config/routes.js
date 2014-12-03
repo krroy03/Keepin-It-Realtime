@@ -55,6 +55,10 @@ module.exports.routes = {
     controller: 'ScoreController',
     action: 'chess'
   },
+  '/game/shooter': {
+    controller: 'ScoreController',
+    action: 'shooter'
+  },
   '/game/platformer': {
     controller: 'ScoreController',
     action: 'platformer'
