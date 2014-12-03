@@ -1,0 +1,109 @@
+<div class="container">
+  <div class="row">
+
+    <div class="col-md-4">
+      <div class="well well-lg">
+        <div class="pic">
+          <a href="#"><img src="/images/img/user_avatar.jpg" width="50" height="50" /></a>
+        </div>
+      
+        <h1><%= user.username %></h1>
+      </div>
+ <!--    </div>
+
+    <div class="col-md-4"> -->
+      <div class="row">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Friends</h3>
+          </div>
+          <div class="panel-body">
+            <div id="friendList" class="pre-scrollable y-scrollable">
+              <% if (friends){ %>
+              <% for (var u=0; u < friends.length; u++){ %>
+                  <a class="nodecoration" href="/message/<%= friends[u].id %>">
+                  <div class="row row-padding row-btn" > 
+                    
+                      <span class="username"><%= friends[u].username %></span>
+                    
+                  <br>
+                  
+                </div>
+                </a>
+                <% if (u<friends.length-1){ %>
+                  <hr>
+                <% } %>
+              <% } %>
+            <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <div class="row">
+        <div class="panel panel-default">
+          <div class="panel-heading" style = "padding-bottom:35px;">
+            <textarea class="form-control" rows="3" id = "messageArea"></textarea>
+            <div <% if (friendId==-1){ %> disabled='disabled' <% } %> class="btn btn-sm btn-info btn-right" data-toid = "<%= friendId %>" id='sendMessage'>Send</div>
+          </div>
+          <div class="text-center"><h1>Messages</h1></div>
+          <div class="panel-body">
+            <div id="friendList" class="pre-scrollable y-scrollable">
+              <% console.log("user = "+user) %>
+              <% if (user.messages && user.messages[friendId]){ %>
+              <% for (var u=0; u < user.messages[friendId].length; u++){ %>
+                <% var message = user.messages[friendId][u] %>
+                <div 
+                  <% if (message.from === user.username){ %>
+                    class="row row-padding messageFrom"
+                  <% } else { %>
+                    class="row row-padding messageTo"
+                  <% } %>
+                >
+                  <span class="messageFrom"><%= message.from %></span>
+                  <div class = "messageText">
+                    <%= message.text %>
+                  </div>
+                  <div class = "messageDate">
+                    <%= message.date %>
+                  </div>
+                  <br>
+                  <% if (u<user.messages[friendId].length-1){ %>
+                  <hr>
+                  <% } %>
+                </div>
+              <% } %>
+            <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<script>
+      
+  $(document).ready(function(){
+    $("#sendMessage").click(function(){
+      to = $(this).data('toid');
+      message = $("#messageArea").val()
+      if(message == "") alert('Please input a message')
+      else{
+        $.ajax({
+          type: "POST",
+          url: "/message/"+to,
+          data: {message: message},
+          success: function(){
+            console.log("messageSent")
+          }
+        });
+      }
+    });
+  });
+
+</script>
+

@@ -1,0 +1,21 @@
+.y-scrollable{
+	overflow-y: scroll;
+	overflow-x: hidden; 
+}
+
+.row-padding{
+	margin-right: 15px;
+	margin-left: 15px;
+}
+
+.btn-right{
+	float: right;
+}
+
+.row-btn:hover{
+	color: #5bc0de;
+}
+
+.nodecoration{
+	text-decoration: none !important;
+}

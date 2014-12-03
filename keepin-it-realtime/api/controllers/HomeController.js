@@ -9,29 +9,42 @@ module.exports = {
 
 
   index: function (req, res) {
-    console.log(req.session.user);
+    errors=[]
     if (req.session.user) {
+      allUsers=[]
+      allFriends=[]
+      allScores=[]
       User.findOne(req.session.user).then(function(user){
-        console.log("user");
-        console.log(user);
-        User.find().where({ username: { '!': user.username }}).exec(function(err, users){
-          if (err) allUsers = [];
-          else allUsers = users;
-          if (user.friends.length>0){
-            User.find().where({id: user.friends}).exec(function(err, friends){
-              if (err) friends = []
-              return res.view('index', {user: user, allUsers: allUsers, friends: friends});
+        if(!user){
+          console.log(user)
+          res.session.user = undefined
+          res.redirect('/')
+        }
+        else{
+          User.find().where({ username: { '!': user.username }}).exec(function(err, users){
+            if (err) errors += [err]
+            else allUsers = users;
+            Score.find().where({user: user.id}).exec(function(err, scores) {
+              if (err) errors += [err]
+              else allScores = scores
+
+              if (user.friends.length>0){
+                User.find().where({id: user.friends}).exec(function(err, friends){
+                  if (err) errors += [err]
+                  else allFriends = friends
+                  return res.view("index", {user: user, allUsers: allUsers, scores: allScores, friends: allFriends, errors: errors});
+                });
+              }
+              else return res.view("index", {user: user, allUsers: allUsers, scores: allScores, friends: allFriends, errors: errors});
             });
-          }
-          else return res.view('index', {user: user, allUsers: allUsers, friends:[]});
-        });
+          });
+        }
       });
     } else {
-      return res.view('index', {user: 'rando'});
+      return res.view('index', {user: 'rando', errors: errors});
     }
     //res.view('index');
   }
 
 
 };
-

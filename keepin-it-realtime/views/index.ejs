@@ -1,76 +1,152 @@
+<% if (errors.length>0) { %>
+  <% for (var e=0; e<errors.length; e++) { %>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="alert alert-dismissable alert-info">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <h4>Warning!</h4>
+        <p><%= errors[e] %></p>
+      </div> 
+    </div> 
+  </div>
+  <% } %>
+<% } %>
 <% if (!req.session.user) { %>
-<div class="container row">
-  <div class="half">
-    <h1>Login</h1>
-    <form action="/process" method="post">
-      <input type="text" name="username" placeholder="Username">
-      <input type="password" name="password" placeholder="Password">
-      <input class="btn" type="submit">
-    </form>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <form class="form-horizontal" method="post">
+        <fieldset>
+          <legend>Login</legend>
+          <div class="form-group">
+            <label for="inputUsername" class="col-lg-2 control-label">Username</label>
+            <div class="col-lg-10">
+              <input type="text" class="form-control" id="inputUsername" name="username" placeholder="Username">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword" class="col-lg-2 control-label">Password</label>
+            <div class="col-lg-10">
+              <input type="text" class="form-control" id="inputPassword" name="password" placeholder="Password">
+            </div>
+          </div>
+        <button type="submit" formaction="/process" class="btn btn-info">Submit</button>
+        <button type="submit" formaction="/user/create" class="btn btn-default">Signup</button>
+      </fieldset>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <h1>Guest</h1>
+      <a class="btn btn-info btn-lg" href="/game">Play Now</a>
+    </div>
+    <div class="clearfix"></div>
   </div>
-  <div class="half">
-    <h1>Guest</h1>
-    <a class="btn" href="/user/create">Play Now</a>
-  </div>
-  <div class="clearfix"></div>
-</div>
-<div class="container row">
-  <div class="half">
-    <h1>Signup</h1>
-    <form action="/user/create" method="post">
-      <input type="text" name="username" placeholder="Username">
-      <input type="password" name="password" placeholder="Password">
-      <input class="btn" type="submit">
-    </form>
-  </div>
-  <div class="clearfix"></div>
-</div>
 
 <% } else { %>
-    <div class="container row nomargintop">
-      <div class="half">
-        <div class="row fullWidth">
-          <h1> All Users </h1>
-          <div class="clearfix"></div>
-        </div>
-        <% if (allUsers){ %>
-          <% for (var u=0; u<allUsers.length; u++){ %>
-            <div class="row nomargintop fullWidth">
-              <span class="username"><%= allUsers[u].username %></span>
-              <% if (user.friends.indexOf(allUsers[u].id) === -1){ %>
-              <div class="addFriend btn floatright" data-name="<%= allUsers[u].username %>" id="<%= allUsers[u].id %>">Add Friend</div>
-              <% } else { %>
-              <div class="btn btn-disabled floatright" id="<%= allUsers[u].id %>">Friends</div>
-              <% } %>
-              <br>
-              <hr>
-            </div>
-          <% } %>
-      <% } %>
-      </div>
+    <div class="container">
+      <div class="row">
 
-      <div id='friendList' class = "half">
-        <div class="row fullWidth">
-          <h1> Friends </h1>
-          <div class="clearfix"></div>
-        </div>
-        <% if (friends){ %>
-          <% for (var u=0; u < friends.length; u++){ %>
-            <div class="row nomargintop fullWidth">
-              <div class="half">
-                <span class="username"><%= friends[u].username %></span>
-              </div>
-              <div class="half">
-                <a class="message btn floatright" data-name="<%= friends[u].username %>"  id="<%= friends[u].id %>">Message</a>
-              </div>
-              <div class="clearfix"></div>
-              <br>
-              <hr>
+        <div class="col-md-4">
+          <div class="well well-lg">
+            <div class="pic">
+              <a href="#"><img src="/images/img/user_avatar.jpg" width="150" height="150" /></a>
             </div>
-          <% } %>
-        <% } %>
-      </div>
+          
+            <h1><%= user.username %></h1>
+          </div>
+        </div>
 
+        <div class="col-md-4">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">High Scores</h3>
+            </div>
+            <div class="panel-body">
+              <div class="pre-scrollable y-scrollable">
+                <% if (scores){ %>
+                  <table class="table table-condensed">
+                    <tr>
+                      <th></th>
+                      <th>Score</th>
+                      <th>Date</th>
+                    </tr>
+                    <% for (var u=0; u < scores.length; u++){ %>
+                      <tr class="numbers clearfix">
+                        <td><%= scores[u].score %></td>
+                        <td id="score-<%= u %>">
+                          <script type="text/javascript">
+                            (function($){
+                              $(function(){
+                                $('#score-<%= u %>').html($.timeago("<%=scores[u].updatedAt%>"));
+                              }); // end of document ready
+                            })(jQuery); // end of jQuery name space
+                          </script>
+                        </td>
+                      </tr>
+                    <% } %>
+                  </table>                  
+                <% } %>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <div class="col-md-4">
+          <div class="row">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">Friends</h3>
+              </div>
+              <div class="panel-body">
+                <div id="friendList" class="pre-scrollable y-scrollable">
+                  <% if (friends){ %>
+                  <% for (var u=0; u < friends.length; u++){ %>
+                    <div class="row row-padding">
+                      <span class="username"><%= friends[u].username %></span>
+                      <a href="/message/<%= friends[u].id %>"><div class="message btn btn-success btn-sm btn-right" data-name="<%= friends[u].username %>"  id="<%= friends[u].id %>">Message</div></a>
+                      <br>
+                      <% if (u<friends.length-1){ %>
+                      <hr>
+                      <% } %>
+                    </div>
+                  <% } %>
+                <% } %>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">All Users</h3>
+              </div>
+              <div class="panel-body">
+                <div class="pre-scrollable y-scrollable">
+                  <% if (allUsers != undefined){ %>
+                  <% for (var u=0; u<allUsers.length; u++){ %>
+                    <div class="row row-padding">
+                      <span class="username"><%= allUsers[u].username %></span>
+                      <% if (user.friends.indexOf(allUsers[u].id) === -1){ %>
+                      <div class="addFriend btn btn-info btn-sm btn-right" data-name="<%= allUsers[u].username %>" id="<%= allUsers[u].id %>">Add Friend</div>
+                      <% } else { %>
+                      <div disabled="disabled" class="btn btn-sm btn-info btn-right" id="<%= allUsers[u].id %>">Friends...</div>
+                      <% } %>
+                      <br>
+                      <% if (u<allUsers.length-1){ %>
+                      <hr>
+                      <% } %>
+                    </div>
+                  <% } %>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        
+      </div>
     </div>
 
     <div id = "messageModalContainer" style = "display:none;">
@@ -89,7 +165,7 @@
       </div>
     </div>
 
-    <script type='text/javascript' src='/jquery.min.js'></script>
+    <script type='text/javascript' src='/js/dependencies/jquery.min.js'></script>
     <script>
       
       $(document).ready(function(){
@@ -114,10 +190,12 @@
         });
 
         function setMessageModal(el){
-          console.log($(el).data("name"));
-          $("#messageModalContainer").css("display", "block");
-          $("#to").html("To:"+$(el).data("name"));
-          $("#to").data("toid", $(el).attr('id'));
+          console.log($(el).attr("id"));
+          toFriend = $(el).attr("id")
+
+          // $("#messageModalContainer").css("display", "block");
+          // $("#to").html("To:"+$(el).data("name"));
+          // $("#to").data("toid", $(el).attr('id'));
         }
 
         $(".message").click(function(){
@@ -125,27 +203,26 @@
         })
 
         $('.addFriend').click(function(){
+          console.log('clicked add friend\n\n')
           userid = $(this).attr('id');
 
           $.ajax({
             type: "POST",
             url: "/addFriend/"+userid,
             success: function(id){
-
+              console.log('successfull POST\n\n')
               return function(){
                 var thisButton = $("#"+id);
 
-                thisButton.removeClass('addFriend').addClass('btn-disabled').html('Friends');
+                thisButton.removeClass('addFriend').attr('disabled','disabled').html('Friends...');
                 thisButton.unbind('click');
 
-                row = $("<div class='row nomargintop fullWidth'>");
-                firstcol = $("<div class='half'>");
+                row = $("<div class='row row-padding'>");
                 username = $("<span class='username'>");
 
                 username.html(thisButton.attr('data-name'));
 
-                secondcol = $("<div class='half'>");
-                message = $("<a class='message btn floatright'>")
+                message = $("<div class='message btn btn-success btn-sm btn-right'>")
                 message.attr('id', thisButton.attr('id'));
                 message.html('Message');
                 message.data("name", thisButton.attr('data-name'))
@@ -154,13 +231,13 @@
                 clearfix = $('<div class="clearfix">')
                 br = $("<br>");
                 hr = $("<hr>");
-                firstcol.append(username);
-                row.append(firstcol);
-                secondcol.append(message);
-                row.append(secondcol);
-                row.append(clearfix);
+
+               
+                
+                row.append(username);
+                row.append(message);
                 row.append(br);
-                row.append(hr);
+                if ($("#friendList").children().length>0) $("#friendList:last-child").append(hr);
                 $('#friendList').append(row);
               }
             }(userid)

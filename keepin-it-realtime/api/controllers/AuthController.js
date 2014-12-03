@@ -11,15 +11,13 @@ module.exports = {
   process: function(req, res){
     passport.authenticate('local', function(err, user, info) {
       if ((err) || (!user)) {
-        return res.send({
-        message: 'login failed'
-        });
-        res.send(err);
+
+        return res.view('index', {user: 'rando', errors: ["Incorrect username or password"] });
       }
       req.logIn(user, function(err) {
-        if (err) res.send(err);
+        if (err) return res.view('index', {user: 'rando', errors: ["Incorrect username or password"] });
         req.session.user = req.session.passport.user;
-        return res.redirect('/user/show/' + req.session.user);
+        return res.redirect('/');
       });
     })(req, res);
   },

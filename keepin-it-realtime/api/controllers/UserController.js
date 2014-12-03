@@ -27,7 +27,7 @@ module.exports = {
       }
 
       // If error redirect back to sign-up page
-      return res.redirect('/');
+      return res.view('index', {user: 'rando', errors: ["Please include a username"] });
     }
 
     if (!password) {
@@ -37,13 +37,13 @@ module.exports = {
       }
 
       // If error redirect back to sign-up page
-      return res.redirect('/');
+      return res.view('index', {user: 'rando', errors: ["Please include a password"] });
     }
 
     // If session has a user, dont create another
     if (session_user) {
       console.log("User already created", session_user);
-      res.redirect('/user/show/' + session_user);
+      res.redirect('/');
     }
 
     // Only create user if there is no session user
@@ -73,7 +73,7 @@ module.exports = {
           }
 
           // If error redirect back to sign-up page
-          return res.redirect('/');
+          return res.view('index', {user: 'rando', errors: ["Username already in use"] });
         }
         console.log("User created");
         req.session.user = user.id;
@@ -93,9 +93,9 @@ module.exports = {
             res.send(err);
           }
           req.logIn(user, function(err) {
-            if (err) res.send(err);
-            console.log(req.session.passport.user);
-            res.redirect('/user/show/' + user.id);
+            if (err) return res.redirect('/');
+            req.session.user = req.session.passport.user;
+            return res.redirect('/');
           });
         })(req, res);
 
@@ -175,7 +175,7 @@ module.exports = {
   },
 
   messages: function(req, res, next) {
-    if (req.user.id){
+    if (req.user && req.user.id){
       User.findOne(req.user.id, function foundUser(err, user) {
         if (err) return next(err);
         if (!user) return next();
@@ -232,25 +232,6 @@ module.exports = {
                 if (err) console.log(err)
               });
             }
-            // User.findOne()
-            //     .where({'id':req.params['id']})
-            //     .then(function(friend){
-            //       user.friends.add(friend.id);
-            //       user.save(function(err) {
-            //         if(err) {
-            //           // do something with the error.
-            //           errors += [err];
-            //           console.log('Save ERROR: ');
-            //           console.log(err);
-            //         }
-            //         else{
-            //           console.log('added friend saved!!!')
-            //         }
-            //       });
-            //     })
-            //     .fail(function(err){
-            //       console.log(err)
-            //     });
           });
     
     }
@@ -262,50 +243,68 @@ module.exports = {
 
   },
 
+  viewMessages: function(req, res){
+    if (req.session.user){
+      User.findOne(req.session.user).then(function(user){
+        if (!user) return res.redirect('/');
+
+        User.find().where({id: user.friends}).exec(function(err, friends){
+          if (err) friends = []
+          if (('id' in req.params) && req.params['id']){
+            friendId = req.params['id']
+          }
+          else{
+            friendId = -1
+          }
+          res.view('message/messages', {user: user, friends:friends, friendId: friendId})
+        });
+      });
+    }
+    else{
+      res.redirect('/');
+    }
+  },
 
   sendMessage: function(req, res){
     errors = []
     if (('id' in req.params) && (typeof(parseInt(req.params['id']))==='number')){
       toid = parseInt(req.params['id'])
-      User.findOne()
-          .where({'id': toid})
-          .then(function(user){
-            if (!user.messages[req.user.username]){
-              user.messages[req.user.username] = []
-            }
-            user.messages[req.user.username].push(req.body.message)
-            user.save(function(err){
-              if (err) console.log(err)
-            });
+      if (toid !== -1){
+        User.findOne()
+            .where({'id': toid})
+            .then(function(user){
+              if (!user) return res.redirect('/');
+              var message = {}
+              message.text = req.body.message;
+              message.to = user.username;
+              message.from = req.user.username;
+              message.date = new Date();
 
-            // if (user.friends.indexOf(friendId) === -1){
-            //   user.friends.push(friendId)
-            //   user.save(function(err){
-            //     if (err) console.log(err)
-            //     else console.log(user)
-            //   });
-            // }
-            // User.findOne()
-            //     .where({'id':req.params['id']})
-            //     .then(function(friend){
-            //       user.friends.add(friend.id);
-            //       user.save(function(err) {
-            //         if(err) {
-            //           // do something with the error.
-            //           errors += [err];
-            //           console.log('Save ERROR: ');
-            //           console.log(err);
-            //         }
-            //         else{
-            //           console.log('added friend saved!!!')
-            //         }
-            //       });
-            //     })
-            //     .fail(function(err){
-            //       console.log(err)
-            //     });
-          });
-    
+              if (!user.messages[req.user.id]){  // May cause trouble???
+                user.messages[req.user.id] = []
+              }
+              user.messages[req.user.id].push(message)
+              user.save(function(err){
+                if (err) console.log(err)
+                else {
+                  User.findOne(req.session.user)
+                    .then(function(sender){
+                      if (!sender.messages[user.id]){
+                        sender.messages[user.id] = []
+                      }
+                      sender.messages[user.id].push(message)
+                      sender.save(function(err){
+                        if (err) console.log(err)
+                        else console.log(sender)
+                      });
+                    });
+                }
+              });
+            });
+      }
+      else{
+        console.log('user attempting to send message to user.id=-1')
+      }
     }
     else{
       console.log('no id found in request')
@@ -314,6 +313,7 @@ module.exports = {
     res.send({success: true});
 
   },
+  
   /**
    * `UserController.subscribe()`
    */

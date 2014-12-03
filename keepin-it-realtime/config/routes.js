@@ -63,6 +63,10 @@ module.exports.routes = {
     controller: 'UserController',
     action: 'addFriend'
   },
+  'get /message/:id':{
+    controller: 'UserController',
+    action: 'viewMessages'
+  },
   'post /message/:id':{
     controller: 'UserController',
     action: 'sendMessage'
