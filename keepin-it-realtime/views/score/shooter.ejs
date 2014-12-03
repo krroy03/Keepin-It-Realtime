@@ -52,16 +52,16 @@ document.write('<script type="text\/javascript" src="' + unityObjectUrl + '"><\/
         break;
       }
     });
-    u.initPlugin(jQuery("#unityPlayer")[0], "/Unity_Deployment1.unity3d");
+    u.initPlugin(jQuery("#unityPlayer")[0], "/Shooter.unity3d");
   });
 -->
 </script>
 <script>
   $(function(){
-    var game = $("<iframe src='/templates/Unity_Deployment1.html'>");
+    var game = $("<iframe src='/templates/Shooter.html'>");
 
     $("#unityGame").append(game);
-    //load("/templates/Unity_Deployment1.html");
+    //load("/templates/Shooter.html");
   });
 </script>
 <div id="scoreboard" class="container">
