@@ -103,7 +103,7 @@
  <HintPath>C:/Program Files (x86)/Unity/Editor4.6/Data/UnityExtensions/Unity/GUISystem/4.6.0/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="ICSharpCode.SharpZipLib">
- <HintPath>C:/Users/Koganti/Documents/Unity Projects/15-437/Team94/Unity_EndlessTerrain/Assets/plugins/ICSharpCode.SharpZipLib.dll</HintPath>
+ <HintPath>C:/Users/Koganti/Documents/Unity Projects/15-437/Unity_EndlessTerrain/Assets/plugins/ICSharpCode.SharpZipLib.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

@@ -51,9 +51,11 @@ public class TerrainDisplayer : MonoBehaviour {
     public TerrainManager TerrainManager { get; set; }
     public PrefabManager PrefabManager { get; set; }
 
+	private MasterNetworking network;
     void Awake()
     {       
         Setup();
+		network = GameObject.FindGameObjectWithTag ("Network").GetComponent<MasterNetworking> ();
     }
 
     public void Setup()
@@ -171,8 +173,10 @@ public class TerrainDisplayer : MonoBehaviour {
         while (TerrainManager.VertexGen.CurrentTerrainRule != null && TerrainManager.GetFarthestX() < endX)
         {
             TerrainManager.Generate(endX);   
-            //Update our prefabs with the current terrain info       
-            PrefabManager.PlacePrefabs(TerrainManager);
+            //Update our prefabs with the current terrain info 
+			// only place prefabs if current player is the guy hosting the game
+			if (network.networked && !network.visitor) 
+            	PrefabManager.PlacePrefabs(TerrainManager);
 
             TerrainManager.Cleanup(leftSide.x - leadAmount);
             PrefabManager.Cleanup(leftSide.x - leadAmount);
