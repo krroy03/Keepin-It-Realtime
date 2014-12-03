@@ -52,7 +52,7 @@
               <a href="#"><img src="/images/img/user_avatar.jpg" width="150" height="150" /></a>
             </div>
           
-            <h1><%= user.username %></h1>
+            <h1 class="success" ><%= user.username %></h1>
           </div>
         </div>
 
@@ -75,11 +75,11 @@
                         <td><%= scores[u].score %></td>
                         <td id="score-<%= u %>">
                           <script type="text/javascript">
-                            (function($){
-                              $(function(){
-                                $('#score-<%= u %>').html($.timeago("<%=scores[u].updatedAt%>"));
-                              }); // end of document ready
-                            })(jQuery); // end of jQuery name space
+                            // (function($){
+                            //   $(function(){
+                            //     $('#score-<%= u %>').html($.timeago("<%=scores[u].updatedAt%>"));
+                            //   }); // end of document ready
+                            // })(jQuery); // end of jQuery name space
                           </script>
                         </td>
                       </tr>
@@ -162,7 +162,6 @@
               url: "/message/"+to,
               data: {message: message},
               success: function(){
-                $("#messageModalContainer").css("display", "none");
               }
             });
           }

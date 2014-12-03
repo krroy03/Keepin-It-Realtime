@@ -7,7 +7,7 @@
           <a href="#"><img src="/images/img/user_avatar.jpg" width="50" height="50" /></a>
         </div>
       
-        <h1><%= user.username %></h1>
+        <h1 class="success"><%= user.username %></h1>
       </div>
  <!--    </div>
 
@@ -54,14 +54,15 @@
               <% if (user.messages && user.messages[friendId]){ %>
               <% for (var u=0; u < user.messages[friendId].length; u++){ %>
                 <% var message = user.messages[friendId][u] %>
-                <div 
+               
                   <% if (message.from === user.username){ %>
-                    class="row row-padding messageFrom"
+                    <div class="row row-padding messageFrom">
+                    <span class="userFrom success"><%= message.from %></span>
                   <% } else { %>
-                    class="row row-padding messageTo"
+                    <div class="row row-padding messageTo">
+                    <span class="userFrom info"><%= message.from %></span>
                   <% } %>
-                >
-                  <span class="userFrom"><%= message.from %></span>
+                  
                   <div class = "messageText">
                     <%= message.text %>
                   </div>
@@ -90,7 +91,6 @@
     $("#sendMessage").click(function(){
       to = $(this).data('toid');
       message = $("#messageArea").val()
-      $("messageArea").val("")
       if(message == "") alert('Please input a message')
       else{
         console.log('making post')
@@ -100,11 +100,13 @@
           data: {message: message},
           success: function(){
             console.log('successful post')
+            $("#messageArea").val('')
+            console.log('successful post 2')
             if ($("#messageList").children().length>0) $("#messageList").append($("<hr>"));
 
 
             var row = $('<div class="row row-padding messageFrom">')
-            var userFrom = $('<span class="userFrom">')
+            var userFrom = $('<span class="userFrom info">')
             userFrom.html("<%= user.username %>")
             var messageText = $('<div class = "messageText">')
             messageText.html(message)

@@ -16,10 +16,21 @@
 	color: #5bc0de;
 }
 
-.row-btn-active{
+.row-btn-active, .info{
 	color: #5bc0de;
+}
+.success{
+	color: #62c462;
 }
 
 .nodecoration{
 	text-decoration: none !important;
+}
+
+.messageFrom{
+	text-align: right;
+}
+
+.messageTo{
+	text-align: left;
 }

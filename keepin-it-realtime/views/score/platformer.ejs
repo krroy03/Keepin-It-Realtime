@@ -11,8 +11,8 @@ document.write('<script type="text\/javascript" src="' + unityObjectUrl + '"><\/
 <script type="text/javascript">
 <!--
   var config = {
-    width: 960,
-    height: 600,
+    width: 720,
+    height: 450,
     params: { enableDebugging:"0" }
 
   };
@@ -64,53 +64,79 @@ document.write('<script type="text\/javascript" src="' + unityObjectUrl + '"><\/
     //load("/templates/Unity_Deployment1.html");
   });
 </script>
-<div id="scoreboard" class="container">
-<h1>Scoreboard</h1>
-<% scores.forEach(function(score)  { %>
-  <div class="bar">
-    <h4><%= score.username %></h4>
-    <p><%= score.score %> </p>
-  </div>
-<% }); %>
-</div>
 
-<div id="game" class="container row">
-  <div class="content">
-    <div id="unityPlayer">
-      <div class="missing">
-        <a href="http://unity3d.com/webplayer/" title="Unity Web Player. Install now!">
-          <img alt="Unity Web Player. Install now!" src="http://webplayer.unity3d.com/installation/getunity.png" width="193" height="63" />
-        </a>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-2">
+      <div id="nameInput" class="row">
+        <div>
+            My name: <input type="text" id="my-name"> <button id="update-name">Update</button>
+        </div>
+     </div> 
+      <div id="usersOnline" class="row">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Users online</h3>
+          </div>
+          <div class="panel-body">
+            <div id="usersOnlineList" class="pre-scrollable y-scrollable">
+
+            </div> 
+          </div>
+        </div>
       </div>
-      <div class="broken">
-        <a href="http://unity3d.com/webplayer/" title="Unity Web Player. Install now! Restart your browser after install.">
-          <img alt="Unity Web Player. Install now! Restart your browser after install." src="http://webplayer.unity3d.com/installation/getunityrestart.png" width="193" height="63" />
-        </a>
+
+      <div id="Chatrooms" class="row">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Chat rooms</h3>
+          </div>
+          <div class="panel-body">
+            <select id="rooms-list" size="5"></select>
+            <button id="join-room">Join selected room</button>
+            <button id="new-room">Start a new room</button>
+            <div id="rooms"></div>
+            <div id="disconnect" style="display:none">Waiting for reconnect...</div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  <p class="footer">&laquo; created with <a href="http://unity3d.com/unity/" title="Go to unity3d.com">Unity</a> &raquo;</p>
-</div>
 
+    <div id="game" class="col-md-8">
+      <div class="content">
+        <div id="unityPlayer">
+          <div class="missing">
+            <a href="http://unity3d.com/webplayer/" title="Unity Web Player. Install now!">
+              <img alt="Unity Web Player. Install now!" src="http://webplayer.unity3d.com/installation/getunity.png" width="193" height="63" />
+            </a>
+          </div>
+          <div class="broken">
+            <a href="http://unity3d.com/webplayer/" title="Unity Web Player. Install now! Restart your browser after install.">
+              <img alt="Unity Web Player. Install now! Restart your browser after install." src="http://webplayer.unity3d.com/installation/getunityrestart.png" width="193" height="63" />
+            </a>
+          </div>
+        </div>
+      </div>
+      <p class="footer">&laquo; created with <a href="http://unity3d.com/unity/" title="Go to unity3d.com">Unity</a> &raquo;</p>
+    </div>
+    <div id="Scoreboard" class="col-md-2">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Scoreboard</h3>
+        </div>
+        <div class="panel-body">
+          <div id="scoreboardList" class="pre-scrollable y-scrollable"> 
+            <% scores.forEach(function(score)  { %>
+              <div class="bar">
+                <h4><%= score.username %></h4>
+                <p><%= score.score %> </p>
+              </div>
+            <% }); %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> <!-- row -->
 
-<center>
-<div id="main">
-  <div>
-      My name: <input type="text" id="my-name"> <button id="update-name">Update</button>
-  </div>
-  <h1>Users online</h1>
-  <div>
-      <select id="users-list" size="9"></select>
-      <!-- button id="private-msg-button">Send private message to selected user</button -->
-      <div id="convos"></div>
-  </div>
-  <h1>Chat rooms</h1>
-  <div>
-      <select id="rooms-list" size="5"></select>
-      <button id="join-room">Join selected room</button>
-      <button id="new-room">Start a new room</button>
-      <div id="rooms"></div>
-  </div>
-</div>
-<div id="disconnect" style="display:none">Waiting for reconnect...</div>
-</center>
+</div> <!-- container -->
