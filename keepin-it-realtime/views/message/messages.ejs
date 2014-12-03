@@ -22,7 +22,7 @@
               <% if (friends){ %>
               <% for (var u=0; u < friends.length; u++){ %>
                   <a class="nodecoration" href="/message/<%= friends[u].id %>">
-                  <div class="row row-padding row-btn" > 
+                  <div class="row row-padding row-btn <% if (friendId == friends[u].id){ %> row-btn-active <% } %>" > 
                     
                       <span class="username"><%= friends[u].username %></span>
                     
@@ -50,8 +50,7 @@
           </div>
           <div class="text-center"><h1>Messages</h1></div>
           <div class="panel-body">
-            <div id="friendList" class="pre-scrollable y-scrollable">
-              <% console.log("user = "+user) %>
+            <div id="messageList" class="pre-scrollable y-scrollable">
               <% if (user.messages && user.messages[friendId]){ %>
               <% for (var u=0; u < user.messages[friendId].length; u++){ %>
                 <% var message = user.messages[friendId][u] %>
@@ -62,7 +61,7 @@
                     class="row row-padding messageTo"
                   <% } %>
                 >
-                  <span class="messageFrom"><%= message.from %></span>
+                  <span class="userFrom"><%= message.from %></span>
                   <div class = "messageText">
                     <%= message.text %>
                   </div>
@@ -93,11 +92,28 @@
       message = $("#messageArea").val()
       if(message == "") alert('Please input a message')
       else{
+        console.log('making post')
         $.ajax({
           type: "POST",
           url: "/message/"+to,
           data: {message: message},
           success: function(){
+            console.log('successful post')
+            if ($("#messageList").children().length>0) $("#messageList").append($("<hr>"));
+
+
+            var row = $('<div class="row row-padding messageFrom">')
+            var userFrom = $('<span class="userFrom">')
+            var messageText = $('<div class = "messageText">')
+            messageText.html(message)
+            var messageDate = $('<div class = "messageDate">')
+            messageDate.html(new Date())
+          
+            row.append(userFrom)
+            row.append(messageText)
+            row.append(messageDate)
+            $("#messageList").append(row)
+
             console.log("messageSent")
           }
         });

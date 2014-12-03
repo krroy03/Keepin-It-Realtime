@@ -289,13 +289,13 @@ module.exports = {
                 else {
                   User.findOne(req.session.user)
                     .then(function(sender){
+                      if(!sender) return res.redirect('message/'+user.id)
                       if (!sender.messages[user.id]){
                         sender.messages[user.id] = []
                       }
                       sender.messages[user.id].push(message)
                       sender.save(function(err){
                         if (err) console.log(err)
-                        else console.log(sender)
                       });
                     });
                 }
@@ -309,9 +309,7 @@ module.exports = {
     else{
       console.log('no id found in request')
     }
-
-    res.send({success: true});
-
+    res.send({'success':true})
   },
   
   /**
