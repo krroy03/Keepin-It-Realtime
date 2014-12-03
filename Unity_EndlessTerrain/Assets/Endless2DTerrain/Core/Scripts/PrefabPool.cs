@@ -24,7 +24,7 @@ namespace Endless2DTerrain
             if (prefabToAdd == null){
                 //Let's create a new one
                 prefabToAdd = new PrefabQueue();
-                GameObject prefab = (GameObject)GameObject.Instantiate(prefabToClone, position, new Quaternion());
+                GameObject prefab = (GameObject)Network.Instantiate(prefabToClone, position, new Quaternion(), 0);
                 prefab.name = prefabToClone.name;
                 if (angle != 0 && matchGroundAngle){
                      prefab.transform.localEulerAngles = new Vector3(0, 0, angle);

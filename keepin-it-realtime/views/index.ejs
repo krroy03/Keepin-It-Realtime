@@ -149,27 +149,10 @@
       </div>
     </div>
 
-    <div id = "messageModalContainer" style = "display:none;">
-      <div id = "mask" style = "position:fixed;top:0px;bottom:0px;left:0px;right:0px;background:rgba(255, 255, 255, .5)">
-      </div>
-      <div id = "messageModal">
-        <div id="to">
-        </div>
-        <textarea id = "messageArea"></textarea>
-        <button class="btn" id = "closeMessageContainer">
-          Close
-        </button>
-        <button class="btn" id = "sendMessage">
-          Send
-        </button>
-      </div>
-    </div>
-
-    <script type='text/javascript' src='/js/dependencies/jquery.min.js'></script>
     <script>
       
       $(document).ready(function(){
-        $("#sendMessage").click(function(){
+        $(".message").click(function(){
           to = $("#to").data('toid');
           message = $("#messageArea").val()
           if(message == "") alert('Please input a message')
@@ -185,18 +168,8 @@
           }
         });
 
-        $("#closeMessageContainer").click(function(){
-          $("#messageModalContainer").css("display", "none");
-        });
+        
 
-        function setMessageModal(el){
-          console.log($(el).attr("id"));
-          toFriend = $(el).attr("id")
-
-          // $("#messageModalContainer").css("display", "block");
-          // $("#to").html("To:"+$(el).data("name"));
-          // $("#to").data("toid", $(el).attr('id'));
-        }
 
         $(".message").click(function(){
           setMessageModal(this);
@@ -221,21 +194,20 @@
                 username = $("<span class='username'>");
 
                 username.html(thisButton.attr('data-name'));
-
+                href = $('<a>');
+                href.attr('href', "/message/"+id)
                 message = $("<div class='message btn btn-success btn-sm btn-right'>")
                 message.attr('id', thisButton.attr('id'));
                 message.html('Message');
                 message.data("name", thisButton.attr('data-name'))
-                message.click(function(){
-                  setMessageModal(this)});
                 clearfix = $('<div class="clearfix">')
                 br = $("<br>");
                 hr = $("<hr>");
 
                
-                
+                href.append(message);
                 row.append(username);
-                row.append(message);
+                row.append(href);
                 row.append(br);
                 if ($("#friendList").children().length>0) $("#friendList:last-child").append(hr);
                 $('#friendList').append(row);

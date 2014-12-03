@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿  using UnityEngine;
 using System.Collections;
 
 public class MasterNetworking : MonoBehaviour
@@ -22,6 +22,7 @@ public class MasterNetworking : MonoBehaviour
 				visitor = false;
 				showHosts = false;
 				leaderPos = Vector3.zero;
+
 		}
 
 		private bool spawned = false;
