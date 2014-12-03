@@ -90,6 +90,7 @@
     $("#sendMessage").click(function(){
       to = $(this).data('toid');
       message = $("#messageArea").val()
+      $("messageArea").val("")
       if(message == "") alert('Please input a message')
       else{
         console.log('making post')
@@ -104,6 +105,7 @@
 
             var row = $('<div class="row row-padding messageFrom">')
             var userFrom = $('<span class="userFrom">')
+            userFrom.html("<%= user.username %>")
             var messageText = $('<div class = "messageText">')
             messageText.html(message)
             var messageDate = $('<div class = "messageDate">')
