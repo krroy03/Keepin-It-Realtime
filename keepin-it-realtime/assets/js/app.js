@@ -1,9 +1,13 @@
-var user_id = 0;
-var username = "";
-var curr_user = null;
+/**
+ * app.js
+ *
+ * Front-end code and event handling for sailsChat
+ *
+ */
+
 
 // Attach a listener which fires when a connection is established:
-io.socket.on('connect', function socketConnected() {
+io.socket.on('connect', function socketConnected(data) {
 
     // Show the main UI
     $('#disconnect').hide();
@@ -11,33 +15,13 @@ io.socket.on('connect', function socketConnected() {
 
     // Once we have a connected socket, start listening for other events.
 
-
-    /*if (req.session.user) {
-      User.findOne(req.session.user).then(function(user){
-        console.log("user");
-        console.log(user);
-      });
-    } else {
-      console.log("not user");
-    }*/
-    //addUser();
-    $.ajax({
-      type: "GET",
-      url : "/user/current_user_object",
-      data : {refresh: true},
-      dataType : "json",
-      success: function( user ){
-        console.log("User data", user);
-        console.log(user['user']);
-        user_id = user['user']['id'];
-        username = user['user']['username'];
-        addUser(user['user']);
-      }
-    });
-
-    //console.log("ajflkasjfklasjfkls");
-    //console.log(curr_user);
-    //addUser(curr_user);
+    // Listen for the "hello" event from the server, which will provide us
+    // with information about our user (data.me). Open the /config/sockets.js
+    // file to see where the "hello" event is emitted.
+    /*io.socket.on('hello', function(data) {
+      window.me = data;
+      updateMyName(data);
+    });*/
 
     // Listen for the "room" event, which will be broadcast when something
     // happens to a room we're subscribed to.  See the "autosubscribe" attribute
@@ -90,7 +74,8 @@ io.socket.on('connect', function socketConnected() {
     // happens to a user we're subscribed to.  See the "autosubscribe" attribute
     // of the User model to see which messages will be broadcast by default
     // to subscribed sockets.
-    io.socket.on('user', function messageReceived(req, message) {
+    io.socket.on('user', function messageReceived(message) {
+
       switch (message.verb) {
 
         // Handle user creation
@@ -136,7 +121,7 @@ io.socket.on('connect', function socketConnected() {
 
     // Get the current list of users online.  This will also subscribe us to
     // update and destroy events for the individual users.
-    io.socket.get('/user', updateUserList);
+    //io.socket.get('/user', updateUserList);
 
     // Get the current list of chat rooms. This will also subscribe us to
     // update and destroy events for the individual rooms.
@@ -148,7 +133,7 @@ io.socket.on('connect', function socketConnected() {
 
     // Add a click handler for the "Send private message" button
     // startPrivateConversation() is defined in private_message.js.
-    /*$('#private-msg-button').click(startPrivateConversation);*/
+    //$('#private-msg-button').click(startPrivateConversation);
 
     // Add a click handler for the "Join room" button
     // joinRoom() is defined in public_message.js.

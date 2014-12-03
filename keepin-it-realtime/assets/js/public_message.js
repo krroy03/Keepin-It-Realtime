@@ -1,5 +1,4 @@
-var user_id = 0;
-
+var user_id = 45;
 // Create the HTML to hold a public, multi-user chat room
 function createPublicRoom(room) {
 
@@ -45,19 +44,9 @@ function onClickSendPublicMessage(e) {
   var message = $('#room-message-'+roomId).val();
   $('#room-message-'+roomId).val("");
 
-
   // Add this message to the room
-  $.ajax({
-      type: "GET",
-      url : "/user/current_user_object",
-      data : {refresh: false},
-      dataType : "json",
-      success: function( user ){
-        user_id = user['user']['id'];
-      }
-    });
-
   addMessageToChatRoom(user_id, roomId, message);
+
   // Send the message
   io.socket.post('/chat/public', {room: roomId, msg: message});
 
@@ -72,22 +61,12 @@ function addMessageToChatRoom(senderId, roomId, message) {
     return postStatusMessage(roomName, message);
   }
 
-
-  $.ajax({
-      type: "GET",
-      url : "/user/current_user_object",
-      data : {refresh: false},
-      dataType : "json",
-      success: function( user ){
-        user_id = user['user']['id'];
-      }
-  });
   var fromMe = senderId == user_id;
   var senderName = fromMe ? "Me" : $('#user-'+senderId).text();
   var justify = fromMe ? 'right' : 'left';
 
   var div = $('<div style="text-align:'+justify+'"></div>');
-  div.html('<strong>'+senderName+'</strong>: '+message+'<br>');
+  div.html('<strong>'+senderName+'</strong>: '+message);
   $('#'+roomName).append(div);
 
 }
@@ -107,7 +86,7 @@ function receiveRoomMessage(data) {
 }
 
 // Join the room currently selected in the list
-function joinRoom(req) {
+function joinRoom() {
 
   // Get the room list
   var select = $('#rooms-list');
@@ -125,17 +104,18 @@ function joinRoom(req) {
   createPublicRoom({id:roomId, name:roomName});
 
   // Join the room
-
   $.ajax({
-      type: "GET",
-      url : "/user/current_user_object",
-      data : {refresh: true},
-      dataType : "json",
-      success: function( user ){
-        user_id = user['user']['id'];
-      }
-    });
-  io.socket.post('/room/'+roomId+'/users', {id: user_id});
+    type: "GET",
+    url : "/user/current_user_object",
+    data : {refresh: true},
+    dataType : "json",
+    success: function( user ){
+      console.log("User data", user);
+      console.log(user['user']);
+      user_id = user['user']['id'];
+      io.socket.post('/room/'+roomId+'/users', {id: user_id});
+    }
+  });
 
   // Update the room user count
   increaseRoomCount(roomId);
