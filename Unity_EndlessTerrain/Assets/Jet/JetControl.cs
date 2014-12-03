@@ -65,7 +65,9 @@ public class JetControl : MonoBehaviour
 					
 						barDisplay = health / 100.0f;
 
-			}
+				} else {
+			inputMovement ();
+				}
 			
 				
 		}
