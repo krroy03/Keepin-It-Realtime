@@ -127,9 +127,9 @@ document.write('<script type="text\/javascript" src="' + unityObjectUrl + '"><\/
         </div>
         <div class="panel-body">
           <div id="scoreboardList" class="pre-scrollable y-scrollable"> 
-            <% scores.forEach(function(score)  { %>
+            <% scores.forEach(function(score, index)  { %>
               <div class="bar">
-                <h4><%= score.username %></h4>
+                <h4><%= index %> &nbsp;<%= score.username %></h4>
                 <p><%= score.score %> </p>
               </div>
             <% }); %>
