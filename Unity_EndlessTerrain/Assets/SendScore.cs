@@ -6,7 +6,7 @@ using SimpleJSON;
 public class SendScore : MonoBehaviour {
 
 	//The URL to the server - In our case localhost with port number 1337
-	private string url = "http://localhost:1337/";
+	private string url = "http://104.131.44.242/";
 
 	private int score = 0;
 	private JetControl control;
