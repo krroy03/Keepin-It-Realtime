@@ -13,9 +13,9 @@ function createPublicRoom(room) {
   var roomDiv = $('<div id="'+roomName+'"></div>');
 
   // Create the HTML for the room
-  var roomHTML = '<h2>Chat room &ldquo;'+room.name+'&rdquo; <button id="leave-room-button-'+room.id+'">Leave Room</button></h2>\n' +
+  var roomHTML = '<h2>Chat room &ldquo;'+room.name+'&rdquo; <button class="btn btn-primary" id="leave-room-button-'+room.id+'">Leave Room</button></h2>\n' +
                  '<div id="room-messages-'+room.id+'" style="width: 50%; height: 150px; overflow: auto; border: solid 1px #666; padding: 5px; margin: 5px"></div>'+
-                 '<input id="room-message-'+room.id+'"/> <button id="room-button-'+room.id+'">Send message</button">';
+                 '<input class="form-control" id="room-message-'+room.id+'"/> <button class="btn btn-primary" id="room-button-'+room.id+'">Send message</button">';
 
   roomDiv.html(roomHTML);
 
@@ -91,6 +91,7 @@ function addMessageToChatRoom(senderId, sender_name, roomId, message) {
       var div = $('<div style="text-align:'+justify+'"></div>');
       div.html('<strong>'+senderName+'</strong>: '+message);
       $('#'+roomName).append(div);
+      $('#'+roomName).scrollTop($('#'+roomName)[0].scrollHeight);
 
     }
   });
