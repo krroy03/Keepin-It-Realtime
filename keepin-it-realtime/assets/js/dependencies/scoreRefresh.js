@@ -3,8 +3,8 @@
 
 
     function renderScores(data) {
-      var scoreboard = $('#scoreboard');
-      scoreboard.find('*').not('h1').remove();
+      var scoreboard = $('#scoreboardList');
+      scoreboard.find('*').remove();
       
       $.each(data.scores, function( i, val ) {
         var bar = $('<div class="bar"></div>');
