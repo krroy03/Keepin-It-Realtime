@@ -7,7 +7,7 @@ public class JetControl : MonoBehaviour
 		private Transform jet;
 		private float upperBound;
 		private float lowerBound;
-		public float jetSpeed = 0.25f;
+		public float jetSpeed = 1f;
 		private float oldSpeed = 0f;
 		public float rotationSpeed = 10.0f;
 		private bool rotated = false;
@@ -24,6 +24,7 @@ public class JetControl : MonoBehaviour
 		public Vector2 size = new Vector2 (60, 20);
 		public Texture2D emptyTex;
 		public Texture2D fullTex;
+		private Animator anim;					// Reference to the player's animator component.
 
 		// jet has a score 
 		// score increases the further jet gets without being destroyed. 
@@ -33,13 +34,14 @@ public class JetControl : MonoBehaviour
 		void Start ()
 		{
 				jet = this.transform;
-				upperBound = 7.5f;
-				lowerBound = -7.5f;	
+				upperBound = 18f;
+				lowerBound = -23f;	
 				rotated = false;
 				collided = false;
 				networked = false;
 				jetBody = this.GetComponent<Rigidbody> ();
 				network = GameObject.FindGameObjectWithTag ("Network").GetComponent<MasterNetworking> ();
+				anim = GetComponent<Animator>();
 				
 				fullTex = new Texture2D (60, 20);
 				// Fill the texture with Sierpinski's fractal pattern!
@@ -56,6 +58,10 @@ public class JetControl : MonoBehaviour
 		// Update is called once per frame
 		void Update ()
 		{		
+		if (jetSpeed < 1f)
+						jetSpeed += .01f;
+				else if (jetSpeed > 1f)
+						jetSpeed = 1f;
 				networked = network.networked;
 				if (networked && networkView.isMine) {
 						inputMovement ();
@@ -134,32 +140,48 @@ public class JetControl : MonoBehaviour
 
 		void OnTriggerEnter (Collider col)
 		{
-				if (col.CompareTag ("Bullet") && health > 0) {
-						// if hits missle, lose hp
-						health -= 10.0f;
-						print (health);
-			score -= 500;
-				}
-		}
-
-		void OnCollisionEnter (Collision col)
+			if (col.CompareTag ("HealthPickup")) {
+				// if hits missle, lose hp
+				if (health<=50) health += 50.0f;
+				else health = 100.0f;
+				Debug.Log(health);
+				score += 1500;
+			}
+			else if (col.CompareTag ("ShieldPickup")) {
+				anim.SetBool("Shield", true);
+			}
+	}
+	
+	void OnCollisionEnter (Collision col)
 		{
 				if (networkView.isMine) {
 						if (col.collider.CompareTag ("Player")) {
 								jet.collider.isTrigger = true;
 								// pass through other players
 						} else {
+						if (anim.GetBool("Shield")) anim.SetBool("Shield", false);
+						else{
 								collided = true;
 								jetBody.isKinematic = true;
 								oldSpeed = jetSpeed;
 								jetSpeed = 0.001f;
+							}
 						}
 		
 						
 				}
-		}
-
-		void OnCollisionExit (Collision col)
+				if (col.collider.CompareTag ("Bullet") && health > 0) {
+					// if hits missle, lose hp
+					if (anim.GetBool("Shield")) anim.SetBool("Shield", false);
+					else{
+						health -= 10.0f;
+						Debug.Log(health);
+						score -= 500;
+					}
+				}
+	}
+	
+	void OnCollisionExit (Collision col)
 		{
 				if (networkView.isMine) {
 						if (col.collider.CompareTag ("Player")) {

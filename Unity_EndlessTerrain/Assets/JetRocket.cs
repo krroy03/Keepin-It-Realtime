@@ -14,7 +14,6 @@ public class JetRocket : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log (Time.time);
 		if (Time.time - startTime > 2.0f) 
 			
 			Destroy (this.gameObject);
@@ -36,12 +35,15 @@ public class JetRocket : MonoBehaviour {
 						OnExplode ();
 						Destroy (col.gameObject);
 						Destroy (this.gameObject);
-				} else if (col.collider.CompareTag ("Bullet")) {
+		} else if (col.collider.CompareTag ("Bullet")) {
 			OnExplode ();
 			Destroy (col.gameObject);
 			Destroy (this.gameObject);
 				}
-
+		else if (col.collider.CompareTag("Player")) {
+			OnExplode ();
+			Destroy (this.gameObject);
+		}
 	}
 	
 }
