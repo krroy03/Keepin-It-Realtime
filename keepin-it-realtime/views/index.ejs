@@ -66,20 +66,21 @@
                 <% if (scores){ %>
                   <table class="table table-condensed">
                     <tr>
-                      <th></th>
+                      <th>Game</th>
                       <th>Score</th>
                       <th>Date</th>
                     </tr>
                     <% for (var u=0; u < scores.length; u++){ %>
-                      <tr class="numbers clearfix">
+                      <tr class="numbers">
+                        <td><%= scores[u].game %></td>
                         <td><%= scores[u].score %></td>
                         <td id="score-<%= u %>">
                           <script type="text/javascript">
-                            // (function($){
-                            //   $(function(){
-                            //     $('#score-<%= u %>').html($.timeago("<%=scores[u].updatedAt%>"));
-                            //   }); // end of document ready
-                            // })(jQuery); // end of jQuery name space
+                            (function($){
+                              $(function(){
+                                $('#score-<%= u %>').html($.timeago("<%=scores[u].updatedAt%>"));
+                              }); // end of document ready
+                            })(jQuery); // end of jQuery name space
                           </script>
                         </td>
                       </tr>
@@ -102,7 +103,7 @@
                   <% if (friends){ %>
                   <% for (var u=0; u < friends.length; u++){ %>
                     <div class="row row-padding">
-                      <span class="username"><%= friends[u].username %></span>
+                      <a href="/user/show/<%= friends[u].id %>"><span class="username"><%= friends[u].username %></span></a>
                       <a href="/message/<%= friends[u].id %>"><div class="message btn btn-success btn-sm btn-right" data-name="<%= friends[u].username %>"  id="<%= friends[u].id %>">Message</div></a>
                       <br>
                       <% if (u<friends.length-1){ %>
@@ -126,7 +127,7 @@
                   <% if (allUsers != undefined){ %>
                   <% for (var u=0; u<allUsers.length; u++){ %>
                     <div class="row row-padding">
-                      <span class="username"><%= allUsers[u].username %></span>
+                      <a href="/user/show/<%= allUsers[u].id %>"><span class="username"><%= allUsers[u].username %></span></a>
                       <% if (user.friends.indexOf(allUsers[u].id) === -1){ %>
                       <div class="addFriend btn btn-info btn-sm btn-right" data-name="<%= allUsers[u].username %>" id="<%= allUsers[u].id %>">Add Friend</div>
                       <% } else { %>

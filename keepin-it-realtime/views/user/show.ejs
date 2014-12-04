@@ -1,73 +1,198 @@
-<!-- <header>
-    <div class="wrapper">
-      <a href="#"><img src="" title="keepin' it realtime" /></a>
+<% if (errors.length>0) { %>
+  <% for (var e=0; e<errors.length; e++) { %>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="alert alert-dismissable alert-info">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <h4>Warning!</h4>
+        <p><%= errors[e] %></p>
+      </div> 
+    </div> 
+  </div>
+  <% } %>
+<% } %>
 
-      <span id="usernav"><a href="#">Logout</a> - <a href="#">Settings</a> - <a href="#">My Profile<span><img src=""/></span></a></span>
-    </div>
-  </header>
+    <div class="container">
+      <div class="row">
 
-  <nav>
-    <ul id="n" class="clearfix">
-      <li><a href="#">Home</a></li>
-      <li class="sel"><a href="#">Account</a></li>
-    </ul>
-  </nav> -->
-
-  <div class="container clearfix">
-    <section id="left">
-      <div id="userStats" class="clearfix">
-        <div class="pic">
-          <a href="#"><img src="/images/img/user_avatar.jpg" width="150" height="150" /></a>
+        <div class="col-md-4">
+          <div class="well well-lg">
+            <div class="pic">
+              <a href="#"><img src="/images/img/user_avatar.jpg" width="150" height="150" /></a>
+            </div>
+          
+            <h1 class="success" ><%= user.username %></h1>
+          </div>
         </div>
 
-        <div class="data">
-          <h1><%= user.username %></h1>
-          <div class="sep"></div>
-          <h2>Stats</h2>
-
-          <% if (scores){ %>
-            <% for (var u=0; u < scores.length; u++){ %>
-
-              <ul class="numbers clearfix">
-                <li>Points<strong><%= scores[u].score %></strong></li>
-                <li class="nobrdr">Date<strong class="score-<%= u %>">
-                  <script type="text/javascript">
-                    (function($){
-                      $(function(){
-                        $('.score-<%= u %>').html($.timeago("<%=scores[u].updatedAt%>"));
-                      }); // end of document ready
-                    })(jQuery); // end of jQuery name space
-                  </script>
-                </strong></li>
-              </ul>
-              
-
-            <% } %>
-          <% } %>
-
-        </div>
-      </div>
-
-      <h1>About Me:</h1>
-      <p>This is a profile page</p>
-    </section>
-
-    <section id="right">
-      <div class="gcontent">
-        <div class="head"><h1>Friends</h1></div>
-        <div class="boxy">
-          <div class="friendslist clearfix">
-          <% if (friends){ %>
-            <% for (var u=0; u < friends.length; u++){ %>
-              <div class="friend">
-                <a href="#"><img src="/images/img/friend_avatar_default.jpg" width="60" height="60" alt="User 1" /></a><span class="friendly"><a href="/user/show/<%= friends[u].id %>"><%= friends[u].username %></a></span>
+        <div class="col-md-4">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">High Scores</h3>
+            </div>
+            <div class="panel-body">
+              <div class="pre-scrollable y-scrollable">
+                <% if (scores){ %>
+                  <table class="table table-condensed">
+                    <tr>
+                      <th>Game</th>
+                      <th>Score</th>
+                      <th>Date</th>
+                    </tr>
+                    <% for (var u=0; u < scores.length; u++){ %>
+                      <tr class="numbers">
+                        <td><%= scores[u].game %></td>
+                        <td><%= scores[u].score %></td>
+                        <td id="score-<%= u %>">
+                          <script type="text/javascript">
+                            (function($){
+                              $(function(){
+                                $('#score-<%= u %>').html($.timeago("<%=scores[u].updatedAt%>"));
+                              }); // end of document ready
+                            })(jQuery); // end of jQuery name space
+                          </script>
+                        </td>
+                      </tr>
+                    <% } %>
+                  </table>                   
+                <% } %>
               </div>
-            <% } %>
-          <% } %>
+            </div>
+          </div>
+        </div>
+    
+        <div class="col-md-4">
+          <div class="row">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">Friends</h3>
+              </div>
+              <div class="panel-body">
+                <div id="friendList" class="pre-scrollable y-scrollable">
+                  <% if (friends){ %>
+                  <% for (var u=0; u < friends.length; u++){ %>
+                    <div class="row row-padding">
+                      <a href="/user/show/<%= friends[u].id %>"><span class="username"><%= friends[u].username %></span></a>
+
+                      <% if (req.session.user === user.id) { %>
+
+                        <a href="/message/<%= friends[u].id %>"><div class="message btn btn-success btn-sm btn-right" data-name="<%= friends[u].username %>"  id="<%= friends[u].id %>">Message</div></a>
+
+                      <% } %>
+                      <br>
+                      <% if (u<friends.length-1){ %>
+                      <hr>
+                      <% } %>
+                    </div>
+                  <% } %>
+                <% } %>
+                </div>
+              </div>
+            </div>
+          </div>
+    <% if (req.session.user === user.id) { %>
+
+          <div class="row">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">All Users</h3>
+              </div>
+              <div class="panel-body">
+                <div class="pre-scrollable y-scrollable">
+                  <% if (allUsers != undefined){ %>
+                  <% for (var u=0; u<allUsers.length; u++){ %>
+                    <div class="row row-padding">
+                      <a href="/user/show/<%= allUsers[u].id %>"><span class="username"><%= allUsers[u].username %></span></a>
+                      <% if (user.friends.indexOf(allUsers[u].id) === -1){ %>
+                      <div class="addFriend btn btn-info btn-sm btn-right" data-name="<%= allUsers[u].username %>" id="<%= allUsers[u].id %>">Add Friend</div>
+                      <% } else { %>
+                      <div disabled="disabled" class="btn btn-sm btn-info btn-right" id="<%= allUsers[u].id %>">Friends...</div>
+                      <% } %>
+                      <br>
+                      <% if (u<allUsers.length-1){ %>
+                      <hr>
+                      <% } %>
+                    </div>
+                  <% } %>
+                  <% } %>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <span><a href="#">See all...</a></span>
+      <% } %>
+
         </div>
+        
       </div>
-    </section>
-  </div>
+    </div>
+
+    <script>
+      
+      $(document).ready(function(){
+        $(".message").click(function(){
+          to = $("#to").data('toid');
+          message = $("#messageArea").val()
+          if(message == "") alert('Please input a message')
+          else{
+            $.ajax({
+              type: "POST",
+              url: "/message/"+to,
+              data: {message: message},
+              success: function(){
+              }
+            });
+          }
+        });
+
+        
+
+
+        $(".message").click(function(){
+          setMessageModal(this);
+        })
+
+        $('.addFriend').click(function(){
+          console.log('clicked add friend\n\n')
+          userid = $(this).attr('id');
+
+          $.ajax({
+            type: "POST",
+            url: "/addFriend/"+userid,
+            success: function(id){
+              console.log('successfull POST\n\n')
+              return function(){
+                var thisButton = $("#"+id);
+
+                thisButton.removeClass('addFriend').attr('disabled','disabled').html('Friends...');
+                thisButton.unbind('click');
+
+                row = $("<div class='row row-padding'>");
+                username = $("<span class='username'>");
+
+                username.html(thisButton.attr('data-name'));
+                href = $('<a>');
+                href.attr('href', "/message/"+id)
+                message = $("<div class='message btn btn-success btn-sm btn-right'>")
+                message.attr('id', thisButton.attr('id'));
+                message.html('Message');
+                message.data("name", thisButton.attr('data-name'))
+                clearfix = $('<div class="clearfix">')
+                br = $("<br>");
+                hr = $("<hr>");
+
+               
+                href.append(message);
+                row.append(username);
+                row.append(href);
+                row.append(br);
+                if ($("#friendList").children().length>0) $("#friendList:last-child").append(hr);
+                $('#friendList').append(row);
+              }
+            }(userid)
+          });
+
+        });
+      });
+    </script>
+

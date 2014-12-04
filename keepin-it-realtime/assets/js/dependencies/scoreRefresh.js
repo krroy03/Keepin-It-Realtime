@@ -9,8 +9,11 @@
       $.each(data.scores, function( i, val ) {
         var bar = $('<div class="bar"></div>');
 
-        bar.append($('<h4>' + val.username + '</h4>'));
-        bar.append($('<p>' + val.score + '</p>'));
+        bar.append($('<h4 class="pull-left">' + (i+1) + '</h4>'));
+        bar.append($('<h4 class="pull-right">' + val.username + '</h4>'));
+        bar.append($('<div class="clearfix"></div>'));
+        bar.append($('<p class="pull-right">' + val.score + '</p>'));
+        bar.append($('<div class="clearfix"></div>'));
         scoreboard.append(bar);
 
       });

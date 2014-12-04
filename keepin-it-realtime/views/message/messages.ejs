@@ -12,30 +12,28 @@
  <!--    </div>
 
     <div class="col-md-4"> -->
-      <div class="row">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Friends</h3>
-          </div>
-          <div class="panel-body">
-            <div id="friendList" class="pre-scrollable y-scrollable">
-              <% if (friends){ %>
-              <% for (var u=0; u < friends.length; u++){ %>
-                  <a class="nodecoration" href="/message/<%= friends[u].id %>">
-                  <div class="row row-padding row-btn <% if (friendId == friends[u].id){ %> row-btn-active <% } %>" > 
-                    
-                      <span class="username"><%= friends[u].username %></span>
-                    
-                  <br>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Friends</h3>
+        </div>
+        <div class="panel-body">
+          <div id="friendList" class="pre-scrollable y-scrollable">
+            <% if (friends){ %>
+            <% for (var u=0; u < friends.length; u++){ %>
+                <a class="nodecoration" href="/message/<%= friends[u].id %>">
+                <div class="row row-padding row-btn <% if (friendId == friends[u].id){ %> row-btn-active <% } %>" > 
                   
-                </div>
-                </a>
-                <% if (u<friends.length-1){ %>
-                  <hr>
-                <% } %>
+                    <span class="username"><%= friends[u].username %></span>
+                  
+                <br>
+                
+              </div>
+              </a>
+              <% if (u<friends.length-1){ %>
+                <hr>
               <% } %>
             <% } %>
-            </div>
+          <% } %>
           </div>
         </div>
       </div>
@@ -44,10 +42,12 @@
     <div class="col-md-8">
       <div class="row">
         <div class="panel panel-default">
-          <div class="panel-heading" style = "padding-bottom:35px;">
-            <textarea class="form-control" rows="3" id = "messageArea"></textarea>
-            <div <% if (friendId==-1){ %> disabled='disabled' <% } %> class="btn btn-sm btn-info btn-right" data-toid = "<%= friendId %>" id='sendMessage'>Send</div>
-          </div>
+          <% if (friendId!=-1){ %> 
+            <div class="panel-heading" style = "padding-bottom:35px;">
+              <textarea class="form-control" rows="3" id = "messageArea"></textarea>
+              <div class="btn btn-sm btn-info btn-right" data-toid = "<%= friendId %>" id='sendMessage'>Send</div>
+            </div>
+          <% } %>
           <div class="text-center"><h1>Messages</h1></div>
           <div class="panel-body">
             <div id="messageList" class="pre-scrollable y-scrollable">
@@ -57,10 +57,10 @@
                
                   <% if (message.from === user.username){ %>
                     <div class="row row-padding messageFrom">
-                    <span class="userFrom success"><%= message.from %></span>
+                    <a href="/user/show/<%= user.id %>"><span class="userFrom success"><%= message.from %></span></a>
                   <% } else { %>
                     <div class="row row-padding messageTo">
-                    <span class="userFrom info"><%= message.from %></span>
+                    <a href="/user/show/<%= friendId %>"><span class="userFrom info"><%= message.from %></span></a>
                   <% } %>
                   
                   <div class = "messageText">
