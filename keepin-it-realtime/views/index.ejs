@@ -66,20 +66,21 @@
                 <% if (scores){ %>
                   <table class="table table-condensed">
                     <tr>
-                      <th></th>
+                      <th>Game</th>
                       <th>Score</th>
                       <th>Date</th>
                     </tr>
                     <% for (var u=0; u < scores.length; u++){ %>
-                      <tr class="numbers clearfix">
+                      <tr class="numbers">
+                        <td><%= scores[u].game %></td>
                         <td><%= scores[u].score %></td>
                         <td id="score-<%= u %>">
                           <script type="text/javascript">
-                            // (function($){
-                            //   $(function(){
-                            //     $('#score-<%= u %>').html($.timeago("<%=scores[u].updatedAt%>"));
-                            //   }); // end of document ready
-                            // })(jQuery); // end of jQuery name space
+                            (function($){
+                              $(function(){
+                                $('#score-<%= u %>').html($.timeago("<%=scores[u].updatedAt%>"));
+                              }); // end of document ready
+                            })(jQuery); // end of jQuery name space
                           </script>
                         </td>
                       </tr>

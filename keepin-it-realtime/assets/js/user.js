@@ -1,4 +1,3 @@
-var user_id = 0;
 // Update the value in the user name input.
 function updateMyName(me) {
   $('#my-name').val(me.name == 'unknown' ? 'User #' + me.id : me.name);
@@ -12,23 +11,15 @@ function updateName() {
 
 // Add a user to the list of available users to chat with
 function addUser(user) {
-  $.ajax({
-        type: "GET",
-        url : "/user/current_user_object",
-        data : {refresh: true},
-        dataType : "json",
-        success: function( user ){
-          user_id = user['user']['id'];
-          var curr_user = user['user'];
-          // Get a handle to the user list <select> element
-          var select = $('#users-list');
-          // Create a new <option> for the <select> with the new user's information
-          var option = $('<option id="'+"user-"+curr_user.id+'" value="'+curr_user.id+'">'+curr_user.username+'</option>');
-          //var option = $('<option id="'+user.id+" value="+user.id+'">'+(user.name == "rando" ? "User #" + user.id : user.name)+'</option>');
-          // Add the new <option> element
-          select.append(option);
-        }
-      });
+
+  // Get a handle to the user list <select> element
+  var select = $('#users-list');
+
+  // Create a new <option> for the <select> with the new user's information
+  var option = $('<option id="'+"user-"+user.id+'" value="'+user.id+'">'+(user.name == "unknown" ? "User #" + user.id : user.name)+'</option>');
+
+  // Add the new <option> element
+  select.append(option);
 }
 
 // Remove a user from the list of available users to chat with, by sending
@@ -49,31 +40,19 @@ function removeUser(user) {
   userEl.css('display', 'none');
   $('body').append(userEl);
 
-  /*// Post a user status message if we're in a private convo
+  // Post a user status message if we're in a private convo
   if ($('#private-room-'+id).length) {
     postStatusMessage('private-messages-'+id, userName + ' has disconnected.');
     $('#private-message-'+id).remove();
     $('#private-button-'+id).remove();
-  }*/
+  }
 
 }
 
 // Add multiple users to the users list.
 function updateUserList(users) {
-  $.ajax({
-    type: "GET",
-    url : "/user/current_user_object",
-    data : {refresh: true},
-    dataType : "json",
-    success: function( user ){
-      console.log("User data", user);
-      console.log(user['user']);
-      user_id = user['user']['id'];
-      users.forEach(function(user) {
-      if (user.id == user_id) {return;}
-        addUser(user['user']);
-      });
-    }
+  users.forEach(function(user) {
+    if (user.id == me.id) {return;}
+    addUser(user);
   });
-
 }

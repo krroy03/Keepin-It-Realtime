@@ -1,5 +1,3 @@
-<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
 <script type="text/javascript">
 <!--
 var unityObjectUrl = "/UnityObject2.js";
@@ -69,23 +67,6 @@ document.write('<script type="text\/javascript" src="' + unityObjectUrl + '"><\/
 <div class="container">
   <div class="row">
     <div class="col-md-2">
-      <div id="nameInput" class="row">
-        <div>
-            My name: <input type="text" id="my-name"> <button id="update-name">Update</button>
-        </div>
-     </div> 
-      <div id="usersOnline" class="row">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Users online</h3>
-          </div>
-          <div class="panel-body">
-            <div id="usersOnlineList" class="pre-scrollable y-scrollable">
-
-            </div> 
-          </div>
-        </div>
-      </div>
 
       <div id="Chatrooms" class="row">
         <div class="panel panel-default">
@@ -126,10 +107,10 @@ document.write('<script type="text\/javascript" src="' + unityObjectUrl + '"><\/
           <h3 class="panel-title">Scoreboard</h3>
         </div>
         <div class="panel-body">
-          <div id="scoreboardList" class="pre-scrollable y-scrollable"> 
-            <% scores.forEach(function(score)  { %>
+          <div id="scoreboardList" class="pre-scrollable y-scrollable">
+            <% scores.forEach(function(score, index)  { %>
               <div class="bar">
-                <h4><%= score.username %></h4>
+                <h4><%= index %> &nbsp;<%= score.username %></h4>
                 <p><%= score.score %> </p>
               </div>
             <% }); %>
