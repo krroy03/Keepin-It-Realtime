@@ -16,6 +16,10 @@ module.exports = {
       type: 'array',
       defaultsTo: []
     },
+    pendingFriends:{
+      type: 'array',
+      defaultsTo: []
+    },
     messages:{
       type: 'json',
       defaultsTo: {}

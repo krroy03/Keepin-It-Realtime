@@ -223,15 +223,32 @@ module.exports = {
     errors = []
     if (('id' in req.params) && (typeof(parseInt(req.params['id']))==='number')){
       friendId = parseInt(req.params['id'])
+
       User.findOne()
           .where({'id': req.user.id})
           .then(function(user){
-            if (user.friends.indexOf(friendId) === -1){
-              user.friends.push(friendId)
-              user.save(function(err){
-                if (err) console.log(err)
-              });
-            }
+						User.findOne()
+							.where({'id': friendId})
+							.then(function(friend) {
+								if (user.friends.indexOf(friendId) === -1){
+									user.friends.push(friendId)
+									user.save(function(err){
+										if (err) console.log(err)
+									});
+								}
+								if (friend.friends.indexOf(user.id) === -1) {
+									friend.pendingFriends.push(user.id)
+									friend.save(function(err){
+										if (err) console.log(err)
+									});
+								}
+								else {
+									user.pendingFriends.splice(user.pendingFriends.indexOf(friendId),1)
+									user.save(function(err){
+										if (err) console.log(err)
+									});
+								}
+							});
           });
 
     }
@@ -365,4 +382,3 @@ module.exports = {
     }
   },
 };
-

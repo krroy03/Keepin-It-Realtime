@@ -14,6 +14,7 @@ module.exports = {
       allUsers=[]
       allFriends=[]
       allScores=[]
+      allPendingFriends=[]
       User.findOne(req.session.user).then(function(user){
         if(!user){
           console.log(user)
@@ -28,14 +29,34 @@ module.exports = {
               if (err) errors += [err]
               else allScores = scores
 
-              if (user.friends.length>0){
+              console.log(user.pendingFriends.length);
+                if(user.pendingFriends.length > 0) {
+                  User.find().where({id: user.pendingFriends}).exec(function(err, pendingFriends){
+                    if (err) errors += [err]
+                    else {
+                      console.log("gets here")
+                      allPendingFriends = pendingFriends
+                      console.log(allPendingFriends)
+                    }
+                  })
+                }
+
+              if (user.friends.length>0 || user.pendingFriends.length > 0){
                 User.find().where({id: user.friends}).exec(function(err, friends){
                   if (err) errors += [err]
                   else allFriends = friends
-                  return res.view("index", {user: user, allUsers: allUsers, scores: allScores, friends: allFriends, errors: errors});
+                  User.find().where({id: user.pendingFriends}).exec(function(err, pendingFriends){
+                    if (err) errors += [err]
+                    else {
+                      allPendingFriends = pendingFriends
+                      console.log(allPendingFriends)
+                    }
+                    return res.view("index", {user: user, allUsers: allUsers, scores: allScores, friends: allFriends, pendingFriends: allPendingFriends, errors: errors});
+
+                  });
                 });
               }
-              else return res.view("index", {user: user, allUsers: allUsers, scores: allScores, friends: allFriends, errors: errors});
+             else return res.view("index", {user: user, allUsers: allUsers, scores: allScores, friends: allFriends, pendingFriends: allPendingFriends, errors: errors});
             });
           });
         }

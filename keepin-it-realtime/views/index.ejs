@@ -153,6 +153,34 @@
             </div>
           </div>
 
+          <div class="row">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">Pending Friend Requests</h3>
+              </div>
+              <div class="panel-body">
+                <div id = "pendingFriendsList" class="pre-scrollable y-scrollable">
+                  <% if (pendingFriends != undefined){ %>
+
+                  <% for (var u=0; u<pendingFriends.length; u++){ %>
+                    <div id = "<%=pendingFriends[u].id%>" class="row row-padding">
+
+                      <a href="/user/show/<%= pendingFriends[u].id %>"><span class="username"><%= pendingFriends[u].username %></span></a>
+
+                      <div class="addFriend btn btn-info btn-sm btn-right" data-name="<%= pendingFriends[u].username %>" id="<%= pendingFriends[u].id %>">Add Friend</div>
+
+                      <br>
+                      <% if (u<pendingFriends.length-1){ %>
+                      <hr>
+                      <% } %>
+                    </div>
+                  <% } %>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
 
       </div>
@@ -219,6 +247,7 @@
                 row.append(br);
                 if ($("#friendList").children().length>0) $("#friendList:last-child").append(hr);
                 $('#friendList').append(row);
+                $('#pendingFriendsList').find("#"+id).remove();
               }
             }(userid)
           });
