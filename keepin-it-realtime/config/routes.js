@@ -92,6 +92,14 @@ module.exports.routes = {
     controller: 'RoomController',
     action: 'leave'
   },
+  '/edit': {
+    controller: 'UserController',
+    action: 'editProfile'
+  },
+  '/edit/process': {
+    controller: 'UserController',
+    action: 'updateProfile'
+  },
   /***************************************************************************
   *                                                                          *
   * Custom routes here...                                                    *

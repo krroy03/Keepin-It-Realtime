@@ -29,14 +29,14 @@ module.exports = {
               if (err) errors += [err]
               else allScores = scores
 
-              console.log(user.pendingFriends.length);
+
                 if(user.pendingFriends.length > 0) {
                   User.find().where({id: user.pendingFriends}).exec(function(err, pendingFriends){
                     if (err) errors += [err]
                     else {
-                      console.log("gets here")
+
                       allPendingFriends = pendingFriends
-                      console.log(allPendingFriends)
+
                     }
                   })
                 }
@@ -49,7 +49,7 @@ module.exports = {
                     if (err) errors += [err]
                     else {
                       allPendingFriends = pendingFriends
-                      console.log(allPendingFriends)
+
                     }
                     return res.view("index", {user: user, allUsers: allUsers, scores: allScores, friends: allFriends, pendingFriends: allPendingFriends, errors: errors});
 

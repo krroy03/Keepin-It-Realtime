@@ -25,6 +25,20 @@ module.exports = {
       defaultsTo: {}
     },
 
+    aboutme: {
+      type: 'string',
+      defaultsTo: 'This is my profile.'
+    },
+
+    displayname: {
+      type: 'string',
+      defaultsTo: ''
+    },
+    propic: {
+      type: 'string',
+      required: false,
+      defaultsTo: '/images/avatar/user_avatar.jpg'
+    },
     rooms: {
       collection: 'room',
       via: 'users',

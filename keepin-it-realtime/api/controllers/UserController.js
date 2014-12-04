@@ -336,5 +336,52 @@ module.exports = {
     return res.json({
       todo: 'subscribe() is not implemented yet!'
     });
-  }
+  },
+
+  /**
+  * `UserController.editProfile()`
+  */
+  editProfile: function(req, res) {
+    User.findOne(req.session.user).then(function(user) {
+      return res.view('user/edit', {
+        user: user,
+      });
+    });
+  },
+
+  updateProfile: function(req, res) {
+    if (req.method == 'POST') {
+      var displayname = req.param('inputDisplayname');
+      var aboutme = req.param('inputAboutme');
+      User.findOne(req.session.user).then(function(user) {
+        if (displayname) {
+          user.displayname = displayname;
+          user.save(function(err){if (err) console.log(err)});
+        }
+        if (aboutme) {
+          user.aboutme = aboutme;
+          user.save(function(err){if (err) console.log(err)});
+        }
+
+        if (!req.param('propic')['isNoop']) {
+          var propic = req.param('propic');
+          console.log(propic)
+          propic.upload({ dirname: '../../assets/images/avatar'}, function onUploadComplete (err, files) {
+            if (err){
+              return res.serverError('upload failed',err);
+            }
+            var path_res = files[0]['fd'].split('/');
+            var propic_path = "/images/avatar/"+ path_res[path_res.length - 1];
+            user.propic = propic_path;
+            user.save(function(err){if (err) console.log(err)});
+            res.json({status:200,file:files});
+          });
+        }
+
+      });
+      res.view('user/confirm');
+    } else {
+      res.redirect('/');
+    }
+  },
 };

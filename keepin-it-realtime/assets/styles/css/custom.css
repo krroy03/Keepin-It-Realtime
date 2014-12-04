@@ -34,3 +34,8 @@
 .messageTo{
 	text-align: left;
 }
+
+.aboutme-box {
+  height: 25em;
+  overflow-y: scroll;
+}
