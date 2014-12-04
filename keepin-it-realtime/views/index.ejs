@@ -6,8 +6,8 @@
         <button type="button" class="close" data-dismiss="alert">×</button>
         <h4>Warning!</h4>
         <p><%= errors[e] %></p>
-      </div> 
-    </div> 
+      </div>
+    </div>
   </div>
   <% } %>
 <% } %>
@@ -49,10 +49,18 @@
         <div class="col-md-4">
           <div class="well well-lg">
             <div class="pic">
-              <a href="#"><img src="/images/img/user_avatar.jpg" width="150" height="150" /></a>
+              <a href="#"><img src="<%= user.propic %>" width="150" height="150" /></a>
             </div>
-          
+
             <h1 class="success" ><%= user.username %></h1>
+            <hr>
+            <% if (user.displayname != '') { %>
+              <h1 class="success"><%= user.displayname %></h1>
+            <% } %>
+            <div class="aboutme-box">
+              <h2>About Me</h2>
+              <p> <%= user.aboutme %></p>
+            </div>
           </div>
         </div>
 
@@ -85,13 +93,13 @@
                         </td>
                       </tr>
                     <% } %>
-                  </table>                  
+                  </table>
                 <% } %>
               </div>
             </div>
           </div>
         </div>
-    
+
         <div class="col-md-4">
           <div class="row">
             <div class="panel panel-default">
@@ -146,12 +154,12 @@
           </div>
 
         </div>
-        
+
       </div>
     </div>
 
     <script>
-      
+
       $(document).ready(function(){
         $(".message").click(function(){
           to = $("#to").data('toid');
@@ -168,7 +176,7 @@
           }
         });
 
-        
+
 
 
         $(".message").click(function(){
@@ -204,7 +212,7 @@
                 br = $("<br>");
                 hr = $("<hr>");
 
-               
+
                 href.append(message);
                 row.append(username);
                 row.append(href);

@@ -7,7 +7,7 @@
 var passport = require('passport');
 
 module.exports = {
-	
+
 
 
   /**
@@ -52,13 +52,13 @@ module.exports = {
         var userObj = {
           username: username,
           password: password
-        }   
+        }
       }
       else {
         var userObj = {
           username: username,
           password: password
-        }        
+        }
       }
 
 
@@ -101,7 +101,7 @@ module.exports = {
 
         // After successfully creating the user
         // redirect to the show action
-        // From ep1-6: //res.json(user); 
+        // From ep1-6: //res.json(user);
 
       });
     }
@@ -115,7 +115,7 @@ module.exports = {
     return res.json({
       user: session_user
     });
-  }, 
+  },
 
   // Get current user session
   current_user_object: function(req, res) {
@@ -127,7 +127,7 @@ module.exports = {
       });
     });
 
-  }, 
+  },
 
   // Get scores
   get_scores: function(req, res) {
@@ -150,7 +150,7 @@ module.exports = {
       res.redirect('/');
     }
 
-  }, 
+  },
 
 
   /**
@@ -211,7 +211,7 @@ module.exports = {
         // Let other sockets know that the user instance was destroyed.
         User.publishDestroy(user.id);
 
-      });   
+      });
 
       res.redirect('/user');
 
@@ -233,7 +233,7 @@ module.exports = {
               });
             }
           });
-    
+
     }
     else{
       console.log('no id found in request')
@@ -311,7 +311,7 @@ module.exports = {
     }
     res.send({'success':true})
   },
-  
+
   /**
    * `UserController.subscribe()`
    */
@@ -319,6 +319,50 @@ module.exports = {
     return res.json({
       todo: 'subscribe() is not implemented yet!'
     });
-  }
+  },
+
+  /**
+  * `UserController.editProfile()`
+  */
+  editProfile: function(req, res) {
+    User.findOne(req.session.user).then(function(user) {
+      return res.view('user/edit', {
+        user: user,
+      });
+    });
+  },
+
+  updateProfile: function(req, res) {
+    if (req.method == 'POST') {
+      var displayname = req.param('inputDisplayname');
+      var aboutme = req.param('inputAboutme');
+      var propic = req.file('propic');
+      User.findOne(req.session.user).then(function(user) {
+        if (displayname) {
+          user.displayname = displayname;
+          user.save(function(err){if (err) console.log(err)});
+        }
+        if (aboutme) {
+          user.aboutme = aboutme;
+          user.save(function(err){if (err) console.log(err)});
+        }
+
+        if (propic) {
+          propic.upload({ dirname: '../../assets/images/avatar'}, function onUploadComplete (err, files) {
+            if (err) return res.serverError(err);
+            var path_res = files[0]['fd'].split('/');
+            var propic_path = '/' + path_res[path_res.length - 3] + '/' + path_res[path_res.length - 2] + '/' + path_res[path_res.length - 1];
+            user.propic = propic_path;
+            user.save(function(err){if (err) console.log(err)});
+            res.json({status:200,file:files});
+          });
+        }
+
+      });
+      res.view('user/confirm');
+    } else {
+      res.redirect('/');
+    }
+  },
 };
 
