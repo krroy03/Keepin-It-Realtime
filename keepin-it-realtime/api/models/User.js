@@ -36,6 +36,7 @@ module.exports = {
     },
     propic: {
       type: 'string',
+      required: false,
       defaultsTo: '/images/avatar/user_avatar.jpg'
     },
     rooms: {

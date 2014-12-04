@@ -353,7 +353,6 @@ module.exports = {
     if (req.method == 'POST') {
       var displayname = req.param('inputDisplayname');
       var aboutme = req.param('inputAboutme');
-      var propic = req.file('propic');
       User.findOne(req.session.user).then(function(user) {
         if (displayname) {
           user.displayname = displayname;
@@ -364,11 +363,15 @@ module.exports = {
           user.save(function(err){if (err) console.log(err)});
         }
 
-        if (propic) {
+        if (!req.param('propic')['isNoop']) {
+          var propic = req.param('propic');
+          console.log(propic)
           propic.upload({ dirname: '../../assets/images/avatar'}, function onUploadComplete (err, files) {
-            if (err) return res.serverError(err);
+            if (err){
+              return res.serverError('upload failed',err);
+            }
             var path_res = files[0]['fd'].split('/');
-            var propic_path = '/' + path_res[path_res.length - 3] + '/' + path_res[path_res.length - 2] + '/' + path_res[path_res.length - 1];
+            var propic_path = "/images/avatar/"+ path_res[path_res.length - 1];
             user.propic = propic_path;
             user.save(function(err){if (err) console.log(err)});
             res.json({status:200,file:files});
