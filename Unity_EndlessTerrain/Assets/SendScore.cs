@@ -44,6 +44,7 @@ public class SendScore : MonoBehaviour {
 			}
 
 			if (userID < 0) {
+				Debug.Log ("gets here");
 				// get userID if we don't have it yet
 				//setup url to the webpage that is called
 				string customUrl = url + "user/current_user/";
