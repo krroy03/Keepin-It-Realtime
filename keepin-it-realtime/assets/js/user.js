@@ -1,5 +1,3 @@
-var user_id = 45;
-
 // Update the value in the user name input.
 function updateMyName(me) {
   $('#my-name').val(me.name == 'unknown' ? 'User #' + me.id : me.name);

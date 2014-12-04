@@ -1,4 +1,3 @@
-var user_id = 45;
 // Create the HTML to hold a public, multi-user chat room
 function createPublicRoom(room) {
 
@@ -25,6 +24,11 @@ function createPublicRoom(room) {
 
   // Hook up the "send message" button
   $('#room-button-'+room.id).click(onClickSendPublicMessage);
+  $('#room-message-'+room.id).keydown(function(e) {
+    if(e.keyCode==13){
+       $('#room-button-'+room.id).trigger('click');
+    }
+  });
 
   // Hook up the "leave room" button
   $('#leave-room-button-'+room.id).click(onClickLeaveRoom);
@@ -45,29 +49,51 @@ function onClickSendPublicMessage(e) {
   $('#room-message-'+roomId).val("");
 
   // Add this message to the room
-  addMessageToChatRoom(user_id, roomId, message);
-
-  // Send the message
-  io.socket.post('/chat/public', {room: roomId, msg: message});
+  $.ajax({
+    type: "GET",
+    url : "/user/current_user_object",
+    data : {refresh: true},
+    dataType : "json",
+    success: function( user ){
+      var user_id = user['user']['id'];
+      var user_name = user['user']['username'];
+      addMessageToChatRoom(user_id, user_name, roomId, message);
+      // Send the message
+      io.socket.post('/chat/public', {room: roomId, msg: message});
+    }
+  });
 
 }
 
 // Add HTML for a new message in a public room
-function addMessageToChatRoom(senderId, roomId, message) {
+function addMessageToChatRoom(senderId, sender_name, roomId, message) {
 
-  var roomName = 'room-messages-' + roomId;
+  $.ajax({
+    type: "GET",
+    url : "/user/current_user_object",
+    data : {refresh: true},
+    dataType : "json",
+    success: function( user ){
 
-  if (senderId === 0) {
-    return postStatusMessage(roomName, message);
-  }
 
-  var fromMe = senderId == user_id;
-  var senderName = fromMe ? "Me" : $('#user-'+senderId).text();
-  var justify = fromMe ? 'right' : 'left';
 
-  var div = $('<div style="text-align:'+justify+'"></div>');
-  div.html('<strong>'+senderName+'</strong>: '+message);
-  $('#'+roomName).append(div);
+      var roomName = 'room-messages-' + roomId;
+
+      if (senderId === 0) {
+        return postStatusMessage(roomName, message);
+      }
+
+      var fromMe = senderId == user['user']['id'];
+
+      var senderName = fromMe ? "You" : sender_name;
+      var justify = fromMe ? 'right' : 'left';
+
+      var div = $('<div style="text-align:'+justify+'"></div>');
+      div.html('<strong>'+senderName+'</strong>: '+message);
+      $('#'+roomName).append(div);
+
+    }
+  });
 
 }
 
@@ -81,7 +107,7 @@ function receiveRoomMessage(data) {
   createPublicRoom(room);
 
   // Add a message to the room
-  addMessageToChatRoom(sender.id, room.id, data.msg);
+  addMessageToChatRoom(sender.id, sender.username, room.id, data.msg);
 
 }
 
@@ -110,10 +136,9 @@ function joinRoom() {
     data : {refresh: true},
     dataType : "json",
     success: function( user ){
-      console.log("User data", user);
-      console.log(user['user']);
-      user_id = user['user']['id'];
-      io.socket.post('/room/'+roomId+'/users', {id: user_id});
+      var user_id = user['user']['id'];
+      var user_name = user['user']['username'];
+      io.socket.post('/room/'+roomId+'/users', {id: user_id, name: user_name});
     }
   });
 
@@ -135,7 +160,17 @@ function onClickLeaveRoom(e) {
   $('#public-room-'+roomId).remove();
 
   // Call the server to leave the room
-  io.socket.delete('/room/'+roomId+'/users', {id: user_id});
+  $.ajax({
+    type: "GET",
+    url : "/user/current_user_object",
+    data : {refresh: true},
+    dataType : "json",
+    success: function( user ){
+      var user_id = user['user']['id'];
+      var user_name = user['user']['username'];
+      io.socket.delete('/room/'+roomId+'/users', {id: user_id, name: user_name});
+    }
+  });
 
   // Update the room user count
   decreaseRoomCount(roomId);

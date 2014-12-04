@@ -1,4 +1,3 @@
-var user_id = 45;
 // Add a new room to the list
 function newRoom() {
 

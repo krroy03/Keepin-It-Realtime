@@ -39,7 +39,8 @@ io.socket.on('connect', function socketConnected(data) {
         // Handle a user joining a room
         case 'addedTo':
           // Post a message in the room
-          postStatusMessage('room-messages-'+message.id, $('#user-'+message.addedId).text()+' has joined');
+          //postStatusMessage('room-messages-'+message.id, message.addedName+' has joined');
+
           // Update the room user count
           increaseRoomCount(message.id);
           break;
@@ -47,7 +48,8 @@ io.socket.on('connect', function socketConnected(data) {
         // Handle a user leaving a room
         case 'removedFrom':
           // Post a message in the room
-          postStatusMessage('room-messages-'+message.id, $('#user-'+message.removedId).text()+' has left');
+          //postStatusMessage('room-messages-'+message.id, user['user']['username']+' has left');
+
           // Update the room user count
           decreaseRoomCount(message.id);
           break;
@@ -93,24 +95,11 @@ io.socket.on('connect', function socketConnected(data) {
           // Update the name in the user select list
           $('#user-'+message.id).text(message.data.name);
 
-          // If we have a private convo with them, update the name there and post a status message in the chat.
-          if ($('#private-username-'+message.id).length) {
-            $('#private-username-'+message.id).html(message.data.name);
-            postStatusMessage('private-messages-'+message.id,oldName+' has changed their name to '+message.data.name);
-          }
-
           break;
 
         // Handle user destruction
         case 'destroyed':
           removeUser(message.id);
-          break;
-
-        // Handle private messages.  Only sockets subscribed to the "message" context of a
-        // User instance will get this message--see the onConnect logic in config/sockets.js
-        // to see where a new user gets subscribed to their own "message" context
-        case 'messaged':
-          receivePrivateMessage(message.data);
           break;
 
         default:
@@ -129,7 +118,7 @@ io.socket.on('connect', function socketConnected(data) {
 
     // Add a click handler for the "Update name" button, allowing the user to update their name.
     // updateName() is defined in user.js.
-    $('#update-name').click(updateName);
+    //$('#update-name').click(updateName);
 
     // Add a click handler for the "Send private message" button
     // startPrivateConversation() is defined in private_message.js.
