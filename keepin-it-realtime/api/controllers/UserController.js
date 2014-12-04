@@ -7,7 +7,7 @@
 var passport = require('passport');
 
 module.exports = {
-	
+
 
 
   /**
@@ -52,13 +52,13 @@ module.exports = {
         var userObj = {
           username: username,
           password: password
-        }   
+        }
       }
       else {
         var userObj = {
           username: username,
           password: password
-        }        
+        }
       }
 
 
@@ -101,7 +101,7 @@ module.exports = {
 
         // After successfully creating the user
         // redirect to the show action
-        // From ep1-6: //res.json(user); 
+        // From ep1-6: //res.json(user);
 
       });
     }
@@ -115,7 +115,7 @@ module.exports = {
     return res.json({
       user: session_user
     });
-  }, 
+  },
 
   // Get current user session
   current_user_object: function(req, res) {
@@ -127,7 +127,7 @@ module.exports = {
       });
     });
 
-  }, 
+  },
 
   // Get scores
   get_scores: function(req, res) {
@@ -150,7 +150,7 @@ module.exports = {
       res.redirect('/');
     }
 
-  }, 
+  },
 
 
   /**
@@ -211,7 +211,7 @@ module.exports = {
         // Let other sockets know that the user instance was destroyed.
         User.publishDestroy(user.id);
 
-      });   
+      });
 
       res.redirect('/user');
 
@@ -223,17 +223,34 @@ module.exports = {
     errors = []
     if (('id' in req.params) && (typeof(parseInt(req.params['id']))==='number')){
       friendId = parseInt(req.params['id'])
+
       User.findOne()
           .where({'id': req.user.id})
           .then(function(user){
-            if (user.friends.indexOf(friendId) === -1){
-              user.friends.push(friendId)
-              user.save(function(err){
-                if (err) console.log(err)
-              });
-            }
+						User.findOne()
+							.where({'id': friendId})
+							.then(function(friend) {
+								if (user.friends.indexOf(friendId) === -1){
+									user.friends.push(friendId)
+									user.save(function(err){
+										if (err) console.log(err)
+									});
+								}
+								if (friend.friends.indexOf(user.id) === -1) {
+									friend.pendingFriends.push(user.id)
+									friend.save(function(err){
+										if (err) console.log(err)
+									});
+								}
+								else {
+									user.pendingFriends.splice(user.pendingFriends.indexOf(friendId),1)
+									user.save(function(err){
+										if (err) console.log(err)
+									});
+								}
+							});
           });
-    
+
     }
     else{
       console.log('no id found in request')
@@ -311,7 +328,7 @@ module.exports = {
     }
     res.send({'success':true})
   },
-  
+
   /**
    * `UserController.subscribe()`
    */
@@ -321,4 +338,3 @@ module.exports = {
     });
   }
 };
-

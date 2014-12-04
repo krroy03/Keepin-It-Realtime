@@ -6,8 +6,8 @@
         <button type="button" class="close" data-dismiss="alert">×</button>
         <h4>Warning!</h4>
         <p><%= errors[e] %></p>
-      </div> 
-    </div> 
+      </div>
+    </div>
   </div>
   <% } %>
 <% } %>
@@ -51,7 +51,7 @@
             <div class="pic">
               <a href="#"><img src="/images/img/user_avatar.jpg" width="150" height="150" /></a>
             </div>
-          
+
             <h1 class="success" ><%= user.username %></h1>
           </div>
         </div>
@@ -84,13 +84,13 @@
                         </td>
                       </tr>
                     <% } %>
-                  </table>                  
+                  </table>
                 <% } %>
               </div>
             </div>
           </div>
         </div>
-    
+
         <div class="col-md-4">
           <div class="row">
             <div class="panel panel-default">
@@ -144,13 +144,40 @@
             </div>
           </div>
 
+          <div class="row">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">Pending Friend Requests</h3>
+              </div>
+              <div class="panel-body">
+                <div class="pre-scrollable y-scrollable">
+                  <% if (pendingFriends != undefined){ %>
+
+                  <% for (var u=0; u<pendingFriends.length; u++){ %>
+                    <div class="row row-padding">
+                      <a href="/user/show/<%= pendingFriends[u].id %>"><span class="username"><%= pendingFriends[u].username %></span></a>
+
+                      <div class="addFriend btn btn-info btn-sm btn-right" data-name="<%= pendingFriends[u].username %>" id="<%= pendingFriends[u].id %>">Add Friend</div>
+
+                      <br>
+                      <% if (u<pendingFriends.length-1){ %>
+                      <hr>
+                      <% } %>
+                    </div>
+                  <% } %>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
-        
+
       </div>
     </div>
 
     <script>
-      
+
       $(document).ready(function(){
         $(".message").click(function(){
           to = $("#to").data('toid');
@@ -167,7 +194,7 @@
           }
         });
 
-        
+
 
 
         $(".message").click(function(){
@@ -203,7 +230,7 @@
                 br = $("<br>");
                 hr = $("<hr>");
 
-               
+
                 href.append(message);
                 row.append(username);
                 row.append(href);
